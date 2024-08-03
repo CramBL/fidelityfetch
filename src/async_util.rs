@@ -20,7 +20,7 @@ async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, 
         format_data_size(metadata.len())
     } else if file_type.is_dir() {
         let count = count_directory_entries(entry.path()).await?;
-        format!("{} items", count)
+        format!("{} item{}", count, if count == 1 { "" } else { "s" })
     } else if file_type.is_symlink() {
         "Symbolic Link".to_string()
     } else {
