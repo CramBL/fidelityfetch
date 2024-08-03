@@ -23,6 +23,7 @@ pub enum FileTypeCategory {
     Archive,
     DiskImage,
     ShellScript,
+    SymbolicLink,
     FileSystemImage,
     Pdf,
     Git,
@@ -85,6 +86,7 @@ impl FileTypeCategory {
             FileTypeCategory::FileSystemImage => "🗃️",
             FileTypeCategory::ShellScript => SHELL_SCRIPT_SVG,
             FileTypeCategory::Git => GIT_SVG,
+            FileTypeCategory::SymbolicLink => SYMBOLIC_LINK_SVG,
         }
     }
 
@@ -114,6 +116,7 @@ impl FileTypeCategory {
             FileTypeCategory::Pdf => "PDF",
             FileTypeCategory::Archive => "Archive",
             FileTypeCategory::Git => "Git",
+            FileTypeCategory::SymbolicLink => "Symbolic Link",
         }
     }
 }
@@ -136,7 +139,7 @@ const DIR_SVG: &str = r#"<svg width="25px" height="25px" viewBox="0 0 100 100" x
 "#;
 
 const PDF_SVG: &str = r#"
-<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 viewBox="0 0 512 512" xml:space="preserve">
 <path style="fill:#E2E5E7;" d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z"/>
 <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"/>
@@ -158,7 +161,7 @@ viewBox="0 0 512 512" xml:space="preserve">
 "#;
 
 const MARKDOWN_SVG: &str = r#"
-<svg height="25px" width="25px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+<svg height="25px" width="25px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 	 viewBox="0 0 410.551 410.551" xml:space="preserve">
 <g>
 	<g>
@@ -208,7 +211,7 @@ const YAML_SVG: &str = r##"<svg width="25px" height="25px" viewBox="0 0 16 16" x
 </svg>
 "##;
 
-const XML_SVG: &str = r##"<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+const XML_SVG: &str = r##"<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 	 viewBox="0 0 512 512" xml:space="preserve">
 <path style="fill:#E2E5E7;" d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z"/>
 <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"/>
@@ -232,13 +235,11 @@ const XML_SVG: &str = r##"<svg height="25px" width="25px" version="1.1" id="Laye
 "##;
 
 const IMAGE_SVG: &str = r##"
-<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 viewBox="0 0 512 512" xml:space="preserve">
+<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+viewBox="0 0 512 512" xml:space="preserve">
 <path style="fill:#E4EAF8;" d="M104.136,425.22H468.61c4.792,0,8.678-3.886,8.678-8.678V156.203c0-4.792-3.886-8.678-8.678-8.678
 	H104.136c-4.792,0-8.678,3.886-8.678,8.678v260.339C95.458,421.335,99.343,425.22,104.136,425.22z"/>
-<g>
-	<path style="fill:#C7CFE2;" d="M104.136,147.525c-4.792,0-8.678,3.886-8.678,8.678v242.983h321.085
-		c19.171,0,34.712-15.541,34.712-34.712V147.525H104.136z"/>
+<g><path style="fill:#C7CFE2;" d="M104.136,147.525c-4.792,0-8.678,3.886-8.678,8.678v242.983h321.085 c19.171,0,34.712-15.541,34.712-34.712V147.525H104.136z"/>
 	<path style="fill:#C7CFE2;" d="M442.576,130.169h-8.678c-4.797,0-8.678-3.886-8.678-8.678s3.881-8.678,8.678-8.678h8.678
 		c4.797,0,8.678,3.886,8.678,8.678S447.373,130.169,442.576,130.169z"/>
 	<path style="fill:#C7CFE2;" d="M482.127,459.932h-17.254c-4.797,0-8.678-3.886-8.678-8.678c0-4.792,3.881-8.678,8.678-8.678h17.254
@@ -288,3 +289,10 @@ const GIT_SVG: &str = r##"<svg width="25px" height="25px" viewBox="0 0 32 32" fi
 <path d="M2.58536 17.4132C1.80488 16.6327 1.80488 15.3673 2.58536 14.5868L14.5868 2.58536C15.3673 1.80488 16.6327 1.80488 17.4132 2.58536L29.4146 14.5868C30.1951 15.3673 30.1951 16.6327 29.4146 17.4132L17.4132 29.4146C16.6327 30.1951 15.3673 30.1951 14.5868 29.4146L2.58536 17.4132Z" fill="#EE513B"/>
 <path d="M12.1489 5.06152L10.9336 6.27686L14.0725 9.41577C13.9455 9.68819 13.8746 9.99201 13.8746 10.3124C13.8746 11.222 14.4461 11.9981 15.2496 12.3012V19.9798C14.4461 20.2829 13.8746 21.059 13.8746 21.9686C13.8746 23.1422 14.826 24.0936 15.9996 24.0936C17.1732 24.0936 18.1246 23.1422 18.1246 21.9686C18.1246 21.144 17.6549 20.429 16.9684 20.0768V12.3117L19.9689 15.3122C19.8481 15.5791 19.7809 15.8754 19.7809 16.1874C19.7809 17.361 20.7323 18.3124 21.9059 18.3124C23.0795 18.3124 24.0309 17.361 24.0309 16.1874C24.0309 15.0138 23.0795 14.0624 21.9059 14.0624C21.6778 14.0624 21.4582 14.0983 21.2522 14.1648L18.0297 10.9423C18.0914 10.7433 18.1246 10.5317 18.1246 10.3124C18.1246 9.13878 17.1732 8.18738 15.9996 8.18738C15.7803 8.18738 15.5688 8.22061 15.3697 8.2823L12.1489 5.06152Z" fill="white"/>
 </svg>"##;
+
+const SYMBOLIC_LINK_SVG: &str = r#"
+<svg
+xmlns="http://www.w3.org/2000/svg"
+width="25px" height="25px" viewBox="0 0 125 125">
+    <path d="m 40.934828,79.811143 -6.739318,-61.172265 59.617041,0 -15.033863,18.144316 C 110.8925,76.062991 76.866895,100.85269 58.042326,109.36046 l -3.628862,-4.66568 c 11.96245,-11.920177 18.742857,-25.476784 4.66568,-45.619997 z"/>
+</svg>"#;

@@ -48,7 +48,7 @@ pub fn format_system_time(time: SystemTime) -> String {
 pub fn generate_list_item(
     file_name: &str,
     file_type: std::fs::FileType,
-    file_size: &str,
+    size: &str,
     modified_date: &str,
     file_category: FileTypeCategory,
 ) -> String {
@@ -81,7 +81,7 @@ pub fn generate_list_item(
         icon,
         href,
         display_name,
-        file_size,
+        size,
         modified_date
     )
 }
