@@ -12,7 +12,6 @@ use std::{
 use tokio::io::AsyncReadExt;
 use tokio::sync::RwLock;
 use tokio::{fs::*, io::AsyncSeekExt};
-use tracing::{error, info};
 
 use crate::{async_util::extract_file_details, AppState};
 
@@ -21,7 +20,7 @@ pub async fn serve_path(
     req: Request<Body>,
 ) -> impl IntoResponse {
     let requested_path = req.uri().path();
-    info!("Requested: {requested_path}");
+    tracing::info!("Requested: {requested_path}");
     if requested_path == "/favicon.ico" {
         return (
             StatusCode::OK,
@@ -33,18 +32,18 @@ pub async fn serve_path(
 
     let mut path = PathBuf::from(&state.read().await.root_dir);
     path.push(requested_path.trim_start_matches('/'));
-    info!("Requested trimmed: {path:?}");
+    tracing::info!("Requested trimmed: {path:?}");
 
     // Resolve the absolute, normalized path
     let path = match tokio::fs::canonicalize(&path).await {
         Ok(normalized_path) => normalized_path,
         Err(e) => {
-            error!("Error canonicalizing path: {}", e);
+            tracing::error!("Error canonicalizing path: {}", e);
             return (StatusCode::NOT_FOUND, "File not found").into_response();
         }
     };
 
-    info!("Requested path: {}", path.display());
+    tracing::info!("Requested path: {}", path.display());
 
     if path.is_dir() {
         return serve_directory(&path).await.into_response();
@@ -53,7 +52,7 @@ pub async fn serve_path(
     let mut file = match File::open(&path).await {
         Ok(file) => file,
         Err(e) => {
-            error!("Error opening file: {}", e);
+            tracing::error!("Error opening file: {}", e);
             return (StatusCode::NOT_FOUND, "File not found").into_response();
         }
     };
@@ -61,7 +60,7 @@ pub async fn serve_path(
     let metadata = match file.metadata().await {
         Ok(metadata) => metadata,
         Err(e) => {
-            error!("Error reading metadata: {}", e);
+            tracing::error!("Error reading metadata: {}", e);
             return (StatusCode::INTERNAL_SERVER_ERROR, "Error reading metadata").into_response();
         }
     };
@@ -71,27 +70,23 @@ pub async fn serve_path(
         .first_or_octet_stream()
         .to_string();
 
-    let header_accept_ranges = (header::ACCEPT_RANGES, "bytes".to_string());
-
-    let range_header = req.headers().get(header::RANGE);
-
-    if let Some(range) = range_header {
+    if let Some(range) = req.headers().get(header::RANGE) {
         return handle_range_request(range.clone(), &mut file, file_size, content_type.clone())
             .await
             .into_response();
     }
 
-    let mut buffer = Vec::new();
-    file.read_to_end(&mut buffer).await.unwrap();
+    let stream = tokio_util::io::ReaderStream::new(file);
+    let body = Body::from_stream(stream);
 
     (
         StatusCode::OK,
         [
             (header::CONTENT_TYPE, content_type),
-            header_accept_ranges,
-            (header::CONTENT_LENGTH, buffer.len().to_string()),
+            (header::ACCEPT_RANGES, "bytes".to_string()),
+            (header::CONTENT_LENGTH, file_size.to_string()),
         ],
-        buffer.into_response(),
+        body,
     )
         .into_response()
 }
@@ -101,7 +96,7 @@ pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl Int
     let path = match tokio::fs::canonicalize(&path).await {
         Ok(normalized_path) => normalized_path,
         Err(e) => {
-            error!("Error canonicalizing path: {}", e);
+            tracing::error!("Error canonicalizing path: {}", e);
             return (StatusCode::NOT_FOUND, "File not found").into_response();
         }
     };
@@ -109,11 +104,11 @@ pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl Int
 }
 
 async fn serve_directory(path: &Path) -> impl IntoResponse {
-    info!("Serving directory: {:?}", path);
+    tracing::info!("Serving directory: {:?}", path);
     let mut entries = match tokio::fs::read_dir(path).await {
         Ok(entries) => entries,
         Err(e) => {
-            error!("Error reading directory: {}", e);
+            tracing::error!("Error reading directory: {}", e);
             return (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 "Failed to read directory",
@@ -162,7 +157,7 @@ async fn serve_directory(path: &Path) -> impl IntoResponse {
                 }
             }
             Err(e) => {
-                error!("Error reading directory entry: {}", e);
+                tracing::error!("Error reading directory entry: {}", e);
                 break;
             }
         }
@@ -195,7 +190,7 @@ async fn serve_directory(path: &Path) -> impl IntoResponse {
         response = "<html><body><h1>Empty directory</h1></body></html>".to_string();
     }
 
-    info!("Returning directory listing");
+    tracing::info!("Returning directory listing");
     (
         StatusCode::OK,
         [(header::CONTENT_TYPE, "text/html")],
@@ -251,7 +246,7 @@ async fn handle_range_request(
             );
 
             let resp_finalized = resp.into_response();
-            info!("Sending response: {:?}", resp_finalized);
+            tracing::info!("Sending response: {:?}", resp_finalized);
 
             return resp_finalized;
         }
