@@ -7,8 +7,8 @@ set -euxo pipefail
 VERSION=${REF#"refs/tags/"}
 DIST=$(pwd)/dist
 
-PROJECT_NAME="Quick File Transfer"
-BIN="qft"
+PROJECT_NAME="FidelityFetch"
+BIN="fife"
 
 echo "Packaging ${PROJECT_NAME} binary ${BIN} ${VERSION} for ${TARGET}..."
 
