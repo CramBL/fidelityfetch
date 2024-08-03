@@ -87,7 +87,7 @@ pub fn generate_list_item(
 }
 
 pub fn parse_range_header(
-    range_header: header::HeaderValue,
+    range_header: &header::HeaderValue,
     file_size: u64,
 ) -> Result<(u64, u64), StatusCode> {
     let range_str = range_header.to_str().map_err(|_| StatusCode::BAD_REQUEST)?;
