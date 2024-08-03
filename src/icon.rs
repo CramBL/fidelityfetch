@@ -27,6 +27,9 @@ pub enum FileTypeCategory {
     FileSystemImage,
     Pdf,
     Git,
+    BitBake,
+    Text,
+    LockFile,
 }
 
 impl FileTypeCategory {
@@ -45,17 +48,19 @@ impl FileTypeCategory {
             "css" => FileTypeCategory::Css,
             "java" => FileTypeCategory::Java,
             "cpp" | "h" => FileTypeCategory::Cpp,
-            "jpg" | "jpeg" | "png" | "gif" | "bmp" | "svg" | "tiff" | "ico" => {
+            "jpg" | "jpeg" | "png" | "gif" | "bmp" | "svg" | "tiff" | "ico" | "webp" => {
                 FileTypeCategory::Image
             }
             "mp4" | "avi" | "mov" | "mkv" | "webm" => FileTypeCategory::Video,
             "bz2" | "zip" | "tar" | "gz" | "rar" | "7z" | "raucb" => FileTypeCategory::Archive,
             "pdf" => FileTypeCategory::Pdf,
-            "sh" | "bash" | "zsh" | "fish" => FileTypeCategory::ShellScript,
+            "sh" | "bash" | "zsh" | "fish" | "just" => FileTypeCategory::ShellScript,
             "iso" | "img" | "dmg" | "vhd" => FileTypeCategory::DiskImage,
             "wic" | "bmap" | "squashfs" => FileTypeCategory::FileSystemImage,
             "git" => FileTypeCategory::Git,
-
+            "bb" | "bbappend" => FileTypeCategory::BitBake,
+            "txt" => FileTypeCategory::Text,
+            "lock" => FileTypeCategory::LockFile,
             _ => FileTypeCategory::Unknown,
         }
     }
@@ -72,7 +77,7 @@ impl FileTypeCategory {
             FileTypeCategory::Python => "🐍",
             FileTypeCategory::JavaScript => "📜",
             FileTypeCategory::Html => "🌐",
-            FileTypeCategory::Css => "🎨",
+            FileTypeCategory::Css => CSS_SVG,
             FileTypeCategory::Pdf => PDF_SVG,
             FileTypeCategory::Java => "☕",
             FileTypeCategory::Cpp => "📜",
@@ -87,6 +92,9 @@ impl FileTypeCategory {
             FileTypeCategory::ShellScript => SHELL_SCRIPT_SVG,
             FileTypeCategory::Git => GIT_SVG,
             FileTypeCategory::SymbolicLink => SYMBOLIC_LINK_SVG,
+            FileTypeCategory::BitBake => MITTEN_SVG,
+            FileTypeCategory::Text => TEXT_SVG,
+            FileTypeCategory::LockFile => LOCK_FILE_SVG,
         }
     }
 
@@ -117,6 +125,9 @@ impl FileTypeCategory {
             FileTypeCategory::Archive => "Archive",
             FileTypeCategory::Git => "Git",
             FileTypeCategory::SymbolicLink => "Symbolic Link",
+            FileTypeCategory::BitBake => "BitBake",
+            FileTypeCategory::Text => "Text",
+            FileTypeCategory::LockFile => "Lock-file",
         }
     }
 }
@@ -296,3 +307,90 @@ xmlns="http://www.w3.org/2000/svg"
 width="25px" height="25px" viewBox="0 0 125 125">
     <path d="m 40.934828,79.811143 -6.739318,-61.172265 59.617041,0 -15.033863,18.144316 C 110.8925,76.062991 76.866895,100.85269 58.042326,109.36046 l -3.628862,-4.66568 c 11.96245,-11.920177 18.742857,-25.476784 4.66568,-45.619997 z"/>
 </svg>"#;
+
+const MITTEN_SVG: &str = r#"
+<svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 viewBox="0 0 501 501" xml:space="preserve">
+<path style="fill:#F2F2F2;" d="M501.551,239.282c0,15.673-6.269,30.302-17.763,42.841L364.669,401.241l-85.682-85.682
+	l119.118-119.118c0-1.045,1.045-1.045,2.09-2.09c24.033-21.943,60.604-20.898,83.592,2.09
+	C495.282,208.98,501.551,223.608,501.551,239.282z"/>
+<path style="fill:#4CDBC4;" d="M384.522,188.082v233.012H7.314V188.082C7.314,83.592,91.951,0,195.396,0
+	c52.245,0,99.265,20.898,132.702,55.38C363.624,88.816,384.522,136.882,384.522,188.082z"/>
+<path style="fill:#CDD6E0;" d="M398.106,196.441l-13.584,13.584v171.363l15.673-15.673V195.396
+	C399.151,195.396,399.151,196.441,398.106,196.441z"/>
+<g>
+	<circle style="fill:#F2F2F2;" cx="131.657" cy="59.559" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="260.18" cy="59.559" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="67.918" cy="145.241" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="196.441" cy="145.241" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="323.918" cy="145.241" r="25.078"/>
+	<path style="fill:#F2F2F2;" d="M29.257,231.967c0,12.539-9.404,22.988-21.943,25.078V206.89
+		C19.853,208.98,29.257,219.429,29.257,231.967z"/>
+	<circle style="fill:#F2F2F2;" cx="131.657" cy="231.967" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="260.18" cy="231.967" r="25.078"/>
+	<path style="fill:#F2F2F2;" d="M384.522,206.89v50.155c-12.539-2.09-21.943-12.539-21.943-25.078S371.984,208.98,384.522,206.89z"
+		/>
+	<circle style="fill:#F2F2F2;" cx="67.918" cy="317.649" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="196.441" cy="317.649" r="25.078"/>
+	<circle style="fill:#F2F2F2;" cx="323.918" cy="317.649" r="25.078"/>
+	<path style="fill:#F2F2F2;" d="M29.257,404.376c0,6.269-2.09,12.539-6.269,16.718H7.314v-41.796
+		C19.853,380.343,29.257,390.792,29.257,404.376z"/>
+	<path style="fill:#F2F2F2;" d="M157.78,404.376c0,6.269-2.09,12.539-6.269,16.718h-37.616c-4.18-4.18-6.269-10.449-6.269-16.718
+		c0-13.584,11.494-25.078,25.078-25.078C146.286,378.253,157.78,389.747,157.78,404.376z"/>
+	<path style="fill:#F2F2F2;" d="M285.257,404.376c0,6.269-2.09,12.539-6.269,16.718h-37.616c-4.18-4.18-6.269-10.449-6.269-16.718
+		c0-13.584,11.494-25.078,25.078-25.078C273.763,378.253,285.257,389.747,285.257,404.376z"/>
+	<path style="fill:#F2F2F2;" d="M384.522,379.298v41.796h-15.673c-4.18-4.18-6.269-10.449-6.269-16.718
+		C362.58,390.792,371.984,380.343,384.522,379.298z"/>
+</g>
+<path style="fill:#3DC9AE;" d="M378.253,406.465H13.584C6.269,406.465,0,412.735,0,420.049s6.269,13.584,13.584,13.584h364.669
+	c7.314,0,13.584-6.269,13.584-13.584S385.567,406.465,378.253,406.465z"/>
+<path style="fill:#F2F2F2;" d="M16.718,434.678v45.976c0,11.494,9.404,20.898,20.898,20.898H354.22
+	c11.494,0,20.898-9.404,20.898-20.898v-45.976H16.718z"/>
+<text x="30" y="130" font-family="Consolas" font-size="80" fill="black">1 0 1 0 1</text>
+<text x="30" y="250" font-family="Consolas" font-size="80" fill="black">0 1 0 1 0</text>
+<text x="30" y="370" font-family="Consolas" font-size="80" fill="black">1 0 1 0 1</text>
+<text x="30" y="490" font-family="Consolas" font-size="80" fill="black">0 1 0 1 0</text>
+</svg>"#;
+
+const CSS_SVG: &str = r#"<svg height="25px" width="25px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 viewBox="0 0 512 512"  xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#000000;}
+</style>
+<g>
+	<path class="st0" d="M378.413,0H208.297h-13.182L185.8,9.314L57.02,138.102l-9.314,9.314v13.176v265.514
+		c0,47.36,38.528,85.895,85.896,85.895h244.811c47.353,0,85.881-38.535,85.881-85.895V85.896C464.294,38.528,425.766,0,378.413,0z
+		M432.497,426.105c0,29.877-24.214,54.091-54.084,54.091H133.602c-29.884,0-54.098-24.214-54.098-54.091V160.591h83.716
+		c24.885,0,45.077-20.178,45.077-45.07V31.804h170.116c29.87,0,54.084,24.214,54.084,54.092V426.105z"/>
+	<path class="st0" d="M169.574,268.949c5.837,0,9.104,2.171,12.499,6.786c2.709,3.805,5.432,5.167,8.825,5.167
+		c5.028,0,9.105-3.673,9.105-8.965c0-2.171-0.684-4.078-1.774-5.977c-4.622-8.288-14.802-14.669-28.655-14.669
+		c-16.171,0-28.124,7.603-33.012,22.685c-1.899,6.11-2.57,10.865-2.57,24.989c0,14.125,0.67,18.881,2.57,24.99
+		c4.888,15.081,16.841,22.685,33.012,22.685c13.853,0,24.033-6.382,28.655-14.67c1.09-1.899,1.774-3.805,1.774-5.976
+		c0-5.3-4.078-8.965-9.105-8.965c-3.393,0-6.116,1.361-8.825,5.16c-3.394,4.622-6.662,6.794-12.499,6.794
+		c-7.471,0-11.814-3.938-13.853-10.187c-1.089-3.393-1.494-6.654-1.494-19.83c0-13.175,0.406-16.436,1.494-19.829
+		C157.76,272.887,162.103,268.949,169.574,268.949z"/>
+	<path class="st0" d="M255.149,289.595l-4.888-0.684c-10.725-1.494-14.398-5.02-14.398-10.187c0-5.837,4.343-9.915,12.498-9.915
+		c5.698,0,11.409,1.634,15.892,3.805c1.899,0.95,3.938,1.494,5.837,1.494c4.888,0,8.7-3.666,8.7-8.693
+		c0-3.261-1.494-5.977-4.762-8.016c-5.432-3.394-15.612-6.11-25.806-6.11c-19.97,0-32.733,11.269-32.733,28.25
+		c0,16.304,10.32,25.13,29.2,27.713l4.901,0.677c10.99,1.494,14.258,4.888,14.258,10.32c0,6.389-5.306,10.872-15.082,10.872
+		c-6.787,0-12.219-1.767-19.83-5.977c-1.634-0.956-3.672-1.634-5.837-1.634c-5.166,0-8.965,3.938-8.965,8.832
+		c0,3.254,1.634,6.382,4.748,8.42c6.116,3.799,16.031,7.876,29.074,7.876c24.032,0,36.266-12.358,36.266-29.067
+		C284.223,300.865,274.307,292.311,255.149,289.595z"/>
+	<path class="st0" d="M338.697,289.595l-4.888-0.684c-10.738-1.494-14.398-5.02-14.398-10.187c0-5.837,4.344-9.915,12.484-9.915
+		c5.712,0,11.423,1.634,15.892,3.805c1.913,0.95,3.952,1.494,5.851,1.494c4.887,0,8.686-3.666,8.686-8.693
+		c0-3.261-1.494-5.977-4.748-8.016c-5.432-3.394-15.626-6.11-25.806-6.11c-19.969,0-32.733,11.269-32.733,28.25
+		c0,16.304,10.32,25.13,29.2,27.713l4.888,0.677c11.004,1.494,14.258,4.888,14.258,10.32c0,6.389-5.292,10.872-15.068,10.872
+		c-6.8,0-12.232-1.767-19.829-5.977c-1.634-0.956-3.673-1.634-5.851-1.634c-5.153,0-8.965,3.938-8.965,8.832
+		c0,3.254,1.634,6.382,4.762,8.42c6.117,3.799,16.032,7.876,29.06,7.876c24.047,0,36.266-12.358,36.266-29.067
+		C367.758,300.865,357.843,292.311,338.697,289.595z"/>
+</g>
+</svg>
+"#;
+
+const TEXT_SVG: &str = r##"
+<svg fill="#000000" width="25px" height="25px" viewBox="0 -8 72 72" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><title>file-text-o</title><path d="M47.76,36.76H23.28a1.08,1.08,0,1,0,0,2.16H47.76a1.08,1.08,0,0,0,0-2.16Z"/><path d="M47.76,22.6H23.28a1.08,1.08,0,1,0,0,2.16H47.76a1.08,1.08,0,1,0,0-2.16Z"/><path d="M46.92,0H18.74A3.44,3.44,0,0,0,15.3,3.43V52.57A3.44,3.44,0,0,0,18.74,56H53.26a3.44,3.44,0,0,0,3.44-3.43V10.62Zm.81,5.14L52,9.79H47.73Zm6.08,47.43a.55.55,0,0,1-.55.55H18.74a.55.55,0,0,1-.55-.55V3.43a.54.54,0,0,1,.55-.54H44.85v8.35a1.45,1.45,0,0,0,1.44,1.44h7.52Z"/><path d="M47.76,29.62H23.28a1.08,1.08,0,1,0,0,2.16H47.76a1.08,1.08,0,1,0,0-2.16Z"/></svg>
+"##;
+
+const LOCK_FILE_SVG: &str = r##"
+<svg fill="#000000" width="25px" height="25px" viewBox="0 0 24 24" id="lock-file" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color"><path id="secondary" d="M10,21H4a1,1,0,0,1-1-1V16a1,1,0,0,1,1-1h6a1,1,0,0,1,1,1v4A1,1,0,0,1,10,21ZM7,11H7a2,2,0,0,0-2,2v2H9V13A2,2,0,0,0,7,11Z" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><path id="primary" d="M15,21h5a1,1,0,0,0,1-1V5L19,3H8A1,1,0,0,0,7,4V7" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><polygon id="primary-2" data-name="primary" points="19 3 19 5 21 5 19 3" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polygon></svg>
+"##;

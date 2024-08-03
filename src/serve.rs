@@ -29,10 +29,10 @@ pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl Int
 }
 
 async fn get_canonicalized_path(
-    base_path: &PathBuf,
+    base_path: &Path,
     requested_path: &str,
 ) -> Result<PathBuf, StatusCode> {
-    let mut path = base_path.clone();
+    let mut path = base_path.to_owned();
     if !requested_path.is_empty() && requested_path != "/" {
         path.push(requested_path.trim_start_matches('/'));
     }
@@ -214,7 +214,7 @@ async fn handle_range_request(
     file_size: u64,
     content_type: String,
 ) -> impl IntoResponse {
-    let range = crate::util::parse_range_header(range_header, file_size);
+    let range = crate::util::parse_range_header(&range_header, file_size);
     match range {
         Ok((start, end)) => {
             let length = end - start + 1;
