@@ -10,6 +10,7 @@ use crate::{
 };
 use axum::http::StatusCode;
 use futures_util::stream::StreamExt;
+use percent_encoding::percent_decode_str;
 use tokio_stream::wrappers::ReadDirStream;
 
 async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, String, String)> {
@@ -110,11 +111,67 @@ pub async fn get_canonicalized_path(
 ) -> Result<PathBuf, StatusCode> {
     let mut path = base_path.to_owned();
     if !requested_path.is_empty() && requested_path != "/" {
-        path.push(requested_path.trim_start_matches('/'));
+        let decoded_path = percent_decode_str(requested_path)
+            .decode_utf8()
+            .map_err(|_| StatusCode::BAD_REQUEST)?;
+        path.push(decoded_path.trim_start_matches('/'));
     }
-
     tokio::fs::canonicalize(&path).await.map_err(|e| {
         tracing::error!("Error canonicalizing path: {}", e);
         StatusCode::NOT_FOUND
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use temp_dir::TempDir;
+    use testresult::TestResult;
+    use tokio::fs::File;
+
+    #[tokio::test]
+    async fn test_get_canonicalized_path() -> TestResult {
+        let temp_dir = TempDir::new()?;
+        let base_path = temp_dir.path();
+
+        // Create test directories and files
+        tokio::fs::create_dir_all(base_path.join("folder with spaces")).await?;
+        tokio::fs::create_dir_all(base_path.join("æøå")).await?;
+        tokio::fs::create_dir_all(base_path.join("한글")).await?;
+        tokio::fs::create_dir_all(base_path.join("日本語")).await?;
+        File::create(base_path.join("file with spaces.txt")).await?;
+
+        // Test cases
+        let test_cases = vec![
+            ("folder%20with%20spaces", "folder with spaces"),
+            ("%C3%A6%C3%B8%C3%A5", "æøå"),
+            ("%ED%95%9C%EA%B8%80", "한글"),
+            ("%E6%97%A5%E6%9C%AC%E8%AA%9E", "日本語"),
+            ("file%20with%20spaces.txt", "file with spaces.txt"),
+        ];
+
+        for (input, expected) in test_cases {
+            let result = get_canonicalized_path(base_path, input).await;
+            assert!(result.is_ok(), "Failed for input: {}", input);
+            let canonical_path = result?;
+            assert!(
+                canonical_path.ends_with(expected),
+                "Expected path to end with '{}', but got '{:?}'",
+                expected,
+                canonical_path
+            );
+        }
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_invalid_path() -> TestResult {
+        let temp_dir = TempDir::new()?;
+        let base_path = temp_dir.path();
+
+        let result = get_canonicalized_path(base_path, "non_existent_file").await;
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), StatusCode::NOT_FOUND);
+        Ok(())
+    }
 }

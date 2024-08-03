@@ -29,6 +29,13 @@ chrono = "0.4.38"
 tokio-util = { version = "0.7.11", features = ["io"] }
 tokio-stream = { version = "0.1.15", features = ["fs"] }
 futures-util = "0.3.30"
+percent-encoding = "2.3.1"
+
+[dev-dependencies]
+pretty_assertions = "1.4.0"
+temp-dir = "0.1.11"
+testresult = "0.4.0"
+
 
 [profile.release]
 lto = true
