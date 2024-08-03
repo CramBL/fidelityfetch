@@ -105,3 +105,8 @@ pub fn parse_range_header(
 
     Ok((start, end))
 }
+
+pub fn is_directory_empty(path: &std::path::Path) -> std::io::Result<bool> {
+    let entries = std::fs::read_dir(path)?;
+    Ok(entries.filter_map(Result::ok).next().is_none())
+}

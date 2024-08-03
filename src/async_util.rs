@@ -1,10 +1,14 @@
-use std::{io, path::Path};
+use std::{
+    io,
+    path::{Path, PathBuf},
+};
 
 use crate::{
     dir_entry::FifeDirEntry,
     icon::FileTypeCategory,
     util::{format_data_size, format_system_time},
 };
+use axum::http::StatusCode;
 use futures_util::stream::StreamExt;
 use tokio_stream::wrappers::ReadDirStream;
 
@@ -73,7 +77,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     } else if file_type.is_dir() {
         tracing::debug!("Determing type of directory: {file_name}");
 
-        match is_directory_empty(&path) {
+        match crate::util::is_directory_empty(&path) {
             Ok(true) => FileTypeCategory::DirectoryEmpty,
             Ok(false) => FileTypeCategory::Directory,
             Err(e) => {
@@ -100,7 +104,17 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     ))
 }
 
-fn is_directory_empty(path: &Path) -> std::io::Result<bool> {
-    let entries = std::fs::read_dir(path)?;
-    Ok(entries.filter_map(Result::ok).next().is_none())
+pub async fn get_canonicalized_path(
+    base_path: &Path,
+    requested_path: &str,
+) -> Result<PathBuf, StatusCode> {
+    let mut path = base_path.to_owned();
+    if !requested_path.is_empty() && requested_path != "/" {
+        path.push(requested_path.trim_start_matches('/'));
+    }
+
+    tokio::fs::canonicalize(&path).await.map_err(|e| {
+        tracing::error!("Error canonicalizing path: {}", e);
+        StatusCode::NOT_FOUND
+    })
 }
