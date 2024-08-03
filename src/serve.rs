@@ -12,8 +12,36 @@ use std::{
 use tokio::io::AsyncReadExt;
 use tokio::sync::RwLock;
 use tokio::{fs::*, io::AsyncSeekExt};
+use tokio_util::io::ReaderStream;
 
 use crate::{async_util::extract_file_details, AppState};
+
+pub mod path;
+pub mod root;
+
+pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl IntoResponse {
+    let base_path = PathBuf::from(&state.read().await.root_dir);
+    let path = match get_canonicalized_path(&base_path, "").await {
+        Ok(path) => path,
+        Err(status) => return (status, "File not found").into_response(),
+    };
+    serve_directory(&path).await.into_response()
+}
+
+async fn get_canonicalized_path(
+    base_path: &PathBuf,
+    requested_path: &str,
+) -> Result<PathBuf, StatusCode> {
+    let mut path = base_path.clone();
+    if !requested_path.is_empty() && requested_path != "/" {
+        path.push(requested_path.trim_start_matches('/'));
+    }
+
+    tokio::fs::canonicalize(&path).await.map_err(|e| {
+        tracing::error!("Error canonicalizing path: {}", e);
+        StatusCode::NOT_FOUND
+    })
+}
 
 pub async fn serve_path(
     State(state): State<Arc<RwLock<AppState>>>,
@@ -30,26 +58,19 @@ pub async fn serve_path(
             .into_response();
     }
 
-    let mut path = PathBuf::from(&state.read().await.root_dir);
-    path.push(requested_path.trim_start_matches('/'));
-    tracing::info!("Requested trimmed: {path:?}");
-
-    // Resolve the absolute, normalized path
-    let path = match tokio::fs::canonicalize(&path).await {
-        Ok(normalized_path) => normalized_path,
-        Err(e) => {
-            tracing::error!("Error canonicalizing path: {}", e);
-            return (StatusCode::NOT_FOUND, "File not found").into_response();
-        }
+    let base_path = PathBuf::from(&state.read().await.root_dir);
+    let path = match get_canonicalized_path(&base_path, requested_path).await {
+        Ok(path) => path,
+        Err(status) => return (status, "File not found").into_response(),
     };
 
-    tracing::info!("Requested path: {}", path.display());
+    tracing::debug!("Requested path: {}", path.display());
 
     if path.is_dir() {
         return serve_directory(&path).await.into_response();
     }
 
-    let mut file = match File::open(&path).await {
+    let file = match File::open(&path).await {
         Ok(file) => file,
         Err(e) => {
             tracing::error!("Error opening file: {}", e);
@@ -71,7 +92,7 @@ pub async fn serve_path(
         .to_string();
 
     if let Some(range) = req.headers().get(header::RANGE) {
-        return handle_range_request(range.clone(), &mut file, file_size, content_type.clone())
+        return handle_range_request(range.clone(), file, file_size, content_type.clone())
             .await
             .into_response();
     }
@@ -89,18 +110,6 @@ pub async fn serve_path(
         body,
     )
         .into_response()
-}
-
-pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl IntoResponse {
-    let path = PathBuf::from(&state.read().await.root_dir);
-    let path = match tokio::fs::canonicalize(&path).await {
-        Ok(normalized_path) => normalized_path,
-        Err(e) => {
-            tracing::error!("Error canonicalizing path: {}", e);
-            return (StatusCode::NOT_FOUND, "File not found").into_response();
-        }
-    };
-    serve_directory(&path).await.into_response()
 }
 
 async fn serve_directory(path: &Path) -> impl IntoResponse {
@@ -201,56 +210,37 @@ async fn serve_directory(path: &Path) -> impl IntoResponse {
 
 async fn handle_range_request(
     range_header: header::HeaderValue,
-    file: &mut File,
+    mut file: File,
     file_size: u64,
-    header_content_type: String,
+    content_type: String,
 ) -> impl IntoResponse {
-    if let Ok(range_str) = range_header.to_str() {
-        if let Some(range) = range_str.strip_prefix("bytes=") {
-            let (start_str, end_str) = range.split_once('-').unwrap_or((range, ""));
-            let start = start_str.parse::<u64>().unwrap_or(0);
-            let end = match end_str.parse::<u64>() {
-                Ok(val) => val,
-                Err(_) => file_size.saturating_sub(1),
-            };
-
-            if start >= file_size || end >= file_size || start > end {
-                return (
-                    StatusCode::RANGE_NOT_SATISFIABLE,
-                    [(header::CONTENT_RANGE, format!("bytes */{}", file_size))],
-                    "Invalid range",
-                )
-                    .into_response();
+    let range = crate::util::parse_range_header(range_header, file_size);
+    match range {
+        Ok((start, end)) => {
+            let length = end - start + 1;
+            if let Err(e) = file.seek(SeekFrom::Start(start)).await {
+                tracing::error!("Error seeking file: {}", e);
+                return StatusCode::INTERNAL_SERVER_ERROR.into_response();
             }
 
-            let length = end - start + 1;
-            let mut buffer = vec![0; length as usize];
-            file.seek(SeekFrom::Start(start)).await.unwrap();
-            file.read_exact(&mut buffer).await.unwrap();
+            let stream = ReaderStream::new(file.take(length));
+            let body = Body::from_stream(stream);
 
-            let header_content_length = (header::CONTENT_LENGTH, buffer.len().to_string());
-            let header_content_range = (
-                header::CONTENT_RANGE,
-                format!("bytes {}-{}/{}", start, end, file_size),
-            );
-
-            let resp = (
+            (
                 StatusCode::PARTIAL_CONTENT,
                 [
-                    (header::CONTENT_TYPE, header_content_type),
-                    (header::ACCEPT_RANGES, "bytes".to_owned()),
-                    header_content_range,
-                    header_content_length,
+                    (header::CONTENT_TYPE, content_type),
+                    (header::ACCEPT_RANGES, "bytes".to_string()),
+                    (
+                        header::CONTENT_RANGE,
+                        format!("bytes {}-{}/{}", start, end, file_size),
+                    ),
+                    (header::CONTENT_LENGTH, length.to_string()),
                 ],
-                buffer.into_response(),
-            );
-
-            let resp_finalized = resp.into_response();
-            tracing::info!("Sending response: {:?}", resp_finalized);
-
-            return resp_finalized;
+                body,
+            )
+                .into_response()
         }
+        Err(status) => status.into_response(),
     }
-
-    StatusCode::RANGE_NOT_SATISFIABLE.into_response()
 }

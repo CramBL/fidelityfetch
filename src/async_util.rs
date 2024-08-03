@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::{os::unix::fs::MetadataExt, path::Path};
 
 use crate::{
     dir_entry::FifeDirEntry,
@@ -44,20 +44,30 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         "".to_string()
     };
 
-    let path = Path::new(&file_name);
+    let path = entry.path();
     let ext = path.extension().and_then(|ext| ext.to_str()).unwrap_or("");
 
     let file_type_category = if file_type.is_dir() {
-        if file_name == ".git" {
+        tracing::debug!("Determing type of directory: {file_name}");
+        if file_name == ".git" || file_name == ".gitignore" {
             FileTypeCategory::Git
-        } else if path.read_dir().is_ok_and(|e| e.count() == 0) {
-            FileTypeCategory::DirectoryEmpty
         } else {
-            FileTypeCategory::Directory
+            match is_directory_empty(&path) {
+                Ok(true) => FileTypeCategory::DirectoryEmpty,
+                Ok(false) => FileTypeCategory::Directory,
+                Err(e) => {
+                    tracing::error!("Error checking if directory '{file_name}' is empty: {}", e);
+                    FileTypeCategory::Directory // Default to non-empty if there's an error
+                }
+            }
         }
     } else {
         FileTypeCategory::from_extension(ext)
     };
+    tracing::debug!(
+        "'{file_name}' file categori is: {}",
+        file_type_category.description()
+    );
 
     Ok(FifeDirEntry::new(
         file_name,
@@ -66,4 +76,9 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         file_type_category,
         modified_date,
     ))
+}
+
+fn is_directory_empty(path: &Path) -> std::io::Result<bool> {
+    let entries = std::fs::read_dir(path)?;
+    Ok(entries.filter_map(Result::ok).next().is_none())
 }

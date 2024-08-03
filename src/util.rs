@@ -1,5 +1,6 @@
 use std::time::SystemTime;
 
+use axum::http::{header, StatusCode};
 use chrono::TimeZone;
 
 use crate::icon::FileTypeCategory;
@@ -83,4 +84,24 @@ pub fn generate_list_item(
         file_size,
         modified_date
     )
+}
+
+pub fn parse_range_header(
+    range_header: header::HeaderValue,
+    file_size: u64,
+) -> Result<(u64, u64), StatusCode> {
+    let range_str = range_header.to_str().map_err(|_| StatusCode::BAD_REQUEST)?;
+    let range = range_str
+        .strip_prefix("bytes=")
+        .ok_or(StatusCode::BAD_REQUEST)?;
+    let (start_str, end_str) = range.split_once('-').ok_or(StatusCode::BAD_REQUEST)?;
+
+    let start: u64 = start_str.parse().unwrap_or(0);
+    let end: u64 = end_str.parse().unwrap_or(file_size - 1).min(file_size - 1);
+
+    if start >= file_size || start > end {
+        return Err(StatusCode::RANGE_NOT_SATISFIABLE);
+    }
+
+    Ok((start, end))
 }
