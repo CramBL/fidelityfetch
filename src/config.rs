@@ -75,6 +75,17 @@ impl Config {
             &mut std::io::stdout(),
         );
     }
+
+    pub fn setup_logging(&self) {
+        let subscriber = tracing_subscriber::FmtSubscriber::builder()
+            .with_writer(std::io::stderr)
+            .with_max_level(self.verbosity())
+            .with_file(false)
+            .compact()
+            .finish();
+        tracing::subscriber::set_global_default(subscriber)
+            .expect("setting default subscriber failed");
+    }
 }
 
 #[derive(Debug, ValueEnum, Clone, Copy)]
