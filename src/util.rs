@@ -60,29 +60,25 @@ pub fn generate_list_item(
         (file_name.to_owned(), file_name.to_owned())
     };
 
+    let file_item = if file_type.is_dir() {
+        "directory"
+    } else {
+        "file"
+    };
+
     format!(
         r#"
-        <li class="file-item {}">
-            <div class="file-icon">{}</div>
+        <li class="file-item {file_item}">
+            <div class="file-icon">{icon}</div>
             <div class="file-details">
-                <a href="{}" class="file-name">{}</a>
+                <a href="{href}" class="file-name">{display_name}</a>
                 <div class="file-info">
-                    <span class="file-size">{}</span>
-                    <span class="file-date">{}</span>
+                    <span class="file-size">{size}</span>
+                    <span class="file-date">{modified_date}</span>
                 </div>
             </div>
         </li>
-        "#,
-        if file_type.is_dir() {
-            "directory"
-        } else {
-            "file"
-        },
-        icon,
-        href,
-        display_name,
-        size,
-        modified_date
+        "#
     )
 }
 
