@@ -1,5 +1,3 @@
-use std::path::{Path, PathBuf};
-
 use clap::{
     builder::{
         styling::{AnsiColor, Effects},
@@ -7,12 +5,16 @@ use clap::{
     },
     Parser, ValueEnum,
 };
+use std::path::{Path, PathBuf};
 use tracing::Level;
+
+pub const BIN_NAME: &str = "qft";
 
 #[derive(Parser, Debug)]
 #[command(name = "Fidelity Fetch", version, styles = cli_styles())]
+#[command(bin_name = BIN_NAME)]
 pub struct Config {
-    /// Directory from which files can be browsed and served
+    /// Directory from which content is served (resursively)
     #[arg(short, long, default_value = ".")]
     root: PathBuf,
 
@@ -20,12 +22,23 @@ pub struct Config {
     #[arg(short, long, default_value_t = 0)]
     port: u16,
 
+    /// Verbosity of logging output
     #[arg(short, long, default_value = "info")]
     verbosity: LogLevel,
 
     /// Optional service to register which can be used as the hostname to access served content.
+    /// e.g. `foo` will be available at http://foo.local:<port>
     #[arg(short, long)]
     mdns: Option<String>,
+
+    /// Generate completion scripts for the specified shell.
+    /// Note: The completion script is printed to stdout
+    #[arg(
+           long = "completions",
+           value_hint = clap::ValueHint::Other,
+           value_name = "SHELL"
+       )]
+    pub completions: Option<clap_complete::Shell>,
 }
 
 impl Config {
@@ -50,6 +63,17 @@ impl Config {
 
     pub fn mdns(&self) -> Option<&str> {
         self.mdns.as_deref()
+    }
+
+    /// Generate completion scripts for the specified shell.
+    pub fn generate_completion_script(shell: clap_complete::Shell) {
+        use clap::CommandFactory;
+        clap_complete::generate(
+            shell,
+            &mut Config::command(),
+            BIN_NAME,
+            &mut std::io::stdout(),
+        );
     }
 }
 

@@ -30,6 +30,11 @@ pub struct AppState {
 #[tokio::main]
 async fn main() {
     let cfg = Config::parse();
+    if let Some(shell) = cfg.completions {
+        config::Config::generate_completion_script(shell);
+        tracing::info!("Completions generated for {shell:?}. Exiting...");
+        return;
+    }
 
     tracing_subscriber::fmt()
         .with_max_level(cfg.verbosity())
@@ -77,5 +82,5 @@ async fn main() {
 
     axum::serve(listener, app.into_make_service())
         .await
-        .unwrap();
+        .expect("Failed to start server");
 }
