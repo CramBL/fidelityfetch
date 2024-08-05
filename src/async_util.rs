@@ -6,7 +6,7 @@ use std::{
 use crate::{
     dir_entry::FifeDirEntry,
     icon::FileTypeCategory,
-    util::{format_data_size, format_system_time},
+    util::{self, format_data_size, format_system_time},
 };
 use axum::http::StatusCode;
 use futures_util::stream::StreamExt;
@@ -78,7 +78,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     } else if file_type.is_dir() {
         tracing::debug!("Determing type of directory: {file_name}");
 
-        match crate::util::is_directory_empty(&path) {
+        match util::is_directory_empty(&path) {
             Ok(true) => FileTypeCategory::DirectoryEmpty,
             Ok(false) => FileTypeCategory::Directory,
             Err(e) => {
