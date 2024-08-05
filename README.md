@@ -5,6 +5,10 @@
 Single self-contained binary that provides an easily configurable server that supports range requests and allows for serving and browsing remote files through a web browser.
 
 
+## Demo
+
+![demo-fife](https://github.com/user-attachments/assets/368f9af1-9a1a-4d52-98a9-cc017ebd40af)
+
 ## Installation
 
 ```shell
