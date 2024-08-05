@@ -1,4 +1,10 @@
-# Fidelity Fetch (fife)
+<div align=right>Table of Contents↗️</div>
+
+<h1 align=center>Fidelity Fetch
+
+<code>fife</code>
+
+</h1>
 
 <div align="center">
   <a href="https://github.com/CramBL/fidelityfetch/releases" title="Latest Stable GitHub Release">
@@ -10,8 +16,30 @@
 
 ## Purpose
 
-Single self-contained binary that provides an easily configurable server that supports range requests and allows for serving and browsing remote files through a web browser.
+Serve files efficiently on a local network.
 
+- Browse/open/download the files through a web browser 
+- Easily configurable server 
+- Support for range requests
+- Single self-contained binary
+- mDNS/DNS-SD capabilities
+
+## Quick Start
+
+Recursively serve <path> and all its contents at <hostname>.local:<port>
+
+```shell
+fife -p <port> -m <hostname> --root <path>
+```
+The content can be browsed through a web browser at http://<hostname>.local:<port>
+> Note: Many phones do not support mDNS resolution, but your PC does unless it is ancient. In that case you need to specify the IP instead of the mDNS hostname to access the contents.
+
+The contents can also be fetched through the command-line, e.g.
+
+```shell
+curl http://<hostname>.local:<port>/some/path/to/file.txt # Get file.txt
+curl -r 99-499 http://<hostname>.local:<port>/foo.bin # Starting from byte 99, get the next 400 bytes of foo.bin
+```
 
 ## Demo
 
