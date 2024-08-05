@@ -26,12 +26,12 @@ Serve files efficiently on a local network.
 
 ## Quick Start
 
-Recursively serve <path> and all its contents at <hostname>.local:<port>
+Recursively serve `<path>` and all its contents at `<hostname>.local:<port>`
 
 ```shell
 fife -p <port> -m <hostname> --root <path>
 ```
-The content can be browsed through a web browser at http://<hostname>.local:<port>
+The content can be browsed through a web browser at `http://<hostname>.local:<port>`
 > Note: Many phones do not support mDNS resolution, but your PC does unless it is ancient. In that case you need to specify the IP instead of the mDNS hostname to access the contents.
 
 The contents can also be fetched through the command-line, e.g.
@@ -40,6 +40,8 @@ The contents can also be fetched through the command-line, e.g.
 curl http://<hostname>.local:<port>/some/path/to/file.txt # Get file.txt
 curl -r 99-499 http://<hostname>.local:<port>/foo.bin # Starting from byte 99, get the next 400 bytes of foo.bin
 ```
+
+If no port is specified, any available port is used (`fife` requests a free port from the OS). 
 
 ## Demo
 
