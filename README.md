@@ -7,6 +7,8 @@ Single self-contained binary that provides an easily configurable server that su
 
 ## Demo
 
+### Installing and setting up on a Raspberry Pi Zero W
+
 ![demo-fife](https://github.com/user-attachments/assets/368f9af1-9a1a-4d52-98a9-cc017ebd40af)
 
 ## Installation
