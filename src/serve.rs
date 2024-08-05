@@ -43,7 +43,7 @@ pub async fn serve_path(
         Err(status) => return (status, "File not found").into_response(),
     };
 
-    tracing::debug!("Requested path: {}", path.display());
+    tracing::trace!("Requested absolute path: {}", path.display());
 
     if path.is_dir() {
         return dir::serve_directory(&path).await.into_response();

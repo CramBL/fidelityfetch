@@ -34,10 +34,10 @@ pub struct Config {
     /// Generate completion scripts for the specified shell.
     /// Note: The completion script is printed to stdout
     #[arg(
-           long = "completions",
-           value_hint = clap::ValueHint::Other,
-           value_name = "SHELL"
-       )]
+        long = "completions",
+        value_hint = clap::ValueHint::Other,
+        value_name = "SHELL"
+    )]
     pub completions: Option<clap_complete::Shell>,
 }
 

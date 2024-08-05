@@ -94,7 +94,7 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
         response = "<html><body><h1>Empty directory</h1></body></html>".to_string();
     }
 
-    tracing::info!("Returning directory listing");
+    tracing::trace!("Returning directory listing");
     (
         StatusCode::OK,
         [(header::CONTENT_TYPE, "text/html")],

@@ -36,9 +36,13 @@ async fn main() {
         return;
     }
 
-    tracing_subscriber::fmt()
+    let subscriber = tracing_subscriber::FmtSubscriber::builder()
+        .with_writer(std::io::stderr)
         .with_max_level(cfg.verbosity())
-        .init();
+        .with_file(false)
+        .compact()
+        .finish();
+    tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 
     let app_state = Arc::new(RwLock::new(AppState {
         root_dir: cfg.root().to_path_buf(),
@@ -55,7 +59,6 @@ async fn main() {
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
 
     let local_port = listener.local_addr().unwrap().port();
-    tracing::info!("Listening on http://{local_ip}:{local_port}");
 
     if let Some(mdns_hostname) = cfg.mdns() {
         let service_type = "_http._tcp.local.";
@@ -74,12 +77,13 @@ async fn main() {
             local_port,
             service_props,
         )
-        .unwrap();
+        .expect("Failed creating service");
 
         mdns.register(service_info)
             .expect("Failed to register mDNS service");
     }
 
+    eprintln!("Listening on http://{local_ip}:{local_port}");
     axum::serve(listener, app.into_make_service())
         .await
         .expect("Failed to start server");
