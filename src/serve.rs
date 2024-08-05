@@ -10,6 +10,8 @@ use tokio::sync::RwLock;
 use crate::async_util;
 use crate::AppState;
 
+static FAVICON: &[u8] = include_bytes!("../assets/favicon.ico");
+
 pub mod dir;
 pub mod range_req;
 
@@ -32,7 +34,7 @@ pub async fn serve_path(
         return (
             StatusCode::OK,
             [(header::CONTENT_TYPE, "image/x-icon")],
-            vec![],
+            FAVICON.to_vec(),
         )
             .into_response();
     }
