@@ -13,8 +13,16 @@ Single self-contained binary that provides an easily configurable server that su
 
 ## Installation
 
+### Prebuilt binaries
+
 ```shell
 curl -L -H "Accept: application/vnd.github.v3.raw" \
     https://api.github.com/repos/CramBL/fidelityfetch/contents/install.sh \
     | sh -s -- --to <DEST>
+```
+
+### From source
+
+```shell
+cargo install fidelityfetch
 ```
