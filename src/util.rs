@@ -3,7 +3,6 @@ use std::time::SystemTime;
 use axum::http::{header, StatusCode};
 use chrono::TimeZone;
 
-use crate::icon::FileTypeCategory;
 
 #[must_use]
 pub fn format_data_size(size_bytes: u64) -> String {
@@ -43,43 +42,6 @@ pub fn format_system_time(time: SystemTime) -> String {
         }
         Err(_) => "Unknown date".to_string(),
     }
-}
-
-pub fn generate_list_item(
-    file_name: &str,
-    file_type: std::fs::FileType,
-    size: &str,
-    modified_date: &str,
-    file_category: FileTypeCategory,
-) -> String {
-    let icon = file_category.icon();
-
-    let (href, display_name) = if file_type.is_dir() {
-        (format!("{}/", file_name), format!("{}/", file_name))
-    } else {
-        (file_name.to_owned(), file_name.to_owned())
-    };
-
-    let file_item = if file_type.is_dir() {
-        "directory"
-    } else {
-        "file"
-    };
-
-    format!(
-        r#"
-        <li class="file-item {file_item}">
-            <div class="file-icon">{icon}</div>
-            <div class="file-details">
-                <a href="{href}" class="file-name">{display_name}</a>
-                <div class="file-info">
-                    <span class="file-size">{size}</span>
-                    <span class="file-date">{modified_date}</span>
-                </div>
-            </div>
-        </li>
-        "#
-    )
 }
 
 pub fn parse_range_header(

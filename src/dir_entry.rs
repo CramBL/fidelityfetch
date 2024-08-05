@@ -1,6 +1,5 @@
+use crate::icon::FileTypeCategory;
 use std::fs::FileType;
-
-use crate::{icon::FileTypeCategory, util::generate_list_item};
 
 pub struct FifeDirEntry {
     pub name: String,
@@ -32,12 +31,34 @@ impl FifeDirEntry {
     }
 
     pub fn to_html(self) -> String {
-        generate_list_item(
-            &self.name,
-            self.ftype,
-            &self.size,
-            &self.modified,
-            self.category,
+        let fname = if self.ftype.is_dir() {
+            format!("{}/", self.name)
+        } else {
+            self.name.to_owned()
+        };
+
+        let file_item = if self.ftype.is_dir() {
+            "directory"
+        } else {
+            "file"
+        };
+
+        format!(
+            r#"
+            <li class="file-item {file_item}">
+                <div class="file-icon">{icon}</div>
+                <div class="file-details">
+                    <a href="{fname}" class="file-name">{fname}</a>
+                    <div class="file-info">
+                        <span class="file-size">{size}</span>
+                        <span class="file-date">{modified_date}</span>
+                    </div>
+                </div>
+            </li>
+            "#,
+            icon = self.category().icon(),
+            size = self.size,
+            modified_date = self.modified
         )
     }
 }
