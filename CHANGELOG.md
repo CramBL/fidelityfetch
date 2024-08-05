@@ -2,9 +2,13 @@
 
 ## Unreleased
 
+## [0.2.0]
+
 ### Added
 
 - Completions for bash, zsh, fish, powershell, elvish.
+- Favicon.ico
+- Various tweaks
 
 ## [0.1.1]
 
