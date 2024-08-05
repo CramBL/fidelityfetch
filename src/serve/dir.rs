@@ -24,13 +24,15 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
     let mut response = String::new();
     response.push_str(
         r#"
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directory Listing</title>
-    <style>
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"#,
+    );
+    response.push_str(&path.display().to_string());
+    response.push_str("</title>");
+    response.push_str(
+    r#"<style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
         ul { list-style-type: none; padding: 0; }
         li { display: flex; align-items: center; padding: 10px; background-color: #fff; border-radius: 5px; margin-bottom: 0px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
@@ -42,10 +44,7 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
         .file-size, .file-date { display: inline-block; margin-right: 15px; }
         .directory { color: #0056b3; }
         .file { color: #333; }
-    </style>
-</head>
-<body>
-"#,
+    </style></head><body>"#,
     );
 
     response.push_str(&format!("<h1>{}</h1>", path.display()));
