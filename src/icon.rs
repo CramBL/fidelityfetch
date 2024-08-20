@@ -34,6 +34,7 @@ pub enum FileTypeCategory {
     Text,
     LockFile,
     Svg,
+    Audio,
 }
 
 impl FileTypeCategory {
@@ -66,6 +67,7 @@ impl FileTypeCategory {
             "bb" | "bbappend" => FileTypeCategory::BitBake,
             "txt" => FileTypeCategory::Text,
             "lock" => FileTypeCategory::LockFile,
+            "mp3" | "wav" | "flac" | "aac" | "ogg" => FileTypeCategory::Audio,
             _ => FileTypeCategory::Unknown,
         }
     }
@@ -101,6 +103,7 @@ impl FileTypeCategory {
             FileTypeCategory::Text => TEXT_SVG,
             FileTypeCategory::LockFile => LOCK_FILE_SVG,
             FileTypeCategory::Svg => SVG_SVG,
+            FileTypeCategory::Audio => "♫",
         }
     }
 
@@ -135,6 +138,7 @@ impl FileTypeCategory {
             FileTypeCategory::Text => "Text",
             FileTypeCategory::LockFile => "Lock-file",
             FileTypeCategory::Svg => "Svg",
+            FileTypeCategory::Audio => "Audio",
         }
     }
 }
