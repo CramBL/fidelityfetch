@@ -36,6 +36,9 @@ pub enum FileTypeCategory {
     Svg,
     Audio,
     Binary,
+    MiscConfigFile,
+    Compressed,
+    SystemVerilog,
 }
 
 impl FileTypeCategory {
@@ -51,16 +54,16 @@ impl FileTypeCategory {
             "rs" => FileTypeCategory::Rust,
             "py" => FileTypeCategory::Python,
             "js" => FileTypeCategory::JavaScript,
-            "html" => FileTypeCategory::Html,
+            "html" | "htm" => FileTypeCategory::Html,
             "css" => FileTypeCategory::Css,
             "java" => FileTypeCategory::Java,
-            "cpp" | "h" => FileTypeCategory::Cpp,
+            "cpp" | "hpp" | "hh" | "cc" | "c++" | "h++" => FileTypeCategory::Cpp,
             "jpg" | "jpeg" | "png" | "gif" | "bmp" | "tiff" | "ico" | "webp" => {
                 FileTypeCategory::Image
             }
             "svg" => FileTypeCategory::Svg,
             "mp4" | "avi" | "mov" | "mkv" | "webm" => FileTypeCategory::Video,
-            "bz2" | "zip" | "tar" | "gz" | "rar" | "7z" | "raucb" => FileTypeCategory::Archive,
+            "zip" | "tar" | "rar" | "7z" | "raucb" => FileTypeCategory::Archive,
             "pdf" => FileTypeCategory::Pdf,
             "sh" | "bash" | "zsh" | "fish" | "just" => FileTypeCategory::ShellScript,
             "iso" | "img" | "dmg" | "vhd" => FileTypeCategory::DiskImage,
@@ -70,6 +73,9 @@ impl FileTypeCategory {
             "txt" => FileTypeCategory::Text,
             "lock" => FileTypeCategory::LockFile,
             "mp3" | "wav" | "flac" | "aac" | "ogg" => FileTypeCategory::Audio,
+            "ini" => FileTypeCategory::MiscConfigFile,
+            "bz2" | "xz" | "gz" | "lz4" => FileTypeCategory::Compressed,
+            "sv" => FileTypeCategory::SystemVerilog,
             _ => FileTypeCategory::Unknown,
         }
     }
@@ -79,7 +85,7 @@ impl FileTypeCategory {
             FileTypeCategory::Yaml => YAML_SVG,
             FileTypeCategory::Xml => XML_SVG,
             FileTypeCategory::Json => "{ }",
-            FileTypeCategory::Toml => "⚙️",
+            FileTypeCategory::Toml | FileTypeCategory::MiscConfigFile => "⚙️",
             FileTypeCategory::Markdown => MARKDOWN_SVG,
             FileTypeCategory::Csv => "📊",
             FileTypeCategory::Rust => RUST_SVG,
@@ -107,6 +113,8 @@ impl FileTypeCategory {
             FileTypeCategory::Svg => SVG_SVG,
             FileTypeCategory::Audio => "♫",
             FileTypeCategory::Binary => BINARY_FILE_SVG,
+            FileTypeCategory::Compressed => COMPRESSED_FILE_SVG,
+            FileTypeCategory::SystemVerilog => SYSTEMVERILOG_SVG,
         }
     }
 
@@ -143,6 +151,9 @@ impl FileTypeCategory {
             FileTypeCategory::Svg => "Svg",
             FileTypeCategory::Audio => "Audio",
             FileTypeCategory::Binary => "Binary",
+            FileTypeCategory::MiscConfigFile => "Misc. Config File",
+            FileTypeCategory::Compressed => "Compressed",
+            FileTypeCategory::SystemVerilog => "SystemVerilog",
         }
     }
 }
