@@ -39,6 +39,7 @@ pub enum FileTypeCategory {
     MiscConfigFile,
     Compressed,
     SystemVerilog,
+    Exe,
 }
 
 impl FileTypeCategory {
@@ -76,6 +77,7 @@ impl FileTypeCategory {
             "ini" => FileTypeCategory::MiscConfigFile,
             "bz2" | "xz" | "gz" | "lz4" => FileTypeCategory::Compressed,
             "sv" => FileTypeCategory::SystemVerilog,
+            "exe" => FileTypeCategory::Exe,
             _ => FileTypeCategory::Unknown,
         }
     }
@@ -115,6 +117,7 @@ impl FileTypeCategory {
             FileTypeCategory::Binary => BINARY_FILE_SVG,
             FileTypeCategory::Compressed => COMPRESSED_FILE_SVG,
             FileTypeCategory::SystemVerilog => SYSTEMVERILOG_SVG,
+            FileTypeCategory::Exe => EXE_SVG,
         }
     }
 
@@ -154,6 +157,7 @@ impl FileTypeCategory {
             FileTypeCategory::MiscConfigFile => "Misc. Config File",
             FileTypeCategory::Compressed => "Compressed",
             FileTypeCategory::SystemVerilog => "SystemVerilog",
+            FileTypeCategory::Exe => "Executable",
         }
     }
 }
