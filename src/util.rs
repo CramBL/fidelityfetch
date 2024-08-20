@@ -1,7 +1,7 @@
-use std::time::SystemTime;
-
 use axum::http::{header, StatusCode};
 use chrono::TimeZone;
+use std::time::SystemTime;
+use std::{fs, io, path};
 
 #[must_use]
 pub fn format_data_size(size_bytes: u64) -> String {
@@ -43,7 +43,6 @@ pub fn format_system_time(time: SystemTime) -> String {
     }
 }
 
-#[must_use]
 pub fn parse_range_header(
     range_header: &header::HeaderValue,
     file_size: u64,
@@ -64,8 +63,7 @@ pub fn parse_range_header(
     Ok((start, end))
 }
 
-#[must_use]
-pub fn is_directory_empty(path: &std::path::Path) -> std::io::Result<bool> {
-    let entries = std::fs::read_dir(path)?;
+pub fn is_directory_empty(path: &path::Path) -> io::Result<bool> {
+    let entries = fs::read_dir(path)?;
     Ok(entries.filter_map(Result::ok).next().is_none())
 }
