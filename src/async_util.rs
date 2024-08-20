@@ -89,7 +89,8 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     } else if file_type.is_symlink() {
         FileTypeCategory::SymbolicLink
     } else {
-        FileTypeCategory::from_extension(ext)
+        let ext_lower = ext.to_lowercase();
+        FileTypeCategory::from_extension_lower(&ext_lower)
     };
     tracing::debug!(
         "'{file_name}' file categori is: {}",

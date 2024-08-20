@@ -38,7 +38,7 @@ pub enum FileTypeCategory {
 }
 
 impl FileTypeCategory {
-    pub fn from_extension(ext: &str) -> Self {
+    pub fn from_extension_lower(ext: &str) -> Self {
         match ext {
             "json" => FileTypeCategory::Json,
             "toml" => FileTypeCategory::Toml,
