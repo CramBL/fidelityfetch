@@ -35,11 +35,13 @@ pub enum FileTypeCategory {
     LockFile,
     Svg,
     Audio,
+    Binary,
 }
 
 impl FileTypeCategory {
     pub fn from_extension_lower(ext: &str) -> Self {
         match ext {
+            "bin" => FileTypeCategory::Binary,
             "json" => FileTypeCategory::Json,
             "toml" => FileTypeCategory::Toml,
             "yaml" | "yml" => FileTypeCategory::Yaml,
@@ -104,6 +106,7 @@ impl FileTypeCategory {
             FileTypeCategory::LockFile => LOCK_FILE_SVG,
             FileTypeCategory::Svg => SVG_SVG,
             FileTypeCategory::Audio => "♫",
+            FileTypeCategory::Binary => BINARY_FILE_SVG,
         }
     }
 
@@ -139,6 +142,7 @@ impl FileTypeCategory {
             FileTypeCategory::LockFile => "Lock-file",
             FileTypeCategory::Svg => "Svg",
             FileTypeCategory::Audio => "Audio",
+            FileTypeCategory::Binary => "Binary",
         }
     }
 }
