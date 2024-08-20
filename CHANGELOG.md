@@ -2,13 +2,12 @@
 
 ## Unreleased
 
+## [0.3.0]
 
 ### Added
 
 - Recognize and add icons to many more filetypes
 - Better error messages
-
-## [0.3.0]
 
 ## [0.2.0]
 
