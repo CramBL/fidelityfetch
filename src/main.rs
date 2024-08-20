@@ -11,7 +11,7 @@
 use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
-use std::{net::SocketAddr, path::PathBuf, sync::Arc};
+use std::{io, net::SocketAddr, path::PathBuf, sync::Arc};
 use tokio::sync::RwLock;
 
 pub mod async_util;
@@ -34,12 +34,12 @@ impl AppState {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> io::Result<()> {
     let cfg = Config::parse();
     if let Some(shell) = cfg.completions {
         config::Config::generate_completion_script(shell);
         tracing::info!("Completions generated for {shell:?}. Exiting...");
-        return;
+        return Ok(());
     }
     cfg.setup_logging();
 
@@ -53,9 +53,21 @@ async fn main() {
         .with_state(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
-    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    let listener = match tokio::net::TcpListener::bind(&addr).await {
+        Ok(l) => l,
+        Err(e) => {
+            match e.kind() {
+                io::ErrorKind::AddrInUse => eprintln!(
+                    "Err: {e}\n\
+                    HINT: Choose another port or use '0' to use any available port"
+                ),
+                _ => eprintln!("{e}"),
+            }
+            return Ok(());
+        }
+    };
 
-    let local_port = listener.local_addr().unwrap().port();
+    let local_port = listener.local_addr()?.port();
 
     if let Some(mdns_hostname) = cfg.mdns() {
         mdns::register_mdns(
@@ -70,4 +82,6 @@ async fn main() {
     axum::serve(listener, app.into_make_service())
         .await
         .expect("Failed to start server");
+
+    Ok(())
 }
