@@ -91,13 +91,13 @@ gcc-aarch64-linux-gnu = { version = '11.2.0-1ubuntu1', targets = [
 ], stage = [
     "build",
 ] }
-libc6-dev-i386 = { version = '2.35-0ubuntu3.8', targets = [
+libc6-dev-i386 = { version = '*', targets = [
     "aarch64-unknown-linux-musl",
 ], stage = [
     "build",
 ] }
 # armv7-unknown-linux-musleabihf && arm-unknown-linux-musleabihf
-gcc-arm-linux-gnueabihf = { version = '11.2.0-1ubuntu1', targets = [
+gcc-arm-linux-gnueabihf = { version = '*', targets = [
     "armv7-unknown-linux-musleabihf",
     "arm-unknown-linux-musleabihf",
 ], stage = [
