@@ -86,7 +86,7 @@ install-updater = false
 
 [workspace.metadata.dist.dependencies.apt]
 # aarch64-unknown-linux-musl
-gcc-aarch64-linux-gnu = { version = '*', targets = [
+gcc-aarch64-linux-gnu = { version = '4:11.2.0-*', targets = [
     "aarch64-unknown-linux-musl",
 ], stage = [
     "build",
