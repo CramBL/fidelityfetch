@@ -12,6 +12,12 @@ keywords = ["file-transfer", "command-line"]
 
 exclude = [".github", "scripts"]
 
+[package.metadata.wix]
+upgrade-guid = "EB76ABBF-BC76-43E4-A40B-4B076E6BF56C"
+path-guid = "2DDDCA1B-E47B-4A39-9B8B-93D176E9CEFC"
+license = false
+eula = false
+
 [[bin]]
 name = "fife"
 path = "src/main.rs"
@@ -42,3 +48,38 @@ testresult = "0.4.0"
 lto = true
 codegen-units = 1
 panic = "abort"
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+pr-run-mode = "upload"
+
+inherits = "release"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.22.0"
+# CI backends to support
+ci = "github"
+targets = [
+    "aarch64-apple-darwin",
+    "x86_64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "aarch64-pc-windows-msvc",
+    "x86_64-unknown-linux-gnu",
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "arm-unknown-linux-musleabihf",
+    "armv7-unknown-linux-musleabihf",
+]
+
+installers = ["shell", "powershell", "npm", "msi"]
+# The installers to generate for each app
+# The archive format to use for windows builds (defaults .zip)
+windows-archive = ".tar.gz"
+# The archive format to use for non-windows builds (defaults .tar.xz)
+unix-archive = ".tar.gz"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
+# Whether to install an updater program
+install-updater = false
