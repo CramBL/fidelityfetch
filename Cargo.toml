@@ -62,7 +62,17 @@ cargo-dist-version = "0.22.0"
 # CI backends to support
 ci = "github"
 # Target platforms to build apps for (Rust target-triple syntax)
-targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-musl", "aarch64-pc-windows-msvc", "arm-unknown-linux-musleabihf", "armv7-unknown-linux-musleabihf", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu", "x86_64-unknown-linux-musl", "x86_64-pc-windows-msvc"]
+targets = [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-musl",
+    "aarch64-pc-windows-msvc",
+    "arm-unknown-linux-musleabihf",
+    "armv7-unknown-linux-musleabihf",
+    "x86_64-apple-darwin",
+    "x86_64-unknown-linux-gnu",
+    "x86_64-unknown-linux-musl",
+    "x86_64-pc-windows-msvc",
+]
 # The installers to generate for each app
 installers = ["shell", "powershell", "npm", "msi"]
 # The archive format to use for windows builds (defaults .zip)
@@ -73,3 +83,23 @@ unix-archive = ".tar.gz"
 install-path = "CARGO_HOME"
 # Whether to install an updater program
 install-updater = false
+
+[dist.dependencies.apt]
+# aarch64-unknown-linux-musl
+gcc-aarch64-linux-gnu = { version = '11.2.0-1ubuntu1', targets = [
+    "aarch64-unknown-linux-musl",
+], stage = [
+    "build",
+] }
+libc6-dev-i386 = { version = '2.35-0ubuntu3.8', targets = [
+    "aarch64-unknown-linux-musl",
+], stage = [
+    "build",
+] }
+# armv7-unknown-linux-musleabihf && arm-unknown-linux-musleabihf
+gcc-arm-linux-gnueabihf = { version = '11.2.0-1ubuntu1', targets = [
+    "armv7-unknown-linux-musleabihf",
+    "arm-unknown-linux-musleabihf",
+], stage = [
+    "build",
+] }
