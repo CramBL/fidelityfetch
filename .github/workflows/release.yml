@@ -118,8 +118,10 @@ jobs:
         with:
           submodules: recursive
       - name: "Install AArch64 Toolchain"
+        if: "matrix.os == 'ubuntu-2204'"
         run: "sudo apt-get update && sudo apt-get install gcc-aarch64-linux-gnu libc6-dev-i386"
       - name: "Install ARM Toolchain"
+        if: "matrix.os == 'ubuntu-2204'"
         run: "sudo apt-get update && sudo apt-get install gcc-arm-linux-gnueabihf"
       - uses: swatinem/rust-cache@v2
         with:

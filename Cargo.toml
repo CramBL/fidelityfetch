@@ -84,3 +84,9 @@ install-path = "CARGO_HOME"
 # Whether to install an updater program
 install-updater = false
 github-build-setup = "build-setup.yml"
+
+[workspace.metadata.dist.github-custom-runners]
+aarch64-unknown-linux-gnu = "ubuntu-2204"
+aarch64-unknown-linux-musl = "ubuntu-2204"
+arm-unknown-linux-musleabihf = "ubuntu-2204"
+armv7-unknown-linux-musleabihf = "ubuntu-2204"
