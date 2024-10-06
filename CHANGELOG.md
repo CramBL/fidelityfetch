@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Update dependencies to get some critical fixes to some async dependencies.
+
 ## [0.3.0]
 
 ### Added
