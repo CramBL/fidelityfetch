@@ -58,7 +58,7 @@ inherits = "release"
 # Which actions to run on pull requests
 pr-run-mode = "upload"
 # The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
-cargo-dist-version = "0.22.0"
+cargo-dist-version = "0.22.1"
 # CI backends to support
 ci = "github"
 # Target platforms to build apps for (Rust target-triple syntax)
