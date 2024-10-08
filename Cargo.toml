@@ -3,7 +3,7 @@ name = "fidelityfetch"
 description = "Seamlessly setup a webserver to serve files recursively from a specified path"
 license = "MIT"
 authors = ["Marc Beck König <mbkj@tutamail.com>"]
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 readme = "README.md"
 homepage = "https://github.com/CramBL/fidelityfetch"
@@ -11,6 +11,12 @@ repository = "https://github.com/CramBL/fidelityfetch"
 keywords = ["file-transfer", "command-line"]
 
 exclude = [".github", "scripts"]
+
+[package.metadata.wix]
+upgrade-guid = "EB76ABBF-BC76-43E4-A40B-4B076E6BF56C"
+path-guid = "2DDDCA1B-E47B-4A39-9B8B-93D176E9CEFC"
+license = false
+eula = false
 
 [[bin]]
 name = "fife"
@@ -42,3 +48,43 @@ testresult = "0.4.0"
 lto = true
 codegen-units = 1
 panic = "abort"
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.22.1"
+# CI backends to support
+ci = "github"
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-musl",
+    "aarch64-pc-windows-msvc",
+    "arm-unknown-linux-musleabihf",
+    "armv7-unknown-linux-musleabihf",
+    "x86_64-apple-darwin",
+    "x86_64-unknown-linux-gnu",
+    "x86_64-unknown-linux-musl",
+    "x86_64-pc-windows-msvc",
+]
+# The installers to generate for each app
+installers = ["shell", "powershell", "npm", "msi"]
+# The archive format to use for windows builds (defaults .zip)
+windows-archive = ".tar.gz"
+# The archive format to use for non-windows builds (defaults .tar.xz)
+unix-archive = ".tar.gz"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
+# Whether to install an updater program
+install-updater = false
+github-build-setup = "build-setup.yml"
+
+[workspace.metadata.dist.github-custom-runners]
+aarch64-unknown-linux-gnu = "ubuntu-22.04"
+aarch64-unknown-linux-musl = "ubuntu-22.04"
+arm-unknown-linux-musleabihf = "ubuntu-22.04"
+armv7-unknown-linux-musleabihf = "ubuntu-22.04"
