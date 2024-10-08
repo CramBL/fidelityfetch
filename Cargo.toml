@@ -3,7 +3,7 @@ name = "fidelityfetch"
 description = "Seamlessly setup a webserver to serve files recursively from a specified path"
 license = "MIT"
 authors = ["Marc Beck König <mbkj@tutamail.com>"]
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 readme = "README.md"
 homepage = "https://github.com/CramBL/fidelityfetch"
@@ -56,7 +56,7 @@ inherits = "release"
 # Config for 'cargo dist'
 [workspace.metadata.dist]
 # Which actions to run on pull requests
-pr-run-mode = "upload"
+#pr-run-mode = "upload"
 # The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
 cargo-dist-version = "0.22.1"
 # CI backends to support
