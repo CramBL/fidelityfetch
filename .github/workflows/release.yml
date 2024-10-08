@@ -123,10 +123,6 @@ jobs:
       - name: "Install ARM Toolchain"
         if: "${{ matrix.runner == 'ubuntu-22.04' }}"
         run: "sudo apt-get update && sudo apt-get install gcc-arm-linux-gnueabihf"
-      - uses: swatinem/rust-cache@v2
-        with:
-          key: ${{ join(matrix.targets, '-') }}
-          cache-provider: ${{ matrix.cache_provider }}
       - name: Install cargo-dist
         run: ${{ matrix.install_dist }}
       # Get the dist-manifest
