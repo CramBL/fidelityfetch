@@ -18,8 +18,8 @@
 
 Serve files efficiently on a local network.
 
-- Browse/open/download the files through a web browser 
-- Easily configurable server 
+- Browse/open/download the files through a web browser
+- Easily configurable server
 - Support for range requests
 - Single self-contained binary
 - mDNS/DNS-SD capabilities
@@ -41,7 +41,7 @@ curl http://<hostname>.local:<port>/some/path/to/file.txt # Get file.txt
 curl -r 99-499 http://<hostname>.local:<port>/foo.bin # Starting from byte 99, get the next 400 bytes of foo.bin
 ```
 
-If no port is specified, any available port is used (`fife` requests a free port from the OS). 
+If no port is specified, any available port is used (`fife` requests a free port from the OS).
 
 ## Demo
 
@@ -53,11 +53,7 @@ If no port is specified, any available port is used (`fife` requests a free port
 
 ### Prebuilt binaries
 
-```shell
-curl -L -H "Accept: application/vnd.github.v3.raw" \
-    https://api.github.com/repos/CramBL/fidelityfetch/contents/install.sh \
-    | sh -s -- --to <DEST>
-```
+Check out the [the release page](https://github.com/CramBL/fidelityfetch/releases/latest).
 
 ### From source
 
