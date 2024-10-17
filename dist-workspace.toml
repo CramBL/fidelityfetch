@@ -20,6 +20,7 @@ install-path = "CARGO_HOME"
 # Whether to install an updater program
 install-updater = false
 github-build-setup = "../build-setup.yml"
+# Publish jobs to run in CI
 publish-jobs = ["npm"]
 
 [dist.github-custom-runners]
