@@ -108,3 +108,13 @@ jobs:
         run: |
           git tag -a "v${{ env.VERSION }}" -m "Release ${{ env.VERSION }}"
           git push origin "v${{ env.VERSION }}"
+
+  release-crates-io:
+    needs: tag-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Publish
+        run: cargo publish --token ${{ secrets.CARGO_PUBLISH_TOKEN }}
