@@ -60,3 +60,5 @@ Check out the [the release page](https://github.com/CramBL/fidelityfetch/release
 ```shell
 cargo install fidelityfetch
 ```
+
+### TODO: Yocto recipe
