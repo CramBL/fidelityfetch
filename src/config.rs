@@ -22,7 +22,7 @@ pub struct Config {
     #[arg(short, long, default_value_t = 0)]
     port: u16,
 
-    /// Verbosity of logging output (trace, debug, info, warn, error) 
+    /// Verbosity of logging output (trace, debug, info, warn, error)
     #[arg(short, long, default_value = "info")]
     verbosity: LogLevel,
 
