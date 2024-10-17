@@ -128,5 +128,4 @@ mod tests {
         let result = parse_range_header(&range_header, file_size);
         assert_eq!(result, Ok((512, file_size - 1)));
     }
-        
 }
