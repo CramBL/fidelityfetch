@@ -23,25 +23,25 @@ name = "fife"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.13", features = ["derive", "env"] }
-clap_complete = "4.5.6"
-axum = "0.7.5"
+clap = { version = "4.5", features = ["derive", "env"] }
+clap_complete = "4.5"
+axum = "0.7"
 mime_guess = "2.0.5"
-tokio = { version = "1.39", features = ["full"] }
-tracing = "0.1.40"
-tracing-subscriber = "0.3.18"
-local-ip-address = "0.6.1"
-mdns-sd = "0.11.1"
-chrono = "0.4.38"
-tokio-util = { version = "0.7.11", features = ["io"] }
-tokio-stream = { version = "0.1.15", features = ["fs"] }
-futures-util = "0.3.30"
-percent-encoding = "2.3.1"
+tokio = { version = "1.40", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+local-ip-address = "0.6"
+mdns-sd = "0.11"
+chrono = "0.4"
+tokio-util = { version = "0.7.12", features = ["io"] }
+tokio-stream = { version = "0.1.16", features = ["fs"] }
+futures-util = "0.3"
+percent-encoding = "2.3"
 
 [dev-dependencies]
-pretty_assertions = "1.4.0"
-temp-dir = "0.1.11"
-testresult = "0.4.0"
+pretty_assertions = "1.4"
+temp-dir = "0.1"
+testresult = "0.4"
 
 
 [profile.release]
@@ -52,39 +52,3 @@ panic = "abort"
 # The profile that 'cargo dist' will build with
 [profile.dist]
 inherits = "release"
-
-# Config for 'cargo dist'
-[workspace.metadata.dist]
-# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
-cargo-dist-version = "0.22.1"
-# CI backends to support
-ci = "github"
-# Target platforms to build apps for (Rust target-triple syntax)
-targets = [
-    "aarch64-apple-darwin",
-    "aarch64-unknown-linux-musl",
-    "aarch64-pc-windows-msvc",
-    "arm-unknown-linux-musleabihf",
-    "armv7-unknown-linux-musleabihf",
-    "x86_64-apple-darwin",
-    "x86_64-unknown-linux-gnu",
-    "x86_64-unknown-linux-musl",
-    "x86_64-pc-windows-msvc",
-]
-# The installers to generate for each app
-installers = ["shell", "powershell", "npm", "msi"]
-# The archive format to use for windows builds (defaults .zip)
-windows-archive = ".tar.gz"
-# The archive format to use for non-windows builds (defaults .tar.xz)
-unix-archive = ".tar.gz"
-# Path that installers should place binaries in
-install-path = "CARGO_HOME"
-# Whether to install an updater program
-install-updater = false
-github-build-setup = "build-setup.yml"
-
-[workspace.metadata.dist.github-custom-runners]
-aarch64-unknown-linux-gnu = "ubuntu-22.04"
-aarch64-unknown-linux-musl = "ubuntu-22.04"
-arm-unknown-linux-musleabihf = "ubuntu-22.04"
-armv7-unknown-linux-musleabihf = "ubuntu-22.04"

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [0.3.1]
+
 ### Changed
 
 - Update dependencies to get some critical fixes to some async dependencies.

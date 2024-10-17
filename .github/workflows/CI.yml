@@ -1,0 +1,110 @@
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ "master" ]
+  
+name: CI
+
+env:
+  RUSTFLAGS: -D warnings
+  RUSTDOCFLAGS: -D warnings
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+        matrix:
+            target: ["aarch64-apple-darwin", 
+                     "aarch64-unknown-linux-musl", 
+                     "aarch64-pc-windows-msvc", 
+                     "arm-unknown-linux-musleabihf", 
+                     "armv7-unknown-linux-musleabihf", 
+                     "x86_64-apple-darwin", 
+                     "x86_64-unknown-linux-gnu", 
+                     "x86_64-unknown-linux-musl", 
+                     "x86_64-pc-windows-msvc"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo check --target ${{ matrix.target }}
+
+  typos:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check spelling of entire workspace
+        uses: crate-ci/typos@master
+  
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo audit
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: Swatinem/rust-cache@v2
+    - run: cargo test --workspace
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --workspace -- -D warnings -W clippy::all
+
+
+  tag-release:
+    needs: [check, audit, test, format, lint]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+            token: ${{ secrets.PAT_WITH_REPO_SCOPE }}
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION=$(grep '^version = ' Cargo.toml | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          fi
+      - name: Create and push tag
+        if: env.TAG_EXISTS == 'false'
+        run: |
+          git tag -a "v${{ env.VERSION }}" -m "Release ${{ env.VERSION }}"
+          git push origin "v${{ env.VERSION }}"

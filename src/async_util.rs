@@ -13,6 +13,7 @@ use futures_util::stream::StreamExt;
 use percent_encoding::percent_decode_str;
 use tokio_stream::wrappers::ReadDirStream;
 
+/// Get file info for a directory entry
 async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, String, String)> {
     let metadata = entry.metadata().await?;
     let file_type = entry.file_type().await?;
@@ -33,12 +34,14 @@ async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, 
     Ok((file_size, modified_date, format_data_size(metadata.len())))
 }
 
+/// Count the number of directory entries
 async fn count_directory_entries(path: impl AsRef<Path>) -> io::Result<usize> {
     let read_dir = tokio::fs::read_dir(path).await?;
     let stream = ReadDirStream::new(read_dir);
     Ok(stream.count().await)
 }
 
+/// Extract file details from a directory entry
 pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDirEntry, ()> {
     let file_name = match entry.file_name().into_string() {
         Ok(name) => name,
@@ -76,7 +79,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     } else if file_name == "Justfile" || file_name == "justfile" {
         FileTypeCategory::ShellScript
     } else if file_type.is_dir() {
-        tracing::debug!("Determing type of directory: {file_name}");
+        tracing::debug!("Determining type of directory: {file_name}");
 
         match util::is_directory_empty(&path) {
             Ok(true) => FileTypeCategory::DirectoryEmpty,

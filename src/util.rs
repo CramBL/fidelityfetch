@@ -43,6 +43,21 @@ pub fn format_system_time(time: SystemTime) -> String {
     }
 }
 
+/// Parse a range header and return the start and end bytes
+///
+/// This function takes a range header value and a file size, and returns a tuple
+/// containing the start and end byte positions for the range request.
+///
+/// # Arguments
+///
+/// * `range_header` - A reference to a `HeaderValue` representing the range header.
+/// * `file_size` - The size of the file in bytes.
+///
+/// # Returns
+///
+/// * `Ok((start, end))` - A tuple containing the start and end byte positions for the range request.
+/// * `Err(StatusCode::BAD_REQUEST)` - If the range header is not valid.
+/// * `Err(StatusCode::RANGE_NOT_SATISFIABLE)` - If the range is not satisfiable.
 pub fn parse_range_header(
     range_header: &header::HeaderValue,
     file_size: u64,
@@ -66,4 +81,51 @@ pub fn parse_range_header(
 pub fn is_directory_empty(path: &path::Path) -> io::Result<bool> {
     let entries = fs::read_dir(path)?;
     Ok(entries.filter_map(Result::ok).next().is_none())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use axum::http::header::HeaderValue;
+
+    #[test]
+    fn test_parse_range_header() {
+        let range_header = HeaderValue::from_static("bytes=0-100");
+        let file_size = 1024;
+        let result = parse_range_header(&range_header, file_size);
+        assert_eq!(result, Ok((0, 100)));
+    }
+
+    #[test]
+    fn test_parse_range_header_is_invalid() {
+        let range_header = HeaderValue::from_static("bytes=");
+        let file_size = 1024;
+        let result = parse_range_header(&range_header, file_size);
+        assert_eq!(result, Err(StatusCode::BAD_REQUEST));
+    }
+
+    #[test]
+    fn test_parse_range_header_is_not_satisfiable() {
+        let range_header = HeaderValue::from_static("bytes=1024-2048");
+        let file_size = 1024;
+        let result = parse_range_header(&range_header, file_size);
+        assert_eq!(result, Err(StatusCode::RANGE_NOT_SATISFIABLE));
+    }
+
+    #[test]
+    fn test_parse_range_header_open_ended_from_start() {
+        let range_header = HeaderValue::from_static("bytes=0-");
+        let file_size = 1024;
+        let result = parse_range_header(&range_header, file_size);
+        assert_eq!(result, Ok((0, file_size - 1)));
+    }
+
+    #[test]
+    fn test_parse_range_header_open_ended_from_middle() {
+        let range_header = HeaderValue::from_static("bytes=512-");
+        let file_size = 1024;
+        let result = parse_range_header(&range_header, file_size);
+        assert_eq!(result, Ok((512, file_size - 1)));
+    }
 }
