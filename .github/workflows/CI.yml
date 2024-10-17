@@ -90,25 +90,26 @@ jobs:
         with:
             fetch-depth: 0
             token: ${{ secrets.PAT_WITH_REPO_SCOPE }}
-      - name: Get version
-        id: get_version
+
+      - name: Get version from Cargo.toml
         run: |
-          VERSION=$(grep '^version = ' Cargo.toml | cut -d'"' -f2)
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          VERSION=$(grep '^version = ' Cargo.toml | cut -d '"' -f 2)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Check if tag exists
-        id: check_tag
         run: |
           if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
             echo "TAG_EXISTS=true" >> $GITHUB_ENV
           else
             echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
+
       - name: Create and push tag
         if: env.TAG_EXISTS == 'false'
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git tag -a "v${{ env.VERSION }}" -m "Release ${{ env.VERSION }}"
+          git tag -a "v${{ env.VERSION }}" -m "Release v${{ env.VERSION }}"
           git push origin "v${{ env.VERSION }}"
 
   release-crates-io:
