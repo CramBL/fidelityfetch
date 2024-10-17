@@ -14,7 +14,7 @@ pub const BIN_NAME: &str = "qft";
 #[command(name = "Fidelity Fetch", version, styles = cli_styles())]
 #[command(bin_name = BIN_NAME)]
 pub struct Config {
-    /// Directory from which content is served (resursively)
+    /// Directory from which content is served (recursively)
     #[arg(short, long, default_value = ".")]
     root: PathBuf,
 
@@ -22,7 +22,7 @@ pub struct Config {
     #[arg(short, long, default_value_t = 0)]
     port: u16,
 
-    /// Verbosity of logging output
+    /// Verbosity of logging output (trace, debug, info, warn, error) 
     #[arg(short, long, default_value = "info")]
     verbosity: LogLevel,
 
