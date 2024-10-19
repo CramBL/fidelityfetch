@@ -84,10 +84,10 @@ jobs:
             tar xf cross-x86_64-unknown-linux-musl.tar.gz
 
       - name: Build ${{ matrix.target }}
-        run: cross build --verbose --workspace --target ${{ matrix.target }}
+        run: ./cross build --verbose --workspace --target ${{ matrix.target }}
 
       - name: Test ${{ matrix.target }}
-        run: cross test --verbose --workspace --target ${{ matrix.target }}
+        run: ./cross test --verbose --workspace --target ${{ matrix.target }}
 
 
   format:
