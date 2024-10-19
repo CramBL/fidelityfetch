@@ -37,9 +37,11 @@ tokio-util = { version = "0.7.12", features = ["io"] }
 tokio-stream = { version = "0.1.16", features = ["fs"] }
 futures-util = "0.3"
 percent-encoding = "2.3"
+thiserror = "1.0"
 
 [dev-dependencies]
 pretty_assertions = "1.4"
+assert_matches = "1.5"
 temp-dir = "0.1"
 testresult = "0.4"
 
