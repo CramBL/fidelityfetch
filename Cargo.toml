@@ -53,7 +53,7 @@ panic = "abort"
 [profile.dist]
 inherits = "release"
 
-[workspace.lints.rust]
+[lints.rust]
 missing_debug_implementations = "warn"
 missing_copy_implementations = "warn"
 trivial_casts = "warn"
@@ -64,7 +64,7 @@ variant_size_differences = "warn"
 unexpected_cfgs = "warn"
 unsafe_code = "warn"
 
-[workspace.lints.clippy]
+[lints.clippy]
 disallowed_macros = "warn"                  # See clippy.toml
 disallowed_methods = "warn"                 # See clippy.toml
 disallowed_names = "warn"                   # See clippy.toml
