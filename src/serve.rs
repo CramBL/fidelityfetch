@@ -19,7 +19,7 @@ pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl Int
     let base_path = PathBuf::from(&state.read().await.root_dir);
     let path = match crate::async_util::get_canonicalized_path(&base_path, "").await {
         Ok(path) => path,
-        Err(status) => return (status, "File not found").into_response(),
+        Err(e) => return e.into_response(),
     };
     dir::serve_directory(&path).await.into_response()
 }
@@ -42,7 +42,7 @@ pub async fn serve_path(
     let base_path = PathBuf::from(&state.read().await.root_dir);
     let path = match async_util::get_canonicalized_path(&base_path, requested_path).await {
         Ok(path) => path,
-        Err(status) => return (status, "File not found").into_response(),
+        Err(e) => return e.into_response(),
     };
 
     tracing::trace!("Requested absolute path: {}", path.display());

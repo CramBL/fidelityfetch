@@ -1,6 +1,7 @@
 use std::{
     io,
     path::{Path, PathBuf},
+    str,
 };
 
 use crate::{
@@ -8,13 +9,43 @@ use crate::{
     icon::FileTypeCategory,
     util::{self, format_data_size, format_system_time},
 };
-use axum::http::StatusCode;
+use axum::{
+    body::Body,
+    http::{Response, StatusCode},
+    response::IntoResponse,
+};
 use futures_util::stream::StreamExt;
 use percent_encoding::percent_decode_str;
 use tokio_stream::wrappers::ReadDirStream;
 
+#[derive(thiserror::Error, Debug)]
+pub enum PathError {
+    #[error("Failed to decode path: {0}")]
+    DecodingError(#[from] str::Utf8Error),
+
+    #[error("Failed to canonicalize path: {0}")]
+    CanonicalizationError(#[from] io::Error),
+
+    #[error("Path not found: {0}")]
+    NotFound(PathBuf),
+}
+
+impl IntoResponse for PathError {
+    fn into_response(self) -> Response<Body> {
+        let (status, error_message) = match self {
+            PathError::DecodingError(_) => (StatusCode::BAD_REQUEST, self.to_string()),
+            PathError::CanonicalizationError(_) => {
+                (StatusCode::INTERNAL_SERVER_ERROR, self.to_string())
+            }
+            PathError::NotFound(_) => (StatusCode::NOT_FOUND, self.to_string()),
+        };
+
+        (status, error_message).into_response()
+    }
+}
+
 /// Get file info for a directory entry
-async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, String, String)> {
+async fn get_file_info(entry: &tokio::fs::DirEntry) -> io::Result<(String, String, String)> {
     let metadata = entry.metadata().await?;
     let file_type = entry.file_type().await?;
 
@@ -24,9 +55,9 @@ async fn get_file_info(entry: &tokio::fs::DirEntry) -> std::io::Result<(String, 
         let count = count_directory_entries(entry.path()).await?;
         format!("{} item{}", count, if count == 1 { "" } else { "s" })
     } else if file_type.is_symlink() {
-        "Symbolic Link".to_string()
+        "Symbolic Link".to_owned()
     } else {
-        "".to_string()
+        String::new()
     };
 
     let modified_date = format_system_time(metadata.modified()?);
@@ -64,9 +95,9 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         Err(e) => {
             tracing::error!("Error getting file info: {}", e);
             (
-                "Unknown size".to_string(),
-                "Unknown date".to_string(),
-                "".to_string(),
+                "Unknown size".to_owned(),
+                "Unknown date".to_owned(),
+                String::new(),
             )
         }
     };
@@ -112,26 +143,24 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
 pub async fn get_canonicalized_path(
     base_path: &Path,
     requested_path: &str,
-) -> Result<PathBuf, StatusCode> {
+) -> Result<PathBuf, PathError> {
     let mut path = base_path.to_owned();
     if !requested_path.is_empty() && requested_path != "/" {
-        let decoded_path = percent_decode_str(requested_path)
-            .decode_utf8()
-            .map_err(|_| StatusCode::BAD_REQUEST)?;
+        let decoded_path = percent_decode_str(requested_path).decode_utf8()?;
         path.push(decoded_path.trim_start_matches('/'));
     }
-    tokio::fs::canonicalize(&path).await.map_err(|e| {
-        tracing::error!("Error canonicalizing path: {}", e);
-        StatusCode::NOT_FOUND
-    })
+
+    match tokio::fs::canonicalize(&path).await {
+        Ok(canonicalized) => Ok(canonicalized),
+        Err(e) if e.kind() == io::ErrorKind::NotFound => Err(PathError::NotFound(path)),
+        Err(e) => Err(PathError::CanonicalizationError(e)),
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use temp_dir::TempDir;
-    use testresult::TestResult;
-    use tokio::fs::File;
+    use crate::test_prelude::*;
 
     #[tokio::test]
     async fn test_get_canonicalized_path() -> TestResult {
@@ -143,7 +172,7 @@ mod tests {
         tokio::fs::create_dir_all(base_path.join("æøå")).await?;
         tokio::fs::create_dir_all(base_path.join("한글")).await?;
         tokio::fs::create_dir_all(base_path.join("日本語")).await?;
-        File::create(base_path.join("file with spaces.txt")).await?;
+        let _ = File::create(base_path.join("file with spaces.txt")).await?;
 
         // Test cases
         let test_cases = vec![
@@ -172,10 +201,49 @@ mod tests {
     async fn test_invalid_path() -> TestResult {
         let temp_dir = TempDir::new()?;
         let base_path = temp_dir.path();
+        let non_existent_file_name = "non existent file name";
 
-        let result = get_canonicalized_path(base_path, "non_existent_file").await;
+        let result = get_canonicalized_path(base_path, &non_existent_file_name).await;
         assert!(result.is_err());
-        assert_eq!(result.unwrap_err(), StatusCode::NOT_FOUND);
+        let error = result.unwrap_err();
+        assert_matches!(error, PathError::NotFound(_));
+        let expected_path = base_path.join(non_existent_file_name);
+        expect_eq!(
+            error.to_string(),
+            format!("Path not found: {}", expected_path.display())
+        );
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_invalid_encoding() -> TestResult {
+        let temp_dir = TempDir::new()?;
+        let base_path = temp_dir.path();
+
+        // Test cases with invalid percent-encoding
+        let invalid_encodings = vec![
+            "%C3%28",    // Invalid UTF-8 sequence
+            "%E0%A4%B",  // Incomplete multi-byte sequence
+            "%80",       // Invalid UTF-8 (continuation byte)
+            "%ED%A0%80", // Invalid UTF-8 (surrogate pair)
+        ];
+
+        for invalid_encoding in invalid_encodings {
+            let result = get_canonicalized_path(base_path, invalid_encoding).await;
+            assert!(
+                result.is_err(),
+                "Expected error for input: {}",
+                invalid_encoding
+            );
+            let error = result.unwrap_err();
+            assert_matches!(
+                error,
+                PathError::DecodingError(_),
+                "Expected DecodingError for input: {}",
+                invalid_encoding
+            );
+        }
+
         Ok(())
     }
 }

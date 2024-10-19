@@ -1,13 +1,3 @@
-// Performance lints
-#![warn(variant_size_differences)]
-#![warn(
-    clippy::needless_pass_by_value,
-    clippy::unnecessary_wraps,
-    clippy::mutex_integer,
-    clippy::mem_forget,
-    clippy::maybe_infinite_iter
-)]
-
 use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
@@ -20,6 +10,8 @@ pub mod dir_entry;
 pub mod icon;
 mod mdns;
 pub mod serve;
+#[cfg(test)]
+pub(crate) mod test_prelude;
 pub mod util;
 
 #[derive(Debug, Clone)]

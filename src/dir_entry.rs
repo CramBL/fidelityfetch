@@ -2,6 +2,7 @@ use crate::icon::FileTypeCategory;
 use std::fs::FileType;
 
 /// A directory entry with metadata
+#[derive(Debug)]
 pub struct FifeDirEntry {
     pub name: String,
     pub ftype: FileType,
