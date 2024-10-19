@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Allow logging to journald explicitly
+- Allow setting logging destination to either `journald` (unix only), `stderr`, or `stdout`.
+
 ## [0.3.3]
 
 ### Changed

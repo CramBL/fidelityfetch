@@ -12,6 +12,7 @@ name: CI
 env:
   RUSTFLAGS: -D warnings
   RUSTDOCFLAGS: -D warnings
+  RUST_BACKTRACE: 1
 
 jobs:
   check:
@@ -36,7 +37,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
-      - run: cargo check --target ${{ matrix.target }}
+      - run: cargo check --target ${{ matrix.target }} --all-targets
 
   typos:
     name: Spellcheck
@@ -52,14 +53,44 @@ jobs:
       - uses: actions/checkout@v4
       - run: cargo audit
 
-  test:
-    name: Test Suite
-    runs-on: ubuntu-latest
+  build-test:
+    name: Test Suite (native)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+          os: [ ubuntu-latest, macos-latest, windows-2022]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
     - uses: Swatinem/rust-cache@v2
+    - run: cargo build
     - run: cargo test --workspace
+
+  cross-build-test:
+    name: Test Suite (Cross)
+    env:
+      CROSS_VERSION: v0.2.5
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["aarch64-unknown-linux-musl",
+                "arm-unknown-linux-musleabihf",
+                "armv7-unknown-linux-musleabihf"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Cargo Cross
+        run: |
+            curl -LO "https://github.com/cross-rs/cross/releases/download/${{ env.CROSS_VERSION }}/cross-x86_64-unknown-linux-musl.tar.gz"
+            tar xf cross-x86_64-unknown-linux-musl.tar.gz
+
+      - name: Build ${{ matrix.target }}
+        run: ./cross build --verbose --workspace --target ${{ matrix.target }}
+
+      - name: Test ${{ matrix.target }}
+        run: ./cross test --verbose --workspace --target ${{ matrix.target }}
+
 
   format:
     runs-on: ubuntu-latest
@@ -83,7 +114,7 @@ jobs:
 
 
   tag-release:
-    needs: [check, audit, test, format, lint]
+    needs: [check, typos, audit, build-test, cross-build-test, format, lint]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     permissions:
