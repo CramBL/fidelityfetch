@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check spelling of entire workspace
-        uses: crate-ci/typos@master
+        uses: crate-ci/typos@v1.26.0
 
   audit:
     runs-on: ubuntu-latest
