@@ -78,6 +78,7 @@ jobs:
                 "arm-unknown-linux-musleabihf",
                 "armv7-unknown-linux-musleabihf"]
     steps:
+      - uses: actions/checkout@v4
       - name: Install Cargo Cross
         run: |
             curl -LO "https://github.com/cross-rs/cross/releases/download/${{ env.CROSS_VERSION }}/cross-x86_64-unknown-linux-musl.tar.gz"
