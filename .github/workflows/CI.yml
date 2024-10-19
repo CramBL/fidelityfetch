@@ -114,7 +114,7 @@ jobs:
 
 
   tag-release:
-    needs: [check, audit, build-test, cross-build-test, format, lint]
+    needs: [check, typos, audit, build-test, cross-build-test, format, lint]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     permissions:
