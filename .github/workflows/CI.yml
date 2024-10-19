@@ -36,7 +36,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@v2
-      - run: cargo check --target ${{ matrix.target }}
+      - run: cargo check --target ${{ matrix.target }} --all-targets
 
   typos:
     name: Spellcheck
