@@ -12,6 +12,7 @@ name: CI
 env:
   RUSTFLAGS: -D warnings
   RUSTDOCFLAGS: -D warnings
+  RUST_BACKTRACE: 1
 
 jobs:
   check:
@@ -54,7 +55,11 @@ jobs:
 
   test:
     name: Test Suite
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+          os: [ ubuntu-latest, macos-latest, windows-2022]
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
