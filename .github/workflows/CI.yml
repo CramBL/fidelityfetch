@@ -3,6 +3,9 @@ on:
   pull_request:
   push:
     branches: [ "master" ]
+  schedule:
+    # Run at 8 AM, on sundays
+    - cron: '0 8 * * 0'
 
 name: CI
 

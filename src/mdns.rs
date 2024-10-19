@@ -6,8 +6,8 @@ const SERVICE_NAME: &str = "fidelityfetch";
 
 pub fn register_mdns(mdns_hostname: &str, port: u16, ip: IpAddr, root_dir: String) {
     let service_props: HashMap<String, String> = HashMap::from([
-        ("root".to_string(), root_dir),
-        ("port".to_string(), port.to_string()),
+        ("root".to_owned(), root_dir),
+        ("port".to_owned(), port.to_string()),
     ]);
 
     let mdns = ServiceDaemon::new().expect("Failed to create mDNS daemon");

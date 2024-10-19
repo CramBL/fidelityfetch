@@ -1,17 +1,12 @@
-// Performance lints
-#![warn(variant_size_differences)]
-#![warn(
-    clippy::needless_pass_by_value,
-    clippy::unnecessary_wraps,
-    clippy::mutex_integer,
-    clippy::mem_forget,
-    clippy::maybe_infinite_iter
-)]
-
 use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
-use std::{io, net::SocketAddr, path::PathBuf, sync::Arc};
+use std::{
+    io,
+    net::{IpAddr, Ipv4Addr, SocketAddr},
+    path::PathBuf,
+    sync::Arc,
+};
 use tokio::sync::RwLock;
 
 pub mod async_util;
@@ -20,6 +15,8 @@ pub mod dir_entry;
 pub mod icon;
 mod mdns;
 pub mod serve;
+#[cfg(test)]
+pub(crate) mod test_prelude;
 pub mod util;
 
 #[derive(Debug, Clone)]
@@ -45,7 +42,8 @@ async fn main() -> io::Result<()> {
 
     let app_state = AppState::new(cfg.root().to_owned());
 
-    let local_ip = local_ip_address::local_ip().unwrap_or_else(|_| "127.0.0.1".parse().unwrap());
+    let local_ip =
+        local_ip_address::local_ip().unwrap_or_else(|_| IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)));
 
     let app = Router::new()
         .route("/", get(serve::handle_root))
@@ -74,8 +72,8 @@ async fn main() -> io::Result<()> {
             mdns_hostname,
             local_port,
             local_ip,
-            cfg.root().to_str().unwrap().to_owned(),
-        )
+            cfg.root().to_str().expect("Invalid root").to_owned(),
+        );
     }
 
     eprintln!("Listening on http://{local_ip}:{local_port}");

@@ -39,7 +39,7 @@ pub fn format_system_time(time: SystemTime) -> String {
                 .unwrap();
             datetime.format("%Y-%m-%d %H:%M:%S").to_string()
         }
-        Err(_) => "Unknown date".to_string(),
+        Err(_) => "Unknown date".to_owned(),
     }
 }
 
@@ -62,7 +62,10 @@ pub fn parse_range_header(
     range_header: &header::HeaderValue,
     file_size: u64,
 ) -> Result<(u64, u64), StatusCode> {
-    let range_str = range_header.to_str().map_err(|_| StatusCode::BAD_REQUEST)?;
+    let range_str = range_header.to_str().map_err(|err| {
+        tracing::warn!("Failed to convert header to string: {err}");
+        StatusCode::BAD_REQUEST
+    })?;
     let range = range_str
         .strip_prefix("bytes=")
         .ok_or(StatusCode::BAD_REQUEST)?;
@@ -79,8 +82,8 @@ pub fn parse_range_header(
 }
 
 pub fn is_directory_empty(path: &path::Path) -> io::Result<bool> {
-    let entries = fs::read_dir(path)?;
-    Ok(entries.filter_map(Result::ok).next().is_none())
+    let mut entries = fs::read_dir(path)?;
+    Ok(entries.find_map(Result::ok).is_none())
 }
 
 #[cfg(test)]

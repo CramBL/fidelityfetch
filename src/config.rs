@@ -27,7 +27,7 @@ pub struct Config {
     verbosity: LogLevel,
 
     /// Optional service to register which can be used as the hostname to access served content.
-    /// e.g. `foo` will be available at http://foo.local:<port>
+    /// e.g. `foo` will be available at `http://foo.local:<port>`
     #[arg(short, long)]
     mdns: Option<String>,
 
@@ -70,7 +70,7 @@ impl Config {
         use clap::CommandFactory;
         clap_complete::generate(
             shell,
-            &mut Config::command(),
+            &mut Self::command(),
             BIN_NAME,
             &mut std::io::stdout(),
         );

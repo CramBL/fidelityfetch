@@ -31,10 +31,10 @@ pub async fn handle_range_request(
                 StatusCode::PARTIAL_CONTENT,
                 [
                     (header::CONTENT_TYPE, content_type),
-                    (header::ACCEPT_RANGES, "bytes".to_string()),
+                    (header::ACCEPT_RANGES, "bytes".to_owned()),
                     (
                         header::CONTENT_RANGE,
-                        format!("bytes {}-{}/{}", start, end, file_size),
+                        format!("bytes {start}-{end}/{file_size}"),
                     ),
                     (header::CONTENT_LENGTH, length.to_string()),
                 ],

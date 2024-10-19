@@ -56,7 +56,7 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
         match entry {
             Ok(entry) => {
                 if let Ok(fife_dir_entry) = async_util::extract_file_details(&entry).await {
-                    dir_entries.push(fife_dir_entry)
+                    dir_entries.push(fife_dir_entry);
                 }
             }
             Err(e) => {
@@ -90,7 +90,7 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
     response.push_str("</body></html>");
 
     if is_dir_empty {
-        response = "<html><body><h1>Empty directory</h1></body></html>".to_string();
+        response = "<html><body><h1>Empty directory</h1></body></html>".to_owned();
     }
 
     tracing::trace!("Returning directory listing");

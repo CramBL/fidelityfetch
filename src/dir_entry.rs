@@ -2,6 +2,7 @@ use crate::icon::FileTypeCategory;
 use std::fs::FileType;
 
 /// A directory entry with metadata
+#[derive(Debug)]
 pub struct FifeDirEntry {
     pub name: String,
     pub ftype: FileType,
@@ -35,7 +36,7 @@ impl FifeDirEntry {
         let fname = if self.ftype.is_dir() {
             format!("{}/", self.name)
         } else {
-            self.name.to_owned()
+            self.name.clone()
         };
 
         let file_item = if self.ftype.is_dir() {
