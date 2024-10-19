@@ -5,10 +5,13 @@ use clap::{
     },
     Parser, ValueEnum,
 };
+use logging::Logging;
 use std::path::{Path, PathBuf};
 use tracing::Level;
 
-pub const BIN_NAME: &str = "qft";
+mod logging;
+
+pub const BIN_NAME: &str = "fife";
 
 #[derive(Parser, Debug)]
 #[command(name = "Fidelity Fetch", version, styles = cli_styles())]
@@ -22,14 +25,18 @@ pub struct Config {
     #[arg(short, long, default_value_t = 0)]
     port: u16,
 
-    /// Verbosity of logging output (trace, debug, info, warn, error)
-    #[arg(short, long, default_value = "info")]
+    /// Verbosity of logging output (Not applicable when log=journald)
+    #[arg(short, long, default_value_t = LogLevel::Info)]
     verbosity: LogLevel,
 
     /// Optional service to register which can be used as the hostname to access served content.
     /// e.g. `foo` will be available at `http://foo.local:<port>`
     #[arg(short, long)]
     mdns: Option<String>,
+
+    /// Where should logs be forwarded to
+    #[arg(short, long, default_value_t = Logging::Stderr)]
+    log: Logging,
 
     /// Generate completion scripts for the specified shell.
     /// Note: The completion script is printed to stdout
@@ -77,18 +84,12 @@ impl Config {
     }
 
     pub fn setup_logging(&self) {
-        let subscriber = tracing_subscriber::FmtSubscriber::builder()
-            .with_writer(std::io::stderr)
-            .with_max_level(self.verbosity())
-            .with_file(false)
-            .compact()
-            .finish();
-        tracing::subscriber::set_global_default(subscriber)
-            .expect("setting default subscriber failed");
+        logging::setup_logging(self.log, self.verbosity());
     }
 }
 
-#[derive(Debug, ValueEnum, Clone, Copy)]
+#[derive(Debug, ValueEnum, strum::Display, Clone, Copy)]
+#[strum(serialize_all = "lowercase")]
 enum LogLevel {
     Trace,
     Debug,

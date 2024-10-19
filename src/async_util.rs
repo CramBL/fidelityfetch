@@ -114,7 +114,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
             Ok(true) => FileTypeCategory::DirectoryEmpty,
             Ok(false) => FileTypeCategory::Directory,
             Err(e) => {
-                tracing::error!("Error checking if directory '{file_name}' is empty: {}", e);
+                tracing::error!("Error checking if directory '{file_name}' is empty: {e}");
                 FileTypeCategory::Directory // Default to non-empty if there's an error
             }
         }
