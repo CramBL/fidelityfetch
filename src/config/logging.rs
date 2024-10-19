@@ -2,7 +2,7 @@ use std::io;
 
 use clap::ValueEnum;
 use tracing::Level;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::util::SubscriberInitExt;
 
 #[derive(Debug, strum::Display, Clone, Copy, ValueEnum)]
 #[strum(serialize_all = "lowercase")]
@@ -57,6 +57,6 @@ pub(super) fn setup_logging(logging: Logging, loglevel: Level) {
 #[cfg(unix)]
 fn init_journald_logger() -> io::Result<()> {
     let journald = tracing_journald::layer()?;
-    tracing_subscriber::registry().with(journald).init();
+    tracing_subscriber::layer::SubscriberExt::with(tracing_subscriber::registry(), journald).init();
     Ok(())
 }
