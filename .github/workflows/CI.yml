@@ -54,7 +54,7 @@ jobs:
       - run: cargo audit
 
   build-test:
-    name: Test Suite
+    name: Test Suite (native)
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -68,6 +68,7 @@ jobs:
     - run: cargo test --workspace
 
   cross-build-test:
+    name: Test Suite (Cross)
     env:
       CROSS_VERSION: v0.2.5
     runs-on: ubuntu-latest
