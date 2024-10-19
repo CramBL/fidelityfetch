@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## [0.3.3]
+
+### Changed
+
+- Update dependencies
+
+### Internals
+
+- Refactors
+- More tests
+
 ## [0.3.2]
 
 ### Added
