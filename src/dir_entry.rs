@@ -36,7 +36,7 @@ impl FifeDirEntry {
         let fname = if self.ftype.is_dir() {
             format!("{}/", self.name)
         } else {
-            self.name.to_owned()
+            self.name.clone()
         };
 
         let file_item = if self.ftype.is_dir() {

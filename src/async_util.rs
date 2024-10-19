@@ -33,11 +33,9 @@ pub enum PathError {
 impl IntoResponse for PathError {
     fn into_response(self) -> Response<Body> {
         let (status, error_message) = match self {
-            PathError::DecodingError(_) => (StatusCode::BAD_REQUEST, self.to_string()),
-            PathError::CanonicalizationError(_) => {
-                (StatusCode::INTERNAL_SERVER_ERROR, self.to_string())
-            }
-            PathError::NotFound(_) => (StatusCode::NOT_FOUND, self.to_string()),
+            Self::DecodingError(_) => (StatusCode::BAD_REQUEST, self.to_string()),
+            Self::CanonicalizationError(_) => (StatusCode::INTERNAL_SERVER_ERROR, self.to_string()),
+            Self::NotFound(_) => (StatusCode::NOT_FOUND, self.to_string()),
         };
 
         (status, error_message).into_response()

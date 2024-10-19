@@ -85,7 +85,7 @@ pub async fn serve_path(
         StatusCode::OK,
         [
             (header::CONTENT_TYPE, content_type),
-            (header::ACCEPT_RANGES, "bytes".to_string()),
+            (header::ACCEPT_RANGES, "bytes".to_owned()),
             (header::CONTENT_LENGTH, file_size.to_string()),
         ],
         body,
