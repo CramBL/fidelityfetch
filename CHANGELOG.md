@@ -9,6 +9,10 @@
 - Allow logging to journald explicitly
 - Allow setting logging destination to either `journald` (unix only), `stderr`, or `stdout`.
 
+### Fix
+
+- Main process now exits with a non-zero exit when failing to bind to a port.
+
 ### Misc.
 
 - Update dependencies
