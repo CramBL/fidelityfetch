@@ -3,33 +3,38 @@ use chrono::TimeZone;
 use std::time::SystemTime;
 use std::{fs, io, path};
 
+/// Format a `u64` size in bytes to a human-readable string
+///
+/// # Arguments
+///
+/// * `size_bytes` - The size in bytes to format
+///
+/// # Returns
+///
+/// A human-readable string representing the size
+///
+/// # Examples
+///
+/// ```
+/// use fidelityfetch::util::format_data_size;
+///
+/// assert_eq!(format_data_size(1024), "1.00 KiB");
+/// ```
 #[must_use]
 pub fn format_data_size(size_bytes: u64) -> String {
-    const KI_B_VAL: u64 = 1024;
-    const KI_B_DIVIDER: f64 = 1024_f64;
-    const MI_B_VAL: u64 = 1024 * KI_B_VAL;
-    const MI_B_DIVIDER: f64 = MI_B_VAL as f64;
-    const GI_B_VAL: u64 = 1024 * MI_B_VAL;
-    const GI_B_DIVIDER: f64 = GI_B_VAL as f64;
+    const KI_B: f64 = 1024.0;
+    const MI_B: f64 = KI_B * 1024.0;
+    const GI_B: f64 = MI_B * 1024.0;
+
     match size_bytes {
-        0..=KI_B_VAL => {
-            format!("{size_bytes:.2} B")
-        }
-        1025..=MI_B_VAL => {
-            let kib_bytes = size_bytes as f64 / KI_B_DIVIDER;
-            format!("{kib_bytes:.2} KiB")
-        }
-        1_048_577..=GI_B_VAL => {
-            let mib_bytes = size_bytes as f64 / MI_B_DIVIDER;
-            format!("{mib_bytes:.2} MiB")
-        }
-        _ => {
-            let gib_bytes = size_bytes as f64 / GI_B_DIVIDER;
-            format!("{gib_bytes:.2} GiB")
-        }
+        0..=1024 => format!("{size_bytes:.2} B"),
+        1025..=1_048_576 => format!("{:.2} KiB", size_bytes as f64 / KI_B),
+        1_048_577..=1_073_741_824 => format!("{:.2} MiB", size_bytes as f64 / MI_B),
+        _ => format!("{:.2} GiB", size_bytes as f64 / GI_B),
     }
 }
 
+/// Format a `SystemTime` to a human-readable string
 #[must_use]
 pub fn format_system_time(time: SystemTime) -> String {
     match time.duration_since(SystemTime::UNIX_EPOCH) {
