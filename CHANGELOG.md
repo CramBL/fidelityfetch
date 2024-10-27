@@ -2,8 +2,16 @@
 
 ## Unreleased
 
+## [0.4.0]
+
+### Added
+
 - Allow logging to journald explicitly
 - Allow setting logging destination to either `journald` (unix only), `stderr`, or `stdout`.
+
+### Misc.
+
+- Update dependencies
 
 ## [0.3.3]
 
