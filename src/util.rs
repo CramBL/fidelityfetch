@@ -34,7 +34,6 @@ pub fn format_data_size(size_bytes: u64) -> String {
     }
 }
 
-
 /// Format a `SystemTime` to a human-readable string
 #[must_use]
 pub fn format_system_time(time: SystemTime) -> String {

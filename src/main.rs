@@ -2,7 +2,11 @@ use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
 use std::{
-    io, net::{IpAddr, Ipv4Addr, SocketAddr}, path::PathBuf, process::ExitCode, sync::Arc
+    io,
+    net::{IpAddr, Ipv4Addr, SocketAddr},
+    path::PathBuf,
+    process::ExitCode,
+    sync::Arc,
 };
 use tokio::sync::RwLock;
 
