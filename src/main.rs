@@ -51,19 +51,16 @@ async fn main() -> io::Result<()> {
         .with_state(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
-    let listener = match tokio::net::TcpListener::bind(&addr).await {
-        Ok(l) => l,
-        Err(e) => {
-            match e.kind() {
-                io::ErrorKind::AddrInUse => eprintln!(
-                    "Err: {e}\n\
-                    HINT: Choose another port or use '0' to use any available port"
-                ),
-                _ => eprintln!("{e}"),
-            }
-            return Ok(());
+    let listener = tokio::net::TcpListener::bind(&addr).await.map_err(|e| {
+        match e.kind() {
+            io::ErrorKind::AddrInUse => eprintln!(
+                "Error: {}\nHINT: Choose another port or use '0' to use any available port",
+                e
+            ),
+            _ => eprintln!("Error: {}", e),
         }
-    };
+        e
+    })?;
 
     let local_port = listener.local_addr()?.port();
 
