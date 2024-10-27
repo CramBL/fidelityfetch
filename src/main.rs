@@ -2,10 +2,7 @@ use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
 use std::{
-    io,
-    net::{IpAddr, Ipv4Addr, SocketAddr},
-    path::PathBuf,
-    sync::Arc,
+    io, net::{IpAddr, Ipv4Addr, SocketAddr}, path::PathBuf, process::ExitCode, sync::Arc
 };
 use tokio::sync::RwLock;
 
@@ -31,12 +28,12 @@ impl AppState {
 }
 
 #[tokio::main]
-async fn main() -> io::Result<()> {
+async fn main() -> ExitCode {
     let cfg = Config::parse();
     if let Some(shell) = cfg.completions {
         config::Config::generate_completion_script(shell);
         tracing::info!("Completions generated for {shell:?}. Exiting...");
-        return Ok(());
+        return ExitCode::SUCCESS;
     }
     cfg.setup_logging();
 
@@ -51,18 +48,24 @@ async fn main() -> io::Result<()> {
         .with_state(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
-    let listener = tokio::net::TcpListener::bind(&addr).await.map_err(|e| {
-        match e.kind() {
-            io::ErrorKind::AddrInUse => eprintln!(
-                "Error: {}\nHINT: Choose another port or use '0' to use any available port",
-                e
-            ),
-            _ => eprintln!("Error: {}", e),
+    let listener = match tokio::net::TcpListener::bind(&addr).await {
+        Ok(listener) => listener,
+        Err(e) => {
+            match e.kind() {
+                io::ErrorKind::AddrInUse => eprintln!(
+                    "Error: {e}\nHINT: Choose another port or use '0' to use any available port",
+                ),
+                _ => eprintln!("Error: {e}"),
+            }
+            return ExitCode::FAILURE;
         }
-        e
-    })?;
+    };
 
-    let local_port = listener.local_addr()?.port();
+    let Ok(local_addr) = listener.local_addr() else {
+        eprintln!("Failed to get local address for TCP listener");
+        return ExitCode::FAILURE;
+    };
+    let local_port = local_addr.port();
 
     if let Some(mdns_hostname) = cfg.mdns() {
         mdns::register_mdns(
@@ -74,9 +77,10 @@ async fn main() -> io::Result<()> {
     }
 
     eprintln!("Listening on http://{local_ip}:{local_port}");
-    axum::serve(listener, app.into_make_service())
-        .await
-        .expect("Failed to start server");
+    if let Err(e) = axum::serve(listener, app.into_make_service()).await {
+        eprintln!("Server error: {e}");
+        return ExitCode::FAILURE;
+    }
 
-    Ok(())
+    ExitCode::SUCCESS
 }
