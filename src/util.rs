@@ -27,7 +27,7 @@ pub fn format_data_size(size_bytes: u64) -> String {
     const GI_B: f64 = MI_B * 1024.0;
 
     match size_bytes {
-        0..=1024 => format!("{:.2} B", size_bytes),
+        0..=1024 => format!("{size_bytes:.2} B"),
         1025..=1_048_576 => format!("{:.2} KiB", size_bytes as f64 / KI_B),
         1_048_577..=1_073_741_824 => format!("{:.2} MiB", size_bytes as f64 / MI_B),
         _ => format!("{:.2} GiB", size_bytes as f64 / GI_B),
