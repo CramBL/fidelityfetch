@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directory: /
+    directory: "/"
     groups:
       GitHub_Actions:
         patterns:
@@ -10,5 +10,9 @@ updates:
       interval: weekly
   - package-ecosystem: cargo
     directory: "/"
+    groups:
+      Cargo_Dependencies:
+        patterns:
+          - "*" # group all Rust dependencies together
     schedule:
       interval: weekly
