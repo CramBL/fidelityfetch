@@ -36,7 +36,7 @@ pub(super) fn build_html_response(dir_path: &str, entries_html: &str) -> String 
     response.push_str(dir_path);
     response.push_str("</h1>");
     response.push_str("<ul>");
-    response.push_str(&entries_html);
+    response.push_str(entries_html);
     response.push_str("</ul>");
     response.push_str("</body>");
     response.push_str("</html>");
