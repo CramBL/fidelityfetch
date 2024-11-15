@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## [0.4.1]
+
+### Changed
+
+- Reduce response size by trimming white space
+
 ## [0.4.0]
 
 ### Added
