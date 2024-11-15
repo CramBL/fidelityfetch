@@ -43,19 +43,26 @@ impl IntoResponse for PathError {
 }
 
 /// Get file info for a directory entry
-async fn get_file_info(entry: &tokio::fs::DirEntry) -> io::Result<(String, String, String)> {
-    let metadata = entry.metadata().await?;
+async fn get_file_info(
+    entry: &tokio::fs::DirEntry,
+) -> io::Result<(Option<String>, String, String)> {
     let file_type = entry.file_type().await?;
+    let metadata = entry.metadata().await?;
 
     let file_size = if file_type.is_file() {
-        format_data_size(metadata.len())
+        Some(format_data_size(metadata.len()))
     } else if file_type.is_dir() {
         let count = count_directory_entries(entry.path()).await?;
-        format!("{} item{}", count, if count == 1 { "" } else { "s" })
+        let mut item_count = count.to_string();
+        item_count.push_str(" item");
+        if count != 0 {
+            item_count.push('s');
+        }
+        Some(item_count)
     } else if file_type.is_symlink() {
-        "Symbolic Link".to_owned()
+        Some("Symbolic Link".to_owned())
     } else {
-        String::new()
+        None
     };
 
     let modified_date = format_system_time(metadata.modified()?);
@@ -92,7 +99,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         get_file_info(entry).await.unwrap_or_else(|e| {
             tracing::error!("Error getting file info: {}", e);
             (
-                "Unknown size".to_owned(),
+                Some("Unknown size".to_owned()),
                 "Unknown date".to_owned(),
                 String::new(),
             )
@@ -130,7 +137,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
     Ok(FifeDirEntry::new(
         file_name,
         file_type,
-        file_size,
+        file_size.unwrap_or_default(),
         file_type_category,
         modified_date,
     ))
