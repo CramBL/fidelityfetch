@@ -7,6 +7,7 @@
 ### Changed
 
 - Reduce response size by trimming white space
+- Make the file list more compact
 
 ## [0.4.0]
 
