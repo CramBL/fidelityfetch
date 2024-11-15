@@ -33,11 +33,10 @@ impl FifeDirEntry {
     }
 
     pub fn to_html(self) -> String {
-        let fname = if self.ftype.is_dir() {
-            format!("{}/", self.name)
-        } else {
-            self.name.clone()
-        };
+        let mut fname = self.name.clone();
+        if self.ftype.is_dir() {
+            fname.push('/');
+        }
 
         let file_item = if self.ftype.is_dir() {
             "directory"

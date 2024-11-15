@@ -13,6 +13,7 @@ use crate::AppState;
 static FAVICON: &[u8] = include_bytes!("../assets/favicon.ico");
 
 pub mod dir;
+mod html;
 pub mod range_req;
 
 pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl IntoResponse {
