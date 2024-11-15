@@ -88,17 +88,15 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         }
     };
 
-    let (file_size, modified_date, _metadata_len) = match get_file_info(entry).await {
-        Ok(info) => info,
-        Err(e) => {
+    let (file_size, modified_date, _metadata_len) =
+        get_file_info(entry).await.unwrap_or_else(|e| {
             tracing::error!("Error getting file info: {}", e);
             (
                 "Unknown size".to_owned(),
                 "Unknown date".to_owned(),
                 String::new(),
             )
-        }
-    };
+        });
 
     let path = entry.path();
     let ext = path.extension().and_then(|ext| ext.to_str()).unwrap_or("");
@@ -125,7 +123,7 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         FileTypeCategory::from_extension_lower(&ext_lower)
     };
     tracing::debug!(
-        "'{file_name}' file categori is: {}",
+        "'{file_name}' file category is: {}",
         file_type_category.description()
     );
 
