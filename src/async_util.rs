@@ -172,7 +172,6 @@ mod tests {
         tokio::fs::create_dir_all(base_path.join("日本語")).await?;
         let _ = File::create(base_path.join("file with spaces.txt")).await?;
 
-        // Test cases
         let test_cases = vec![
             ("folder%20with%20spaces", "folder with spaces"),
             ("%C3%A6%C3%B8%C3%A5", "æøå"),
