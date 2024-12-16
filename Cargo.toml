@@ -32,7 +32,7 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 tracing-journald = "0.3.1"
 local-ip-address = "0.6"
-mdns-sd = "0.12"
+mdns-sd = "0.13"
 chrono = "0.4"
 tokio-util = { version = "0.7.13", features = ["io"] }
 tokio-stream = { version = "0.1.17", features = ["fs"] }
