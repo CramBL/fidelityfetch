@@ -15,12 +15,4 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - uses: dangoslen/dependabot-changelog-helper@releases/v3.11
-      with:
-        activationLabels: 'dependencies'
-        changelogPath: './CHANGELOG.md'
-
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-          commit_message: "Updated Changelog with bumped versions"
+    - uses: crambl/dependabot-changelog-writer@v0.1.0
