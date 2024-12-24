@@ -6,12 +6,11 @@ on:
     branches: [ main, master ]
 
 jobs:
-  update-release-file:
+  update-changelog:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
     - uses: actions/checkout@v4
