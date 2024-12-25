@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `clap_complete`: 4.5.38 → 4.5.40
+- `mdns-sd`: 0.13.0 → 0.13.1
+- `thiserror`: 2.0.7 → 2.0.9
+
 ## [0.4.1]
 
 ### Changed
