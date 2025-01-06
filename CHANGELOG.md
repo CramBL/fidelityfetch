@@ -7,8 +7,8 @@
 - `clap_complete`: 4.5.38 → 4.5.40
 - `mdns-sd`: 0.13.0 → 0.13.1
 - `thiserror`: 2.0.7 → 2.0.9
-- `crate-ci/typos`: 1.28.3 → 1.28.4
 - `crambl/dependabot-changelog-writer`: 0.4.0 → 0.5.0
+- `crate-ci/typos`: 1.28.3 → 1.29.4 ([#47](https://github.com/CramBL/fidelityfetch/pull/47))
 
 ## [0.4.1]
 
