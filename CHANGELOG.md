@@ -9,6 +9,7 @@
 - `thiserror`: 2.0.7 → 2.0.9
 - `crambl/dependabot-changelog-writer`: 0.4.0 → 0.5.0
 - `crate-ci/typos`: 1.28.3 → 1.29.4 ([#47](https://github.com/CramBL/fidelityfetch/pull/47))
+- `axum`: 0.7.9 → 0.8.1 ([#48](https://github.com/CramBL/fidelityfetch/pull/48))
 
 ## [0.4.1]
 
