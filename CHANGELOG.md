@@ -2,6 +2,8 @@
 
 ## [unreleased]
 
+## [0.4.2]
+
 ### Dependencies
 
 - `mdns-sd`: 0.13.0 → 0.13.1
