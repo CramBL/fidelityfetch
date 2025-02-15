@@ -5,6 +5,7 @@
 ### Dependencies
 
 - `clap`: 4.5.26 → 4.5.27 ([#52](https://github.com/CramBL/fidelityfetch/pull/52))
+- `crate-ci/typos`: 1.29.4 → 1.29.5 ([#54](https://github.com/CramBL/fidelityfetch/pull/54))
 
 ## [0.4.2]
 
