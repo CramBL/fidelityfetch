@@ -48,7 +48,7 @@ async fn main() -> ExitCode {
 
     let app = Router::new()
         .route("/", get(serve::handle_root))
-        .route("/*file", get(serve::serve_path))
+        .route("/{*file}", get(serve::serve_path))
         .with_state(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
