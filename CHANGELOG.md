@@ -4,7 +4,10 @@
 
 ### Dependencies
 
-- `clap`: 4.5.26 → 4.5.27 ([#52](https://github.com/CramBL/fidelityfetch/pull/52))
+- `clap`: 4.5.26 → 4.5.28 ([#55](https://github.com/CramBL/fidelityfetch/pull/55))
+- `clap_complete`: 4.5.42 → 4.5.44 ([#55](https://github.com/CramBL/fidelityfetch/pull/55))
+- `mdns-sd`: 0.13.1 → 0.13.2 ([#55](https://github.com/CramBL/fidelityfetch/pull/55))
+- `strum`: 0.26.3 → 0.27.0 ([#55](https://github.com/CramBL/fidelityfetch/pull/55))
 
 ## [0.4.2]
 
