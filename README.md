@@ -61,4 +61,8 @@ Check out the [the release page](https://github.com/CramBL/fidelityfetch/release
 cargo install fidelityfetch
 ```
 
+### Systemd
+
+There's an example service unit file at [./package/fife.service](./package/fife.service)
+
 ### TODO: Yocto recipe
