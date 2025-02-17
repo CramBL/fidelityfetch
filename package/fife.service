@@ -1,0 +1,15 @@
+[Unit]
+Description=FidelityFetch serves files efficiently on a local network
+After=network.target
+
+[Service]
+User=fife
+Group=fife
+ExecStart=/usr/bin/fife
+Restart=on-failure
+WorkingDirectory=/
+EnvironmentFile=-/etc/default/fife
+
+[Install]
+WantedBy=multi-user.target
+Alias=fife.service
