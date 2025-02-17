@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `strum`: 0.27.0 → 0.27.1 ([#60](https://github.com/CramBL/fidelityfetch/pull/60))
+
 ## [0.5.0]
 
 ### Added
