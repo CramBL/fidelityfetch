@@ -2,6 +2,13 @@
 
 ## [unreleased]
 
+## [0.5.0]
+
+### Added
+
+- Add environment variable for each option
+- Add example systemd service unit file
+
 ## [0.4.3]
 
 ### Dependencies
