@@ -18,24 +18,24 @@ pub const BIN_NAME: &str = "fife";
 #[command(bin_name = BIN_NAME)]
 pub struct Config {
     /// Directory from which content is served (recursively)
-    #[arg(short, long, default_value = ".")]
+    #[arg(short, long, default_value = ".", env = "FIFE_ROOT")]
     root: PathBuf,
 
     /// Set the port to serve on. If not set, an available port will be assigned.
-    #[arg(short, long, default_value_t = 0)]
+    #[arg(short, long, default_value_t = 0, env = "FIFE_PORT")]
     port: u16,
 
     /// Verbosity of logging output (Not applicable when log=journald)
-    #[arg(short, long, default_value_t = LogLevel::Info)]
+    #[arg(short, long, default_value_t = LogLevel::Info, env = "FIFE_VERBOSITY")]
     verbosity: LogLevel,
 
     /// Optional service to register which can be used as the hostname to access served content.
     /// e.g. `foo` will be available at `http://foo.local:<port>`
-    #[arg(short, long)]
+    #[arg(short, long, env = "FIFE_MDNS")]
     mdns: Option<String>,
 
     /// Where should logs be forwarded to
-    #[arg(short, long, default_value_t = Logging::Stderr)]
+    #[arg(short, long, default_value_t = Logging::Stderr, env = "FIFE_LOG")]
     log: Logging,
 
     /// Generate completion scripts for the specified shell.
