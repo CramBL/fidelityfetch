@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=fife
 Group=fife
-ExecStart=/usr/bin/fife
+ExecStart=/usr/bin/fife --log journald
 Restart=on-failure
 WorkingDirectory=/
 EnvironmentFile=-/etc/default/fife
