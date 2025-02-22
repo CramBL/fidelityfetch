@@ -6,6 +6,16 @@
 
 - HTTP/2 support
 
+### Changed
+
+- Recognize `cxx` and `hxx` as C++ files.
+- Add svgs for every recognized file extension and ensure alignment of icons.
+- Align file size and timestamps
+
+### Fixed
+
+- Directories with one entry would say `1 items` instead of `1 item`.
+
 ### Dependencies
 
 - `strum`: 0.27.0 → 0.27.1 ([#60](https://github.com/CramBL/fidelityfetch/pull/60))
