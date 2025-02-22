@@ -2,6 +2,8 @@
 
 ## [unreleased]
 
+## [0.7.0]
+
 ### Added
 
 - HTTP/2 support
