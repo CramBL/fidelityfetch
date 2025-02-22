@@ -1,3 +1,6 @@
 # https://github.com/crate-ci/typos
 # install:  cargo install typos-cli, or get the LSP/extension: https://github.com/tekumara/typos-lsp
 # run:      typos
+
+[default.extend-words]
+PN = "PN" # Used in Yocto recipe example and stands for "Package Name"
