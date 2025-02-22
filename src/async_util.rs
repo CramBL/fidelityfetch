@@ -43,9 +43,7 @@ impl IntoResponse for PathError {
 }
 
 /// Get file info for a directory entry
-async fn get_file_info(
-    entry: &tokio::fs::DirEntry,
-) -> io::Result<(Option<String>, String, String)> {
+async fn get_file_info(entry: &tokio::fs::DirEntry) -> io::Result<(Option<String>, String)> {
     let file_type = entry.file_type().await?;
     let metadata = entry.metadata().await?;
 
@@ -55,7 +53,7 @@ async fn get_file_info(
         let count = count_directory_entries(entry.path()).await?;
         let mut item_count = count.to_string();
         item_count.push_str(" item");
-        if count != 0 {
+        if count != 1 {
             item_count.push('s');
         }
         Some(item_count)
@@ -67,7 +65,7 @@ async fn get_file_info(
 
     let modified_date = format_system_time(metadata.modified()?);
 
-    Ok((file_size, modified_date, format_data_size(metadata.len())))
+    Ok((file_size, modified_date))
 }
 
 /// Count the number of directory entries
@@ -95,15 +93,10 @@ pub async fn extract_file_details(entry: &tokio::fs::DirEntry) -> Result<FifeDir
         }
     };
 
-    let (file_size, modified_date, _metadata_len) =
-        get_file_info(entry).await.unwrap_or_else(|e| {
-            tracing::error!("Error getting file info: {}", e);
-            (
-                Some("Unknown size".to_owned()),
-                "Unknown date".to_owned(),
-                String::new(),
-            )
-        });
+    let (file_size, modified_date) = get_file_info(entry).await.unwrap_or_else(|e| {
+        tracing::error!("Error getting file info: {}", e);
+        (Some("Unknown size".to_owned()), "Unknown date".to_owned())
+    });
 
     let path = entry.path();
     let ext = path.extension().and_then(|ext| ext.to_str()).unwrap_or("");
