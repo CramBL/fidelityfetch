@@ -65,4 +65,16 @@ cargo install fidelityfetch
 
 There's an example service unit file at [./package/fife.service](./package/fife.service)
 
-### TODO: Yocto recipe
+### Yocto recipe example
+
+Using `fife` with yocto is easy with either [meta-rust-bin](https://github.com/rust-embedded/meta-rust-bin) or [meta-rust](https://github.com/meta-rust/meta-rust).
+
+Find examples in the [yocto](./yocto) directory of how to install `fife` as a systemd service with configurations provided via an environment file.
+
+#### Using [meta-rust-bin](https://github.com/rust-embedded/meta-rust-bin)
+
+See [./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb](./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb)
+
+#### Using [meta-rust](https://github.com/meta-rust/meta-rust)
+
+Using `meta-rust` is a bit more involved but it should still be relatively straight forward to adapt the `meta-rust-bin` example provided at [./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb](./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb).  
