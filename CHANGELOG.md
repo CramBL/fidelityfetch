@@ -2,9 +2,14 @@
 
 ## [unreleased]
 
+### Added
+
+- HTTP/2 support
+
 ### Dependencies
 
 - `strum`: 0.27.0 → 0.27.1 ([#60](https://github.com/CramBL/fidelityfetch/pull/60))
+- `cargo update`
 
 ## [0.5.0]
 
