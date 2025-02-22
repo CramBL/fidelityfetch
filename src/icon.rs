@@ -41,6 +41,7 @@ pub enum FileTypeCategory {
     Compressed,
     SystemVerilog,
     Exe,
+    TypeScript,
 }
 
 impl FileTypeCategory {
@@ -59,7 +60,6 @@ impl FileTypeCategory {
             "html" | "htm" => Self::Html,
             "css" => Self::Css,
             "java" => Self::Java,
-            "cpp" | "hpp" | "hh" | "cc" | "c++" | "h++" => Self::Cpp,
             "jpg" | "jpeg" | "png" | "gif" | "bmp" | "tiff" | "ico" | "webp" => Self::Image,
             "svg" => Self::Svg,
             "mp4" | "avi" | "mov" | "mkv" | "webm" => Self::Video,
@@ -73,10 +73,12 @@ impl FileTypeCategory {
             "txt" => Self::Text,
             "lock" => Self::LockFile,
             "mp3" | "wav" | "flac" | "aac" | "ogg" => Self::Audio,
-            "ini" => Self::MiscConfigFile,
+            "ini" | "conf" => Self::MiscConfigFile,
             "bz2" | "xz" | "gz" | "lz4" => Self::Compressed,
             "sv" => Self::SystemVerilog,
             "exe" => Self::Exe,
+            "cpp" | "hpp" | "hh" | "cc" | "c++" | "h++" | "cxx" | "hxx" => Self::Cpp,
+            "ts" => Self::TypeScript,
             _ => Self::Unknown,
         }
     }
@@ -85,25 +87,27 @@ impl FileTypeCategory {
         match self {
             Self::Yaml => YAML_SVG,
             Self::Xml => XML_SVG,
-            Self::Json => "{ }",
-            Self::Toml | Self::MiscConfigFile => "⚙️",
+            Self::Json => JSON_SVG,
+            Self::Toml => TOML_SVG,
+            Self::MiscConfigFile => CONFIG_SVG,
             Self::Markdown => MARKDOWN_SVG,
-            Self::Csv => "📊",
+            Self::Csv => CSV_SVG,
             Self::Rust => RUST_SVG,
             Self::Python => PYTHON_SVG,
-            Self::JavaScript | Self::Cpp => "📜",
-            Self::Html => "🌐",
+            Self::JavaScript => JAVASCRIPT_SVG,
+            Self::Cpp => CPP_SVG,
+            Self::Html => HTML_SVG,
             Self::Css => CSS_SVG,
             Self::Pdf => PDF_SVG,
-            Self::Java => "☕",
+            Self::Java => JAVA_SVG,
             Self::Directory => DIR_SVG,
             Self::DirectoryEmpty => EMPTY_DIR_SVG,
             Self::Image => IMAGE_SVG,
-            Self::Video => "🎥",
-            Self::Archive => "📦",
-            Self::Unknown => "❓",
-            Self::DiskImage => "💿",
-            Self::FileSystemImage => "🗃️",
+            Self::Video => VIDEO_SVG,
+            Self::Archive => ARCHIVE_SVG,
+            Self::Unknown => UNKNOWN_FILE_SVG,
+            Self::DiskImage => DISK_IMAGE_SVG,
+            Self::FileSystemImage => FILE_SYSTEM_IMAGE_SVG,
             Self::ShellScript => SHELL_SCRIPT_SVG,
             Self::Git => GIT_SVG,
             Self::SymbolicLink => SYMBOLIC_LINK_SVG,
@@ -111,11 +115,12 @@ impl FileTypeCategory {
             Self::Text => TEXT_SVG,
             Self::LockFile => LOCK_FILE_SVG,
             Self::Svg => SVG_SVG,
-            Self::Audio => "♫",
+            Self::Audio => AUDIO_SVG,
             Self::Binary => BINARY_FILE_SVG,
             Self::Compressed => COMPRESSED_FILE_SVG,
             Self::SystemVerilog => SYSTEMVERILOG_SVG,
             Self::Exe => EXE_SVG,
+            Self::TypeScript => TYPESCRIPT_SVG,
         }
     }
 
@@ -156,6 +161,7 @@ impl FileTypeCategory {
             Self::Compressed => "Compressed",
             Self::SystemVerilog => "SystemVerilog",
             Self::Exe => "Executable",
+            Self::TypeScript => "TypeScript",
         }
     }
 }
