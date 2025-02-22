@@ -51,8 +51,8 @@ impl FifeDirEntry {
                 <div class="file-details">
                     <a href="{fname}" class="file-name">{fname}</a>
                     <div class="file-info">
-                        <span class="file-size">{size}</span>
                         <span class="file-date">{modified_date}</span>
+                        <span class="file-size">{size}</span>
                     </div>
                 </div>
             </li>

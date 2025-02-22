@@ -2,9 +2,21 @@
 
 ## [unreleased]
 
+## [0.7.0]
+
 ### Added
 
 - HTTP/2 support
+
+### Changed
+
+- Recognize `cxx` and `hxx` as C++ files.
+- Add svgs for every recognized file extension and ensure alignment of icons.
+- Align file size and timestamps
+
+### Fixed
+
+- Directories with one entry would say `1 items` instead of `1 item`.
 
 ### Dependencies
 
