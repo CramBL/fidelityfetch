@@ -23,8 +23,8 @@ name = "fife"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.30", features = ["derive", "env"] }
-clap_complete = "4.5.45"
+clap = { version = "4.5.31", features = ["derive", "env"] }
+clap_complete = "4.5.46"
 axum = { version = "0.8.1", features = ["http2"] }
 mime_guess = "2.0.5"
 tokio = { version = "1.43", features = ["full"] }
