@@ -5,6 +5,11 @@
 ### Dependencies
 
 - `crate-ci/typos`: 1.29.7 → 1.29.9 ([#64](https://github.com/CramBL/fidelityfetch/pull/64))
+- `clap`: 4.5.30 → 4.5.31 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
+- `clap_complete`: 4.5.45 → 4.5.46 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
+- `mdns-sd`: 0.13.2 → 0.13.3 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
+- `chrono`: 0.4.39 → 0.4.40 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
+- `thiserror`: 2.0.11 → 2.0.12 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
 
 ## [0.7.0]
 
