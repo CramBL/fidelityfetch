@@ -7,6 +7,7 @@
 ### Changed
 
 - Set minimum support rust version (MSRV) and verify in CI
+- Update `dist` to v0.28.0
 
 ### Dependencies
 
