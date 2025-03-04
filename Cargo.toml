@@ -9,8 +9,8 @@ readme = "README.md"
 homepage = "https://github.com/CramBL/fidelityfetch"
 repository = "https://github.com/CramBL/fidelityfetch"
 keywords = ["file-transfer", "command-line"]
-
 exclude = [".github", "scripts"]
+rust-version = "1.78"
 
 [package.metadata.wix]
 upgrade-guid = "EB76ABBF-BC76-43E4-A40B-4B076E6BF56C"
