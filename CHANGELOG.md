@@ -2,6 +2,13 @@
 
 ## [unreleased]
 
+## [1.0.0]
+
+### Changed
+
+- Set minimum support rust version (MSRV) and verify in CI
+- Update `dist` to v0.28.0
+
 ### Dependencies
 
 - `clap`: 4.5.30 → 4.5.31 ([#66](https://github.com/CramBL/fidelityfetch/pull/66))
