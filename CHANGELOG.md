@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `tokio`: 1.43.0 → 1.44.0 ([#70](https://github.com/CramBL/fidelityfetch/pull/70))
+
 ## [1.0.0]
 
 ### Changed
