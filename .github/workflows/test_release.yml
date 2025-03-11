@@ -1,0 +1,47 @@
+on:
+  pull_request:
+
+jobs:
+  build-local-artifacts:
+    name: build-local-artifacts
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - "aarch64-pc-windows-msvc"
+          - "i686-pc-windows-msvc"
+        runner:
+          - windows-2019
+          - windows-2022
+          - windows-2025
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: enable windows longpaths
+        run: |
+          git config --global core.longpaths true
+      - uses: actions/checkout@v4
+
+      - name: Install Rust non-interactively if not already installed
+        shell: bash
+        run: |
+          if ! command -v cargo > /dev/null 2>&1; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          fi
+
+      - name: Install dist
+        run: powershell -c "irm https://github.com/axodotdev/cargo-dist/releases/download/v0.28.0/cargo-dist-installer.ps1 | iex"
+
+      - name: Build artifacts
+        run: |
+          dist build --tag=v1.0.0 --print=linkage --output-format=json --artifacts=local --target=${{ matrix.target }} > dist-manifest.json
+          echo "dist ran successfully"
+      - id: cargo-dist
+        name: Post-build
+        shell: bash
+        run: |
+          # Parse out what we just built and upload it to scratch storage
+          echo "paths<<EOF" >> "$GITHUB_OUTPUT"
+          dist print-upload-files-from-manifest --manifest dist-manifest.json >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
