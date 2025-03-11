@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Changed
+
+- Remove support for the `i686-pc-windows-msvc` and `aarch64-pc-windows-msvc` targets. Install from source is still possible, but the lack of support for WiX v4 in `cargo-xwin` means distribution for these targets are temporarily paused
+
 ### Dependencies
 
 - `tokio`: 1.43.0 → 1.44.0 ([#70](https://github.com/CramBL/fidelityfetch/pull/70))
