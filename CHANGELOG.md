@@ -9,6 +9,7 @@
 ### Dependencies
 
 - `tokio`: 1.43.0 → 1.44.0 ([#70](https://github.com/CramBL/fidelityfetch/pull/70))
+- `crate-ci/typos`: 1.30.0 → 1.30.1 ([#71](https://github.com/CramBL/fidelityfetch/pull/71))
 
 ## [1.0.0]
 
