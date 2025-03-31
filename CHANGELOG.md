@@ -8,11 +8,11 @@
 
 ### Dependencies
 
-- `crate-ci/typos`: 1.30.0 → 1.30.1 ([#71](https://github.com/CramBL/fidelityfetch/pull/71))
 - `clap`: 4.5.31 → 4.5.32 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
 - `tokio`: 1.43.0 → 1.44.1 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
 - `tokio-util`: 0.7.13 → 0.7.14 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
 - `clap_complete`: 4.5.46 → 4.5.47 ([#75](https://github.com/CramBL/fidelityfetch/pull/75))
+- `crate-ci/typos`: 1.30.0 → 1.31.0 ([#76](https://github.com/CramBL/fidelityfetch/pull/76))
 
 ## [1.0.0]
 
