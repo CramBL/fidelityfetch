@@ -8,13 +8,15 @@
 
 ### Dependencies
 
-- `tokio-util`: 0.7.13 → 0.7.14 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
-- `clap_complete`: 4.5.46 → 4.5.47 ([#75](https://github.com/CramBL/fidelityfetch/pull/75))
-- `axum`: 0.8.1 → 0.8.3 ([#77](https://github.com/CramBL/fidelityfetch/pull/77))
 - `tokio`: 1.43.0 → 1.44.2 ([#79](https://github.com/CramBL/fidelityfetch/pull/79))
 - `crate-ci/typos`: 1.30.0 → 1.31.1 ([#78](https://github.com/CramBL/fidelityfetch/pull/78))
-- `clap`: 4.5.31 → 4.5.36 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
-- `mdns-sd`: 0.13.3 → 0.13.6 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
+- `clap`: 4.5.31 → 4.5.37 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `clap_complete`: 4.5.46 → 4.5.48 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `axum`: 0.8.1 → 0.8.4 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `local-ip-address`: 0.6.3 → 0.6.5 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `mdns-sd`: 0.13.3 → 0.13.9 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `chrono`: 0.4.40 → 0.4.41 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
+- `tokio-util`: 0.7.13 → 0.7.15 ([#84](https://github.com/CramBL/fidelityfetch/pull/84))
 
 ## [1.0.0]
 
