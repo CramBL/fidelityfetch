@@ -72,25 +72,6 @@ jobs:
     - run: cargo build
     - run: cargo test --workspace
 
-  build-windows-linkage:
-      runs-on: [windows-2022]
-      steps:
-        - uses: actions/checkout@v4
-        - uses: dtolnay/rust-toolchain@stable
-        - uses: Swatinem/rust-cache@v2
-        - name: Install cargo-dist
-          run: cargo install cargo-dist --git https://github.com/CramBL/cargo-dist --branch fix-ignored-msvc-crt-static-flag --rev a4cabb10395c7b275ea40d1636cd2d0e58be8af6 --locked
-
-        - name: Build with dist
-          run: dist build --print=linkage
-
-        - name: Set msvc-crt-static to true
-          shell: bash
-          run: sed -i 's/msvc-crt-static = false/msvc-crt-static = true/' dist-workspace.toml
-
-        - name: Build with dist (static MSVC-CRT)
-          run: dist build --print=linkage
-
   cross-build-test:
     name: Test Suite (Cross)
     env:
