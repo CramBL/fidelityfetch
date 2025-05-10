@@ -2,6 +2,8 @@
 
 ## [unreleased]
 
+## [1.0.2]
+
 ### Changed
 
 - Migrate from the discontinued original [cargo-dist](https://github.com/axodotdev/cargo-dist) project to the [astral fork](https://github.com/astral-sh/cargo-dist)
