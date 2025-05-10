@@ -61,7 +61,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-          os: [ ubuntu-latest, macos-latest, windows-2022]
+          os:
+            - ubuntu-latest
+            - macos-latest
+            - windows-2022
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@stable
@@ -87,6 +90,22 @@ jobs:
         - name: Build with dist (static MSVC-CRT)
           run: dist build --print=linkage
 
+        - name: Regular build
+          run: cargo build --release
+
+        - name: Check linkage with ldd
+          run: ldd target/release/fife.exe
+          shell: bash
+
+        - name: Regular build static
+          run: cargo build --release
+          env:
+            RUSTFLAGS: "--codegen target-feature=+crt-static"
+
+
+        - name: Check linkage with ldd
+          run: ldd target/release/fife.exe
+          shell: bash
 
 
   cross-build-test:
