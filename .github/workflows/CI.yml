@@ -81,30 +81,30 @@ jobs:
         - name: Install cargo-dist
           run: cargo install cargo-dist@0.28.5 --git https://github.com/astral-sh/cargo-dist --locked
         - name: Build with dist
-          run: dist build --print=linkage
+          run: .\dist.exe build --print=linkage
 
         - name: Set msvc-crt-static to true
           shell: bash
           run: sed -i 's/msvc-crt-static = false/msvc-crt-static = true/' dist-workspace.toml
 
         - name: Build with dist (static MSVC-CRT)
-          run: dist build --print=linkage
+          run: .\dist.exe build --print=linkage
 
         - name: Regular build
-          run: cargo build --release
+          run: cargo build
 
         - name: Check linkage with ldd
-          run: ldd target/release/fife.exe
+          run: ldd target/debug/fife.exe
           shell: bash
 
         - name: Regular build static
-          run: cargo build --release
+          run: cargo build
           env:
             RUSTFLAGS: "--codegen target-feature=+crt-static"
 
 
         - name: Check linkage with ldd
-          run: ldd target/release/fife.exe
+          run: ldd target/debug/fife.exe
           shell: bash
 
 
