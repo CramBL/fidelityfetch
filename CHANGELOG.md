@@ -4,17 +4,27 @@
 
 ### Changed
 
+- Migrate from the discontinued original [cargo-dist](https://github.com/axodotdev/cargo-dist) project to the [astral fork](https://github.com/astral-sh/cargo-dist)
+
+### Dependencies
+
+- `tokio`: 1.44.0 → 1.44.2 ([#79](https://github.com/CramBL/fidelityfetch/pull/79))
+- `tokio-util`: 0.7.13 → 0.7.14 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
+- `clap_complete`: 4.5.46 → 4.5.47 ([#75](https://github.com/CramBL/fidelityfetch/pull/75))
+- `axum`: 0.8.1 → 0.8.3 ([#77](https://github.com/CramBL/fidelityfetch/pull/77))
+- `crate-ci/typos`: 1.30.0 → 1.31.1 ([#78](https://github.com/CramBL/fidelityfetch/pull/78))
+- `clap`: 4.5.31 → 4.5.36 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
+- `mdns-sd`: 0.13.3 → 0.13.6 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
+
+## [1.0.1]
+
+### Changed
+
 - Remove support for the `i686-pc-windows-msvc` and `aarch64-pc-windows-msvc` targets. Install from source is still possible, but the lack of support for WiX v4 in `cargo-xwin` means distribution for these targets are temporarily paused
 
 ### Dependencies
 
-- `tokio-util`: 0.7.13 → 0.7.14 ([#74](https://github.com/CramBL/fidelityfetch/pull/74))
-- `clap_complete`: 4.5.46 → 4.5.47 ([#75](https://github.com/CramBL/fidelityfetch/pull/75))
-- `axum`: 0.8.1 → 0.8.3 ([#77](https://github.com/CramBL/fidelityfetch/pull/77))
-- `tokio`: 1.43.0 → 1.44.2 ([#79](https://github.com/CramBL/fidelityfetch/pull/79))
-- `crate-ci/typos`: 1.30.0 → 1.31.1 ([#78](https://github.com/CramBL/fidelityfetch/pull/78))
-- `clap`: 4.5.31 → 4.5.36 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
-- `mdns-sd`: 0.13.3 → 0.13.6 ([#80](https://github.com/CramBL/fidelityfetch/pull/80))
+- `tokio`: 1.43.0 → 1.44.0
 
 ## [1.0.0]
 
