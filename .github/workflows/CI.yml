@@ -80,8 +80,16 @@ jobs:
         - uses: Swatinem/rust-cache@v2
         - name: Install cargo-dist
           run: cargo install cargo-dist@0.28.5 --git https://github.com/astral-sh/cargo-dist --locked
+
         - name: Build with dist
           run: .\dist.exe build --print=linkage
+
+        - name: Check linkage with ldd
+          run: |
+            ls -lah target/dist
+            ls -lah target/dist/release
+            ldd target/dist/release/fife.exe
+          shell: bash
 
         - name: Set msvc-crt-static to true
           shell: bash
@@ -89,6 +97,13 @@ jobs:
 
         - name: Build with dist (static MSVC-CRT)
           run: .\dist.exe build --print=linkage
+
+        - name: Check linkage with ldd
+          run: |
+            ls -lah target/dist
+            ls -lah target/dist/release
+            ldd target/dist/release/fife.exe
+          shell: bash
 
         - name: Regular build
           run: cargo build
