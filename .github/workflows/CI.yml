@@ -82,21 +82,14 @@ jobs:
           run: cargo install cargo-dist --git https://github.com/CramBL/cargo-dist --branch fix-ignored-msvc-crt-static-flag --rev a4cabb10395c7b275ea40d1636cd2d0e58be8af6 --locked
 
         - name: Build with dist
-          run: .\dist.exe build --print=linkage
-
-        - name: Check linkage with ldd
-          run: |
-            ls -lah target/dist
-            ls -lah target/dist/release
-            ldd target/dist/release/fife.exe
-          shell: bash
+          run: dist build --print=linkage
 
         - name: Set msvc-crt-static to true
           shell: bash
           run: sed -i 's/msvc-crt-static = false/msvc-crt-static = true/' dist-workspace.toml
 
         - name: Build with dist (static MSVC-CRT)
-          run: .\dist.exe build --print=linkage
+          run: dist build --print=linkage
 
   cross-build-test:
     name: Test Suite (Cross)
