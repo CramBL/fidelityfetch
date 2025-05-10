@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `crate-ci/typos`: 1.31.1 → 1.32.0 ([#83](https://github.com/CramBL/fidelityfetch/pull/83))
+
 ## [1.0.2]
 
 ### Changed
