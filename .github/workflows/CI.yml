@@ -80,6 +80,14 @@ jobs:
         - name: Build with dist
           run: dist build --print=linkage
 
+        - name: Set msvc-crt-static to true
+          shell: bash
+          run: sed -i 's/msvc-crt-static = false/msvc-crt-static = true/' dist-workspace.toml
+
+        - name: Build with dist (static MSVC-CRT)
+          run: dist build --print=linkage
+
+
 
   cross-build-test:
     name: Test Suite (Cross)
