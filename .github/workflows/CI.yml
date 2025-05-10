@@ -76,7 +76,7 @@ jobs:
         - uses: dtolnay/rust-toolchain@stable
         - uses: Swatinem/rust-cache@v2
         - name: Install cargo-dist
-          run: cargo install cargo-dist --git https://github.com/astral-sh/cargo-dist@v0.28.5 --locked
+          run: cargo install cargo-dist@0.28.5 --git https://github.com/astral-sh/cargo-dist --locked
         - name: Build with dist
           run: dist init build --print=linkage
 
