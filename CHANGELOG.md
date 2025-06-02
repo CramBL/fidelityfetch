@@ -4,8 +4,9 @@
 
 ### Dependencies
 
-- `clap`: 4.5.37 → 4.5.38 ([#89](https://github.com/CramBL/fidelityfetch/pull/89))
 - `tokio`: 1.45.0 → 1.45.1 ([#90](https://github.com/CramBL/fidelityfetch/pull/90))
+- `clap`: 4.5.37 → 4.5.39 ([#91](https://github.com/CramBL/fidelityfetch/pull/91))
+- `clap_complete`: 4.5.50 → 4.5.52 ([#91](https://github.com/CramBL/fidelityfetch/pull/91))
 
 ## [1.0.3]
 
