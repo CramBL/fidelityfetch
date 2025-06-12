@@ -77,4 +77,4 @@ See [./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityf
 
 #### Using [meta-rust](https://github.com/meta-rust/meta-rust)
 
-Using `meta-rust` is a bit more involved but it should still be relatively straight forward to adapt the `meta-rust-bin` example provided at [./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb](./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb).  
+Using `meta-rust` is a bit more involved but it should still be relatively straight forward to adapt the `meta-rust-bin` example provided at [./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb](./yocto/example-meta-rust-bin/recipes-fidelityfetch/fidelityfetch/fidelityfetch_0.5.0.bb).
