@@ -9,6 +9,8 @@
 <div align="center">
   <a href="https://github.com/CramBL/fidelityfetch/releases" title="Latest Stable GitHub Release">
       <img src="https://img.shields.io/github/release/CramBL/fidelityfetch/all.svg?style=flat&logo=github&logoColor=white&color=blue&label=Latest%20Release" alt="GitHub release"></a>
+</div>    
+<div align="center">
     <img src="https://img.shields.io/badge/-Windows-6E46A2.svg?style=flat&logo=windows-11&logoColor=white" alt="Windows" title="Supported Platform: Windows">&thinsp;
     <img src="https://img.shields.io/badge/-Linux-9C2A91.svg?style=flat&logo=linux&logoColor=white" alt="Linux" title="Supported Platform: Linux">&thinsp;
     <img src="https://img.shields.io/badge/-macOS-red.svg?style=flat&logo=apple&logoColor=white" alt="macOS" title="Supported Platform: macOS">
