@@ -3,7 +3,7 @@ name = "fidelityfetch"
 description = "Seamlessly setup a webserver to serve files recursively from a specified path"
 license = "MIT OR Apache-2.0"
 authors = ["Marc Beck König <mbkj@tutamail.com>"]
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 readme = "README.md"
 homepage = "https://github.com/CramBL/fidelityfetch"
@@ -23,23 +23,40 @@ name = "fife"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.40", features = ["derive", "env"] }
+clap = { version = "4.5.40", features = [
+    "derive",
+    "env",
+    "color",
+    "help",
+], default-features = false }
 clap_complete = "4.5.54"
-axum = { version = "0.8.4", features = ["http2"] }
+axum = { version = "0.8.4", features = [
+    "http2",
+    "http1",
+    "tokio",
+    "query",
+], default-features = false }
 mime_guess = "2.0.5"
-tokio = { version = "1.45", features = ["full"] }
-tracing = "0.1"
-tracing-subscriber = "0.3"
+tokio = { version = "1.45", features = [
+    "rt-multi-thread",
+], default-features = false }
+tracing = { version = "0.1", default-features = false }
+tracing-subscriber = { version = "0.3", features = [
+    "fmt",
+    "ansi",
+], default-features = false }
 tracing-journald = "0.3.1"
 local-ip-address = "0.6"
-mdns-sd = "0.13"
+mdns-sd = { version = "0.13", default-features = false }
 chrono = "0.4"
-tokio-util = { version = "0.7.15", features = ["io"] }
-tokio-stream = { version = "0.1.17", features = ["fs"] }
-futures-util = "0.3"
+tokio-util = { version = "0.7.15", features = ["io"], default-features = false }
+tokio-stream = { version = "0.1.17", features = [
+    "fs",
+], default-features = false }
+futures-util = { version = "0.3", default-features = false }
 percent-encoding = "2.3"
 thiserror = "2.0"
-strum = { version = "0.27", features = ["derive"] }
+strum = { version = "0.27", features = ["derive"], default-features = false }
 
 [dev-dependencies]
 pretty_assertions = "1.4"

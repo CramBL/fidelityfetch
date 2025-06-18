@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+## [1.0.4]
+
+### Changed
+
+- Scrutinize dependencies and reduce binary size by ~15%
+
 ### Dependencies
 
 - `tokio`: 1.45.0 → 1.45.1 ([#90](https://github.com/CramBL/fidelityfetch/pull/90))
