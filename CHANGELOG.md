@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `mdns-sd`: 0.13.9 → 0.13.10 ([#98](https://github.com/CramBL/fidelityfetch/pull/98))
+
 ## [1.0.4]
 
 ### Changed
