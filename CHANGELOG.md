@@ -6,6 +6,7 @@
 
 - `mdns-sd`: 0.13.9 → 0.13.10 ([#98](https://github.com/CramBL/fidelityfetch/pull/98))
 - `tokio`: 1.45.1 → 1.46.1 ([#100](https://github.com/CramBL/fidelityfetch/pull/100))
+- `crate-ci/typos`: 1.33.1 → 1.34.0 ([#99](https://github.com/CramBL/fidelityfetch/pull/99))
 
 ## [1.0.4]
 
