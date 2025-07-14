@@ -4,9 +4,11 @@
 
 ### Dependencies
 
-- `mdns-sd`: 0.13.9 → 0.13.10 ([#98](https://github.com/CramBL/fidelityfetch/pull/98))
 - `tokio`: 1.45.1 → 1.46.1 ([#100](https://github.com/CramBL/fidelityfetch/pull/100))
 - `crate-ci/typos`: 1.33.1 → 1.34.0 ([#99](https://github.com/CramBL/fidelityfetch/pull/99))
+- `clap`: 4.5.40 → 4.5.41 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
+- `clap_complete`: 4.5.54 → 4.5.55 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
+- `mdns-sd`: 0.13.9 → 0.13.11 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
 
 ## [1.0.4]
 
