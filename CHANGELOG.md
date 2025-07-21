@@ -9,6 +9,7 @@
 - `clap`: 4.5.40 → 4.5.41 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
 - `clap_complete`: 4.5.54 → 4.5.55 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
 - `mdns-sd`: 0.13.9 → 0.13.11 ([#101](https://github.com/CramBL/fidelityfetch/pull/101))
+- `strum`: 0.27.1 → 0.27.2 ([#102](https://github.com/CramBL/fidelityfetch/pull/102))
 
 ## [1.0.4]
 
