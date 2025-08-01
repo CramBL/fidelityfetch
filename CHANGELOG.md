@@ -2,6 +2,8 @@
 
 ## [unreleased]
 
+## [1.0.5]
+
 ### Changed
 
 - Migrate to back to the original `cargo-dist` project as it is now maintained again
