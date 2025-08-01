@@ -3,6 +3,7 @@ Description=FidelityFetch serves files efficiently on a local network
 After=network.target
 
 [Service]
+Type=exec
 ExecStart=/usr/bin/fife --log journald
 Restart=on-failure
 WorkingDirectory=/
