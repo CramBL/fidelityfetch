@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+### Changed
+
+- Migrate to back to the original `cargo-dist` project as it is now maintained again
+- Publish to homebrew
+- Set the example service file type to `exec`
+
 ### Dependencies
 
 - `crate-ci/typos`: 1.33.1 → 1.34.0 ([#99](https://github.com/CramBL/fidelityfetch/pull/99))
