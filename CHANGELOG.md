@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `clap`: 4.5.41 → 4.5.42 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
+- `tokio`: 1.47.0 → 1.47.1 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
+- `tokio-util`: 0.7.15 → 0.7.16 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
+
 ## [1.0.5]
 
 ### Changed
