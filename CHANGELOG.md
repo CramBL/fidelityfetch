@@ -9,6 +9,9 @@
 - `clap`: 4.5.41 → 4.5.43 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
 - `clap_complete`: 4.5.55 → 4.5.56 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
 - `mdns-sd`: 0.13.11 → 0.14.0 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
+- `actions/checkout`: 4 → 5 ([#109](https://github.com/CramBL/fidelityfetch/pull/109))
+- `crate-ci/typos`: 1.34.0 → 1.35.3 ([#109](https://github.com/CramBL/fidelityfetch/pull/109))
+- `actions/download-artifact`: 4 → 5 ([#109](https://github.com/CramBL/fidelityfetch/pull/109))
 
 ## [1.0.5]
 
