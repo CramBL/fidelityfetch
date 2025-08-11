@@ -23,13 +23,13 @@ name = "fife"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.42", features = [
+clap = { version = "4.5.43", features = [
     "derive",
     "env",
     "color",
     "help",
 ], default-features = false }
-clap_complete = "4.5.55"
+clap_complete = "4.5.56"
 axum = { version = "0.8.4", features = [
     "http2",
     "http1",
@@ -47,7 +47,7 @@ tracing-subscriber = { version = "0.3", features = [
 ], default-features = false }
 tracing-journald = "0.3.1"
 local-ip-address = "0.6"
-mdns-sd = { version = "0.13", default-features = false }
+mdns-sd = { version = "0.14", default-features = false }
 chrono = "0.4"
 tokio-util = { version = "0.7.16", features = ["io"], default-features = false }
 tokio-stream = { version = "0.1.17", features = [
