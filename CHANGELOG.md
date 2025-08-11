@@ -4,9 +4,11 @@
 
 ### Dependencies
 
-- `clap`: 4.5.41 → 4.5.42 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
 - `tokio`: 1.47.0 → 1.47.1 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
 - `tokio-util`: 0.7.15 → 0.7.16 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
+- `clap`: 4.5.41 → 4.5.43 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
+- `clap_complete`: 4.5.55 → 4.5.56 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
+- `mdns-sd`: 0.13.11 → 0.14.0 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
 
 ## [1.0.5]
 
