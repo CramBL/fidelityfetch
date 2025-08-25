@@ -6,10 +6,11 @@
 
 - `tokio`: 1.47.0 → 1.47.1 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
 - `tokio-util`: 0.7.15 → 0.7.16 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))
-- `mdns-sd`: 0.13.11 → 0.14.0 ([#108](https://github.com/CramBL/fidelityfetch/pull/108))
 - `clap`: 4.5.41 → 4.5.45 ([#110](https://github.com/CramBL/fidelityfetch/pull/110))
 - `clap_complete`: 4.5.55 → 4.5.57 ([#110](https://github.com/CramBL/fidelityfetch/pull/110))
-- `thiserror`: 2.0.12 → 2.0.15 ([#110](https://github.com/CramBL/fidelityfetch/pull/110))
+- `mdns-sd`: 0.13.11 → 0.14.1 ([#111](https://github.com/CramBL/fidelityfetch/pull/111))
+- `percent-encoding`: 2.3.1 → 2.3.2 ([#111](https://github.com/CramBL/fidelityfetch/pull/111))
+- `thiserror`: 2.0.12 → 2.0.16 ([#111](https://github.com/CramBL/fidelityfetch/pull/111))
 
 ## [1.0.5]
 
