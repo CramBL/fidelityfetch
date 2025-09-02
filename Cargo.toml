@@ -10,7 +10,7 @@ homepage = "https://github.com/CramBL/fidelityfetch"
 repository = "https://github.com/CramBL/fidelityfetch"
 keywords = ["file-transfer", "command-line"]
 exclude = [".github", "scripts"]
-rust-version = "1.78"
+rust-version = "1.82"
 
 [package.metadata.wix]
 upgrade-guid = "EB76ABBF-BC76-43E4-A40B-4B076E6BF56C"
@@ -57,6 +57,8 @@ futures-util = { version = "0.3", default-features = false }
 percent-encoding = "2.3"
 thiserror = "2.0"
 strum = { version = "0.27", features = ["derive"], default-features = false }
+zip = { version = "4.6.0", features = ["deflate"], default-features = false }
+walkdir = "2.5.0"
 
 [dev-dependencies]
 pretty_assertions = "1.4"

@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+## [1.1.0]
+
+### Added
+
+- Add "download as Zip" button to directories
+
 ### Dependencies
 
 - `tokio`: 1.47.0 → 1.47.1 ([#106](https://github.com/CramBL/fidelityfetch/pull/106))

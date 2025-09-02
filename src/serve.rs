@@ -16,13 +16,16 @@ pub mod dir;
 mod html;
 pub mod range_req;
 
-pub async fn handle_root(State(state): State<Arc<RwLock<AppState>>>) -> impl IntoResponse {
+pub async fn handle_root(
+    State(state): State<Arc<RwLock<AppState>>>,
+    req: Request<Body>,
+) -> impl IntoResponse {
     let base_path = PathBuf::from(&state.read().await.root_dir);
     let path = match crate::async_util::get_canonicalized_path(&base_path, "").await {
         Ok(path) => path,
         Err(e) => return e.into_response(),
     };
-    dir::serve_directory(&path).await.into_response()
+    dir::serve_directory(&path, req.uri()).await.into_response()
 }
 
 pub async fn serve_path(
@@ -49,13 +52,13 @@ pub async fn serve_path(
     tracing::trace!("Requested absolute path: {}", path.display());
 
     if path.is_dir() {
-        return dir::serve_directory(&path).await.into_response();
+        return dir::serve_directory(&path, req.uri()).await.into_response();
     }
 
     let file = match tokio::fs::File::open(&path).await {
         Ok(file) => file,
         Err(e) => {
-            tracing::error!("Error opening file: {}", e);
+            tracing::error!("Error opening file: {e}");
             return (StatusCode::NOT_FOUND, "File not found").into_response();
         }
     };
