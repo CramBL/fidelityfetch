@@ -11,8 +11,10 @@ const FIFE_FILE_NAME_HOVER_STYLE: &str = ".file-name:hover{text-decoration:under
 const FIFE_FILE_INFO_STYLE: &str = ".file-info{color: #888;font-size:14px;}";
 const FIFE_FILE_DATE_STYLE: &str = ".file-size,.file-date{display:inline-block;margin-right:15px;}";
 const FIFE_DIRECTORY_AND_FILE_STYLE: &str = ".directory{color:#0056b3;}.file{color:#333;}";
+const FIFE_FILE_ACTIONS_STYLE: &str = ".file-actions{margin-left:auto;padding-right:15px;}";
+const FIFE_ZIP_ICON_STYLE: &str = ".zip-icon{font-size:20px;text-decoration:none;color:#007bff;}";
+const FIFE_ZIP_ICON_HOVER_STYLE: &str = ".zip-icon:hover{color:#0056b3;}";
 
-/// Build the HTML site that is sent as a response when a directory is clicked
 pub(super) fn build_html_response(dir_path: &str, entries_html: &str) -> String {
     let mut response = FIFE_HTML_DOC_START.to_owned();
     response.push_str("<title>");
@@ -29,6 +31,9 @@ pub(super) fn build_html_response(dir_path: &str, entries_html: &str) -> String 
     response.push_str(FIFE_FILE_INFO_STYLE);
     response.push_str(FIFE_FILE_DATE_STYLE);
     response.push_str(FIFE_DIRECTORY_AND_FILE_STYLE);
+    response.push_str(FIFE_FILE_ACTIONS_STYLE);
+    response.push_str(FIFE_ZIP_ICON_STYLE);
+    response.push_str(FIFE_ZIP_ICON_HOVER_STYLE);
     response.push_str("</style>");
     response.push_str("</head>");
     response.push_str("<body>");

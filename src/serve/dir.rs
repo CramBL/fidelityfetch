@@ -1,21 +1,27 @@
 use std::path::Path;
 
 use axum::{
-    http::{header, StatusCode},
+    http::{header, StatusCode, Uri},
     response::IntoResponse,
 };
 
 use crate::async_util;
+mod zip;
 
 const FIFE_DIRECTORY_EMPTY_HTML: &str = "<html><body><h1>Empty directory</h1></body></html>";
 
-pub async fn serve_directory(path: &Path) -> impl IntoResponse {
-    tracing::info!("Serving directory: {:?}", path);
+pub async fn serve_directory(path: &Path, uri: &Uri) -> impl IntoResponse {
+    if uri.query() == Some("zip=true") {
+        tracing::info!("Zipping directory: {path:?}");
+        return zip::zip_directory(path).await;
+    }
+
+    tracing::info!("Serving directory: {path:?}");
 
     let mut entries = match tokio::fs::read_dir(path).await {
         Ok(entries) => entries,
         Err(e) => {
-            tracing::error!("Error reading directory: {}", e);
+            tracing::error!("Error reading directory: {e}");
             return (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 "Failed to read directory",
@@ -33,7 +39,7 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
                 }
             }
             Err(e) => {
-                tracing::error!("Error reading directory entry: {}", e);
+                tracing::error!("Error reading directory entry: {e}");
                 break;
             }
         }
@@ -49,7 +55,6 @@ pub async fn serve_directory(path: &Path) -> impl IntoResponse {
             .into_response();
     }
 
-    // Sort entries alphabetically with directories first
     dir_entries.sort_unstable_by(|a, b| match (a.ftype.is_dir(), b.ftype.is_dir()) {
         (true, false) => std::cmp::Ordering::Less,
         (false, true) => std::cmp::Ordering::Greater,

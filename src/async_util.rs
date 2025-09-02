@@ -180,13 +180,11 @@ mod tests {
 
         for (input, expected) in test_cases {
             let result = get_canonicalized_path(base_path, input).await;
-            assert!(result.is_ok(), "Failed for input: {}", input);
+            assert!(result.is_ok(), "Failed for input: {input}");
             let canonical_path = result?;
             assert!(
                 canonical_path.ends_with(expected),
-                "Expected path to end with '{}', but got '{:?}'",
-                expected,
-                canonical_path
+                "Expected path to end with '{expected}', but got '{canonical_path:?}'",
             );
         }
         Ok(())
@@ -198,7 +196,7 @@ mod tests {
         let base_path = temp_dir.path();
         let non_existent_file_name = "non existent file name";
 
-        let result = get_canonicalized_path(base_path, &non_existent_file_name).await;
+        let result = get_canonicalized_path(base_path, non_existent_file_name).await;
         assert!(result.is_err());
         let error = result.unwrap_err();
         assert_matches!(error, PathError::NotFound(_));
@@ -227,15 +225,13 @@ mod tests {
             let result = get_canonicalized_path(base_path, invalid_encoding).await;
             assert!(
                 result.is_err(),
-                "Expected error for input: {}",
-                invalid_encoding
+                "Expected error for input: {invalid_encoding}"
             );
             let error = result.unwrap_err();
             assert_matches!(
                 error,
                 PathError::DecodingError(_),
-                "Expected DecodingError for input: {}",
-                invalid_encoding
+                "Expected DecodingError for input: {invalid_encoding}"
             );
         }
 

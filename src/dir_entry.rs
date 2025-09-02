@@ -1,7 +1,6 @@
 use crate::icon::FileTypeCategory;
 use std::fs::FileType;
 
-/// A directory entry with metadata
 #[derive(Debug)]
 pub struct FifeDirEntry {
     pub name: String,
@@ -44,6 +43,14 @@ impl FifeDirEntry {
             "file"
         };
 
+        let actions = if self.ftype.is_dir() {
+            format!(
+                r#"<div class="file-actions"><a href="{fname}?zip=true" class="zip-icon" title="Download as ZIP">📥</a></div>"#
+            )
+        } else {
+            String::new()
+        };
+
         format!(
             r#"
             <li class="file-item {file_item}">
@@ -55,6 +62,7 @@ impl FifeDirEntry {
                         <span class="file-size">{size}</span>
                     </div>
                 </div>
+                {actions}
             </li>
             "#,
             icon = self.category().icon(),
