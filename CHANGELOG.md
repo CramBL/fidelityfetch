@@ -2,6 +2,13 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `actions/checkout`: 4 → 5 ([#116](https://github.com/CramBL/fidelityfetch/pull/116))
+- `crate-ci/typos`: 1.34.0 → 1.36.2 ([#116](https://github.com/CramBL/fidelityfetch/pull/116))
+- `actions/download-artifact`: 4 → 5 ([#116](https://github.com/CramBL/fidelityfetch/pull/116))
+- `actions/setup-node`: 4 → 5 ([#116](https://github.com/CramBL/fidelityfetch/pull/116))
+
 ## [1.1.0]
 
 ### Added
