@@ -30,7 +30,7 @@ jobs:
                      "x86_64-unknown-linux-musl",
                      "x86_64-pc-windows-msvc"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@master
         with:
@@ -43,14 +43,14 @@ jobs:
     name: Spellcheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Check spelling of entire workspace
-        uses: crate-ci/typos@v1.34.0
+        uses: crate-ci/typos@v1.36.2
 
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: rustsec/audit-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +66,7 @@ jobs:
             - macos-latest
             - windows-2022
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
     - uses: Swatinem/rust-cache@v2
     - run: cargo build
@@ -84,7 +84,7 @@ jobs:
                 "arm-unknown-linux-musleabihf",
                 "armv7-unknown-linux-musleabihf"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Cargo Cross
         run: |
             curl -LO "https://github.com/cross-rs/cross/releases/download/${{ env.CROSS_VERSION }}/cross-x86_64-unknown-linux-musl.tar.gz"
@@ -100,7 +100,7 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
@@ -110,7 +110,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
@@ -120,7 +120,7 @@ jobs:
   msrv:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: taiki-e/install-action@cargo-hack
       - run: cargo hack check --rust-version --workspace --all-targets --ignore-private
 
@@ -141,7 +141,7 @@ jobs:
     outputs:
       new_tag_created: ${{ steps.create_tag.outputs.new_tag_created }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
             fetch-depth: 0
             token: ${{ secrets.PAT_WITH_REPO_SCOPE }}
@@ -174,7 +174,7 @@ jobs:
     if: needs.tag-release.outputs.new_tag_created == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Publish
