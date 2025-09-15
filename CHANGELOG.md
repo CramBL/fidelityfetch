@@ -6,7 +6,8 @@
 
 - `clap`: 4.5.46 → 4.5.47 ([#117](https://github.com/CramBL/fidelityfetch/pull/117))
 - `mdns-sd`: 0.14.1 → 0.15.1 ([#117](https://github.com/CramBL/fidelityfetch/pull/117))
-- `zip`: 4.6.0 → 5.0.0 ([#117](https://github.com/CramBL/fidelityfetch/pull/117))
+- `chrono`: 0.4.41 → 0.4.42 ([#119](https://github.com/CramBL/fidelityfetch/pull/119))
+- `zip`: 4.6.0 → 5.1.1 ([#119](https://github.com/CramBL/fidelityfetch/pull/119))
 
 ## [1.1.0]
 
