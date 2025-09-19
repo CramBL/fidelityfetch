@@ -3,6 +3,10 @@
 ## [unreleased]
 
 
+### Changed
+
+- On hover, the ZIP download button displays the name of the directory the download button is associated with
+
 ### Dependencies
 
 - Bump MSRV to 1.83.0

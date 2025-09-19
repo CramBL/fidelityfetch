@@ -32,7 +32,8 @@ impl FifeDirEntry {
     }
 
     pub fn to_html(self) -> String {
-        let mut fname = self.name.clone();
+        let orig_fname = &self.name;
+        let mut fname = orig_fname.clone();
         if self.ftype.is_dir() {
             fname.push('/');
         }
@@ -45,7 +46,7 @@ impl FifeDirEntry {
 
         let actions = if self.ftype.is_dir() {
             format!(
-                r#"<div class="file-actions"><a href="{fname}?zip=true" class="zip-icon" title="Download as ZIP">📥</a></div>"#
+                r#"<div class="file-actions"><a href="{fname}?zip=true" class="zip-icon" title="Download '{orig_fname}' as ZIP">📥</a></div>"#
             )
         } else {
             String::new()
