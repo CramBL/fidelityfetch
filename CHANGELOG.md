@@ -20,6 +20,10 @@
 - `zip`: 4.6.0 → 5.0.0 ([#117](https://github.com/CramBL/fidelityfetch/pull/117))
 - `clap_complete`: 4.5.57 → 4.5.58 ([#121](https://github.com/CramBL/fidelityfetch/pull/121))
 - `chrono`: 0.4.41 → 0.4.42 ([#121](https://github.com/CramBL/fidelityfetch/pull/121))
+- `actions/checkout`: 4 → 5 ([#123](https://github.com/CramBL/fidelityfetch/pull/123))
+- `crate-ci/typos`: 1.34.0 → 1.36.2 ([#123](https://github.com/CramBL/fidelityfetch/pull/123))
+- `actions/download-artifact`: 4 → 5 ([#123](https://github.com/CramBL/fidelityfetch/pull/123))
+- `actions/setup-node`: 4 → 5 ([#123](https://github.com/CramBL/fidelityfetch/pull/123))
 
 ## [1.1.0]
 
