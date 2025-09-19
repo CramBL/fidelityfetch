@@ -3,6 +3,10 @@
 ## [unreleased]
 
 
+### Added
+
+- Simple back button to go up a level in the path hierarchy
+
 ### Changed
 
 - On hover, the ZIP download button displays the name of the directory the download button is associated with

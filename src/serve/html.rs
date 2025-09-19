@@ -14,8 +14,10 @@ const FIFE_DIRECTORY_AND_FILE_STYLE: &str = ".directory{color:#0056b3;}.file{col
 const FIFE_FILE_ACTIONS_STYLE: &str = ".file-actions{margin-left:auto;padding-right:15px;}";
 const FIFE_ZIP_ICON_STYLE: &str = ".zip-icon{font-size:20px;text-decoration:none;color:#007bff;}";
 const FIFE_ZIP_ICON_HOVER_STYLE: &str = ".zip-icon:hover{color:#0056b3;}";
+const FIFE_GO_UP_PATH_BUTTON: &str =
+    r#"<a href=".." style="text-decoration: none; color: inherit; margin-right: 15px;">⬆️</a>"#;
 
-pub(super) fn build_html_response(dir_path: &str, entries_html: &str) -> String {
+pub(super) fn build_html_response(dir_path: &str, entries_html: &str, is_root: bool) -> String {
     let mut response = FIFE_HTML_DOC_START.to_owned();
     response.push_str("<title>");
     response.push_str(dir_path);
@@ -38,6 +40,9 @@ pub(super) fn build_html_response(dir_path: &str, entries_html: &str) -> String 
     response.push_str("</head>");
     response.push_str("<body>");
     response.push_str("<h1>");
+    if !is_root {
+        response.push_str(FIFE_GO_UP_PATH_BUTTON);
+    }
     response.push_str(dir_path);
     response.push_str("</h1>");
     response.push_str("<ul>");

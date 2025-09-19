@@ -63,8 +63,9 @@ walkdir = "2.5.0"
 [dev-dependencies]
 pretty_assertions = "1.4"
 assert_matches = "1.5"
-temp-dir = "0.1"
+tempfile = "3.22.0"
 testresult = "0.4"
+axum-test = "18.1.0"
 
 
 [profile.release]

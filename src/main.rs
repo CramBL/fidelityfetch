@@ -1,4 +1,3 @@
-use axum::{routing::get, Router};
 use clap::Parser;
 use config::Config;
 use std::{
@@ -15,6 +14,7 @@ pub mod config;
 pub mod dir_entry;
 pub mod icon;
 mod mdns;
+pub(crate) mod router;
 pub mod serve;
 #[cfg(test)]
 pub(crate) mod test_prelude;
@@ -46,10 +46,7 @@ async fn main() -> ExitCode {
     let local_ip =
         local_ip_address::local_ip().unwrap_or_else(|_| IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)));
 
-    let app = Router::new()
-        .route("/", get(serve::handle_root))
-        .route("/{*file}", get(serve::serve_path))
-        .with_state(app_state);
+    let app = crate::router::get_router(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
     let listener = match tokio::net::TcpListener::bind(&addr).await {

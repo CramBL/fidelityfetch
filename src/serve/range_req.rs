@@ -20,7 +20,7 @@ pub async fn handle_range_request(
         Ok((start, end)) => {
             let length = end - start + 1;
             if let Err(e) = file.seek(SeekFrom::Start(start)).await {
-                tracing::error!("Error seeking file: {}", e);
+                tracing::error!("Error seeking file: {e}");
                 return StatusCode::INTERNAL_SERVER_ERROR.into_response();
             }
 
