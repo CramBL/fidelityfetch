@@ -25,7 +25,9 @@ pub async fn handle_root(
         Ok(path) => path,
         Err(e) => return e.into_response(),
     };
-    dir::serve_directory(&path, req.uri()).await.into_response()
+    dir::serve_directory(&path, req.uri(), true)
+        .await
+        .into_response()
 }
 
 pub async fn serve_path(
@@ -52,7 +54,9 @@ pub async fn serve_path(
     tracing::trace!("Requested absolute path: {}", path.display());
 
     if path.is_dir() {
-        return dir::serve_directory(&path, req.uri()).await.into_response();
+        return dir::serve_directory(&path, req.uri(), false)
+            .await
+            .into_response();
     }
 
     let file = match tokio::fs::File::open(&path).await {
@@ -95,4 +99,47 @@ pub async fn serve_path(
         body,
     )
         .into_response()
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::test_prelude::*;
+    use axum_test::TestServer;
+    use std::fs;
+
+    use crate::router::get_router;
+
+    use super::*;
+
+    #[tokio::test]
+    async fn test_back_button_on_server() -> TestResult {
+        // Arrange
+        let temp_dir = tempfile::tempdir()?;
+        let root_path = temp_dir.path().to_path_buf();
+        let subdir_path = root_path.join("subdir");
+        fs::create_dir(&subdir_path)?;
+        fs::write(subdir_path.join("file.txt"), "content")?;
+
+        let app = get_router(AppState::new(root_path));
+        let server = TestServer::new(app)?;
+
+        // Test subdirectory - should have back button
+        let response = server.get("/subdir").await;
+        response.assert_status_ok();
+        assert!(
+            response.text().contains(r#"<a href="..""#),
+            "Back button MUST be present on subdirectory page"
+        );
+
+        // Test root directory - should NOT have back button
+        let response = server.get("/").await;
+        response.assert_status_ok();
+
+        assert!(
+            !response.text().contains(r#"<a href="..""#),
+            "Back button must NOT be present on root page"
+        );
+
+        Ok(())
+    }
 }

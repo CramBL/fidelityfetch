@@ -7,7 +7,7 @@ updates:
         patterns:
           - "*" # open a single pull request to update all actions
     schedule:
-      interval: weekly
+      interval: monthly
   - package-ecosystem: cargo
     directory: "/"
     groups:

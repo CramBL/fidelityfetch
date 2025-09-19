@@ -5,12 +5,12 @@ use axum::{
     response::IntoResponse,
 };
 
-use crate::async_util;
+use crate::{async_util, serve::html};
 mod zip;
 
 const FIFE_DIRECTORY_EMPTY_HTML: &str = "<html><body><h1>Empty directory</h1></body></html>";
 
-pub async fn serve_directory(path: &Path, uri: &Uri) -> impl IntoResponse {
+pub async fn serve_directory(path: &Path, uri: &Uri, is_root: bool) -> impl IntoResponse {
     if uri.query() == Some("zip=true") {
         tracing::info!("Zipping directory: {path:?}");
         return zip::zip_directory(path).await;
@@ -62,9 +62,8 @@ pub async fn serve_directory(path: &Path, uri: &Uri) -> impl IntoResponse {
     });
 
     let entries_html: String = dir_entries.into_iter().map(|e| e.to_html()).collect();
-
     let response =
-        super::html::build_html_response(path.display().to_string().as_str(), &entries_html);
+        html::build_html_response(path.display().to_string().as_str(), &entries_html, is_root);
     tracing::trace!(response_len = response.len(), "Returning directory listing");
     (
         StatusCode::OK,
