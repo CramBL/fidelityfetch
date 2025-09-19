@@ -29,7 +29,7 @@ clap = { version = "4.5.47", features = [
     "color",
     "help",
 ], default-features = false }
-clap_complete = "4.5.57"
+clap_complete = "4.5.58"
 axum = { version = "0.8.4", features = [
     "http2",
     "http1",
