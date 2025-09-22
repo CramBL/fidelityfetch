@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `clap`: 4.5.47 → 4.5.48 ([#125](https://github.com/CramBL/fidelityfetch/pull/125))
+
 ## [1.2.0]
 
 ### Added
