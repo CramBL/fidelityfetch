@@ -1,14 +1,12 @@
 use clap::Parser;
 use config::Config;
 use std::{
-    io,
     net::{IpAddr, Ipv4Addr, SocketAddr},
     path::PathBuf,
     process::ExitCode,
     sync::Arc,
 };
 use tokio::sync::RwLock;
-
 pub mod async_util;
 pub mod config;
 pub mod dir_entry;
@@ -16,6 +14,7 @@ pub mod icon;
 mod mdns;
 pub(crate) mod router;
 pub mod serve;
+mod setup;
 #[cfg(test)]
 pub(crate) mod test_prelude;
 pub mod util;
@@ -40,26 +39,15 @@ async fn main() -> ExitCode {
         return ExitCode::SUCCESS;
     }
     cfg.setup_logging();
-
     let app_state = AppState::new(cfg.root().to_owned());
-
     let local_ip =
         local_ip_address::local_ip().unwrap_or_else(|_| IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)));
-
     let app = crate::router::get_router(app_state);
 
     let addr = SocketAddr::from(([0, 0, 0, 0], cfg.port()));
-    let listener = match tokio::net::TcpListener::bind(&addr).await {
-        Ok(listener) => listener,
-        Err(e) => {
-            match e.kind() {
-                io::ErrorKind::AddrInUse => eprintln!(
-                    "Error: {e}\nHINT: Choose another port or use '0' to use any available port",
-                ),
-                _ => eprintln!("Error: {e}"),
-            }
-            return ExitCode::FAILURE;
-        }
+
+    let Ok(listener) = setup::setup_tcp_listener(&addr).await else {
+        return ExitCode::FAILURE;
     };
 
     let Ok(local_addr) = listener.local_addr() else {
@@ -78,6 +66,7 @@ async fn main() -> ExitCode {
     }
 
     eprintln!("Listening on http://{local_ip}:{local_port}");
+
     if let Err(e) = axum::serve(listener, app.into_make_service()).await {
         eprintln!("Server error: {e}");
         return ExitCode::FAILURE;
