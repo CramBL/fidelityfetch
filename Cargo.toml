@@ -23,6 +23,7 @@ name = "fife"
 path = "src/main.rs"
 
 [dependencies]
+listenfd = "1.0.2"
 clap = { version = "4.5.48", features = [
     "derive",
     "env",
@@ -63,7 +64,7 @@ walkdir = "2.5.0"
 [dev-dependencies]
 pretty_assertions = "1.4"
 assert_matches = "1.5"
-tempfile = "3.22.0"
+tempfile = "3.23.0"
 testresult = "0.4"
 axum-test = "18.1.0"
 
