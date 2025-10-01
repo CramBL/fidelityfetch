@@ -7,6 +7,10 @@
 - `clap`: 4.5.47 → 4.5.48 ([#125](https://github.com/CramBL/fidelityfetch/pull/125))
 - `axum`: 0.8.4 → 0.8.5 ([#127](https://github.com/CramBL/fidelityfetch/pull/127))
 - `thiserror`: 2.0.16 → 2.0.17 ([#127](https://github.com/CramBL/fidelityfetch/pull/127))
+- `actions/checkout`: 4 → 5 ([#128](https://github.com/CramBL/fidelityfetch/pull/128))
+- `crate-ci/typos`: 1.34.0 → 1.37.0 ([#128](https://github.com/CramBL/fidelityfetch/pull/128))
+- `actions/download-artifact`: 4 → 5 ([#128](https://github.com/CramBL/fidelityfetch/pull/128))
+- `actions/setup-node`: 4 → 5 ([#128](https://github.com/CramBL/fidelityfetch/pull/128))
 
 ## [1.2.0]
 
