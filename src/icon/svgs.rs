@@ -40,3 +40,4 @@ pub const CPP_SVG: &str = svg!("cpp.svg");
 pub const HTML_SVG: &str = svg!("html.svg");
 pub const CSV_SVG: &str = svg!("csv.svg");
 pub const TYPESCRIPT_SVG: &str = svg!("typescript.svg");
+pub const HDF5_SVG: &str = svg!("hdf5.svg");
