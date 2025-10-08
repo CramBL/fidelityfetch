@@ -42,6 +42,7 @@ pub enum FileTypeCategory {
     SystemVerilog,
     Exe,
     TypeScript,
+    HDF5,
 }
 
 impl FileTypeCategory {
@@ -79,6 +80,7 @@ impl FileTypeCategory {
             "exe" => Self::Exe,
             "cpp" | "hpp" | "hh" | "cc" | "c++" | "h++" | "cxx" | "hxx" => Self::Cpp,
             "ts" => Self::TypeScript,
+            "h5" => Self::HDF5,
             _ => Self::Unknown,
         }
     }
@@ -121,6 +123,7 @@ impl FileTypeCategory {
             Self::SystemVerilog => SYSTEMVERILOG_SVG,
             Self::Exe => EXE_SVG,
             Self::TypeScript => TYPESCRIPT_SVG,
+            Self::HDF5 => HDF5_SVG,
         }
     }
 
@@ -162,6 +165,7 @@ impl FileTypeCategory {
             Self::SystemVerilog => "SystemVerilog",
             Self::Exe => "Executable",
             Self::TypeScript => "TypeScript",
+            Self::HDF5 => "HDF5",
         }
     }
 }

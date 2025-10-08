@@ -1,0 +1,9 @@
+<svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" role="img" aria-label=".h5 file icon">
+ <title>.h5 file icon</title>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#ffffff" stroke="#000000" stroke-linejoin="round" opacity="undefined" d="m3.50008,3.06263c0,-0.9849 0.76568,-1.81254 1.67685,-1.81254l15.02181,0c0.91116,0 1.67685,0.82764 1.67685,1.81254l0,18.12547c0,0.9849 -0.76568,1.81254 -1.67685,1.81254l-15.02181,0c-0.91116,0 -1.67685,-0.82764 -1.67685,-1.81254l0,-18.12547z" id="svg_1"/>
+  <path d="m17.43792,1.75008l4.1252,3.00019l0,1.00006l-2.75013,0c-0.68753,0 -1.37507,-0.50003 -1.37507,-1.00006l0,-3.00019z" class="fold" fill="#ffffff" stroke="#000000" stroke-linejoin="round" id="svg_2"/>
+  <text x="13.65156" y="-40.29833" text-anchor="middle" alignment-baseline="middle" class="ext" font-family="Arial, Helvetica, sans-serif" font-size="28px" font-weight="700" fill="#0000ff" id="svg_4" transform="matrix(0.430016, 0, 0, 0.418745, 6.69237, 34.3007)">h5</text>
+ </g>
+</svg>

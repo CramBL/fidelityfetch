@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+## [1.3.0]
+
+### Added
+
+- Recognize `HDF5`-files
+
 ### Dependencies
 
 - `clap`: 4.5.47 → 4.5.48 ([#125](https://github.com/CramBL/fidelityfetch/pull/125))
