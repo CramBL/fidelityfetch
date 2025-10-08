@@ -10,6 +10,7 @@
 
 ### Dependencies
 
+- `cargo update`
 - `clap`: 4.5.47 → 4.5.48 ([#125](https://github.com/CramBL/fidelityfetch/pull/125))
 - `thiserror`: 2.0.16 → 2.0.17 ([#127](https://github.com/CramBL/fidelityfetch/pull/127))
 - `axum`: 0.8.4 → 0.8.6 ([#129](https://github.com/CramBL/fidelityfetch/pull/129))
