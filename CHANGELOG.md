@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+### Dependencies
+
+- `zip`: 5.1.1 → 6.0.0 ([#132](https://github.com/CramBL/fidelityfetch/pull/132))
+
 ## [1.3.0]
 
 ### Added
