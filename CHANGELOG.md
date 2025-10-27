@@ -5,9 +5,9 @@
 ### Dependencies
 
 - `zip`: 5.1.1 → 6.0.0 ([#132](https://github.com/CramBL/fidelityfetch/pull/132))
-- `clap`: 4.5.48 → 4.5.49 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
 - `clap_complete`: 4.5.58 → 4.5.59 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
 - `tokio`: 1.47.1 → 1.48.0 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
+- `clap`: 4.5.48 → 4.5.50 ([#134](https://github.com/CramBL/fidelityfetch/pull/134))
 
 ## [1.3.0]
 
