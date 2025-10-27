@@ -24,7 +24,7 @@ path = "src/main.rs"
 
 [dependencies]
 listenfd = "1.0.2"
-clap = { version = "4.5.49", features = [
+clap = { version = "4.5.50", features = [
     "derive",
     "env",
     "color",
