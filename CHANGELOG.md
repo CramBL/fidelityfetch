@@ -8,6 +8,11 @@
 - `clap_complete`: 4.5.58 → 4.5.59 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
 - `tokio`: 1.47.1 → 1.48.0 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
 - `clap`: 4.5.48 → 4.5.50 ([#134](https://github.com/CramBL/fidelityfetch/pull/134))
+- `actions/checkout`: 4 → 5 ([#135](https://github.com/CramBL/fidelityfetch/pull/135))
+- `crate-ci/typos`: 1.34.0 → 1.39.0 ([#135](https://github.com/CramBL/fidelityfetch/pull/135))
+- `actions/upload-artifact`: 4 → 5 ([#135](https://github.com/CramBL/fidelityfetch/pull/135))
+- `actions/download-artifact`: 4 → 6 ([#135](https://github.com/CramBL/fidelityfetch/pull/135))
+- `actions/setup-node`: 4 → 6 ([#135](https://github.com/CramBL/fidelityfetch/pull/135))
 
 ## [1.3.0]
 
