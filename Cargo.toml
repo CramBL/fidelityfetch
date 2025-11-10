@@ -48,7 +48,7 @@ tracing-subscriber = { version = "0.3", features = [
 ], default-features = false }
 tracing-journald = "0.3.1"
 local-ip-address = "0.6"
-mdns-sd = { version = "0.16", default-features = false }
+mdns-sd = { version = "0.17", default-features = false }
 chrono = "0.4"
 tokio-util = { version = "0.7.17", features = ["io"], default-features = false }
 tokio-stream = { version = "0.1.17", features = [
