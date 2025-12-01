@@ -24,14 +24,14 @@ path = "src/main.rs"
 
 [dependencies]
 listenfd = "1.0.2"
-clap = { version = "4.5.51", features = [
+clap = { version = "4.5.53", features = [
     "derive",
     "env",
     "color",
     "help",
 ], default-features = false }
-clap_complete = "4.5.60"
-axum = { version = "0.8.6", features = [
+clap_complete = "4.5.61"
+axum = { version = "0.8.7", features = [
     "http2",
     "http1",
     "tokio",
@@ -46,7 +46,7 @@ tracing-subscriber = { version = "0.3", features = [
     "fmt",
     "ansi",
 ], default-features = false }
-tracing-journald = "0.3.1"
+tracing-journald = "0.3.2"
 local-ip-address = "0.6"
 mdns-sd = { version = "0.17", default-features = false }
 chrono = "0.4"
@@ -66,7 +66,7 @@ pretty_assertions = "1.4"
 assert_matches = "1.5"
 tempfile = "3.23.0"
 testresult = "0.4"
-axum-test = "18.2.1"
+axum-test = "18.3.0"
 
 
 [profile.release]
