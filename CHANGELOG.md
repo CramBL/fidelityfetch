@@ -11,6 +11,11 @@
 - `tokio-util`: 0.7.16 → 0.7.17 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
 - `axum-test`: 18.1.0 → 18.2.1 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
 - `mdns-sd`: 0.15.1 → 0.17.0 ([#137](https://github.com/CramBL/fidelityfetch/pull/137))
+- `actions/checkout`: 4 → 6 ([#140](https://github.com/CramBL/fidelityfetch/pull/140))
+- `crate-ci/typos`: 1.34.0 → 1.40.0 ([#140](https://github.com/CramBL/fidelityfetch/pull/140))
+- `actions/upload-artifact`: 4 → 5 ([#140](https://github.com/CramBL/fidelityfetch/pull/140))
+- `actions/download-artifact`: 4 → 6 ([#140](https://github.com/CramBL/fidelityfetch/pull/140))
+- `actions/setup-node`: 4 → 6 ([#140](https://github.com/CramBL/fidelityfetch/pull/140))
 
 ## [1.3.0]
 
