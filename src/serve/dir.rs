@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use axum::{
-    http::{header, StatusCode, Uri},
+    http::{StatusCode, Uri, header},
     response::IntoResponse,
 };
 

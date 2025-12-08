@@ -1,9 +1,9 @@
 use clap::{
-    builder::{
-        styling::{AnsiColor, Effects},
-        Styles,
-    },
     Parser, ValueEnum,
+    builder::{
+        Styles,
+        styling::{AnsiColor, Effects},
+    },
 };
 use logging::Logging;
 use std::path::{Path, PathBuf};
