@@ -6,11 +6,16 @@
 
 - `zip`: 5.1.1 → 6.0.0 ([#132](https://github.com/CramBL/fidelityfetch/pull/132))
 - `tokio`: 1.47.1 → 1.48.0 ([#133](https://github.com/CramBL/fidelityfetch/pull/133))
-- `clap`: 4.5.48 → 4.5.51 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
-- `clap_complete`: 4.5.58 → 4.5.60 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
 - `tokio-util`: 0.7.16 → 0.7.17 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
-- `axum-test`: 18.1.0 → 18.2.1 ([#136](https://github.com/CramBL/fidelityfetch/pull/136))
-- `mdns-sd`: 0.15.1 → 0.17.0 ([#137](https://github.com/CramBL/fidelityfetch/pull/137))
+- `clap`: 4.5.48 → 4.5.53 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `clap_complete`: 4.5.58 → 4.5.61 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `axum`: 0.8.6 → 0.8.7 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `tracing`: 0.1.41 → 0.1.43 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `tracing-subscriber`: 0.3.20 → 0.3.22 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `tracing-journald`: 0.3.1 → 0.3.2 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `local-ip-address`: 0.6.5 → 0.6.6 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `mdns-sd`: 0.15.1 → 0.17.1 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
+- `axum-test`: 18.1.0 → 18.4.1 ([#141](https://github.com/CramBL/fidelityfetch/pull/141))
 
 ## [1.3.0]
 
