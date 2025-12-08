@@ -1,12 +1,12 @@
 use axum::body::Body;
-use axum::http::{header, StatusCode};
+use axum::http::{StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use std::io::{Cursor, Write};
 use std::path::Path;
 use walkdir::WalkDir;
+use zip::CompressionMethod;
 use zip::write::ZipWriter;
 use zip::write::{ExtendedFileOptions, FileOptions};
-use zip::CompressionMethod;
 
 fn create_zip_archive(base_dir: &Path) -> std::io::Result<Vec<u8>> {
     let mut zip = ZipWriter::new(Cursor::new(Vec::new()));

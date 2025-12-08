@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
-use axum::{routing::get, Router};
+use axum::{Router, routing::get};
 use tokio::sync::RwLock;
 
-use crate::{serve, AppState};
+use crate::{AppState, serve};
 
 pub fn get_router(app_state: Arc<RwLock<AppState>>) -> Router {
     Router::new()

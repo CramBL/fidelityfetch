@@ -1,14 +1,14 @@
 use axum::{
     body::Body,
     extract::State,
-    http::{header, Request, StatusCode},
+    http::{Request, StatusCode, header},
     response::IntoResponse,
 };
 use std::{path::PathBuf, sync::Arc};
 use tokio::sync::RwLock;
 
-use crate::async_util;
 use crate::AppState;
+use crate::async_util;
 
 static FAVICON: &[u8] = include_bytes!("../assets/favicon.ico");
 
