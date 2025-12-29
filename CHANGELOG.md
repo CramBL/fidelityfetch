@@ -16,6 +16,7 @@
 - `tracing`: 0.1.41 → 0.1.44 ([#145](https://github.com/CramBL/fidelityfetch/pull/145))
 - `local-ip-address`: 0.6.5 → 0.6.8 ([#145](https://github.com/CramBL/fidelityfetch/pull/145))
 - `zip`: 5.1.1 → 7.0.0 ([#145](https://github.com/CramBL/fidelityfetch/pull/145))
+- `tempfile`: 3.23.0 → 3.24.0 ([#146](https://github.com/CramBL/fidelityfetch/pull/146))
 
 ## [1.3.0]
 
