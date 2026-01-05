@@ -24,13 +24,13 @@ path = "src/main.rs"
 
 [dependencies]
 listenfd = "1.0.2"
-clap = { version = "4.5.53", features = [
+clap = { version = "4.5.54", features = [
     "derive",
     "env",
     "color",
     "help",
 ], default-features = false }
-clap_complete = "4.5.62"
+clap_complete = "4.5.64"
 axum = { version = "0.8.8", features = [
     "http2",
     "http1",
@@ -38,7 +38,7 @@ axum = { version = "0.8.8", features = [
     "query",
 ], default-features = false }
 mime_guess = "2.0.5"
-tokio = { version = "1.48", features = [
+tokio = { version = "1.49", features = [
     "rt-multi-thread",
 ], default-features = false }
 tracing = { version = "0.1", default-features = false }
@@ -50,8 +50,8 @@ tracing-journald = "0.3.2"
 local-ip-address = "0.6"
 mdns-sd = { version = "0.17", default-features = false }
 chrono = "0.4"
-tokio-util = { version = "0.7.17", features = ["io"], default-features = false }
-tokio-stream = { version = "0.1.17", features = [
+tokio-util = { version = "0.7.18", features = ["io"], default-features = false }
+tokio-stream = { version = "0.1.18", features = [
     "fs",
 ], default-features = false }
 futures-util = { version = "0.3", default-features = false }
@@ -66,7 +66,7 @@ pretty_assertions = "1.4"
 assert_matches = "1.5"
 tempfile = "3.24.0"
 testresult = "0.4"
-axum-test = "18.4.1"
+axum-test = "18.5.0"
 
 
 [profile.release]
