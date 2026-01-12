@@ -13,11 +13,11 @@
 - `zip`: 5.1.1 → 7.0.0 ([#145](https://github.com/CramBL/fidelityfetch/pull/145))
 - `tempfile`: 3.23.0 → 3.24.0 ([#146](https://github.com/CramBL/fidelityfetch/pull/146))
 - `clap`: 4.5.48 → 4.5.54 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
-- `clap_complete`: 4.5.58 → 4.5.64 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
 - `tokio`: 1.47.1 → 1.49.0 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
 - `tokio-util`: 0.7.16 → 0.7.18 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
 - `tokio-stream`: 0.1.17 → 0.1.18 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
-- `axum-test`: 18.1.0 → 18.5.0 ([#148](https://github.com/CramBL/fidelityfetch/pull/148))
+- `clap_complete`: 4.5.58 → 4.5.65 ([#149](https://github.com/CramBL/fidelityfetch/pull/149))
+- `axum-test`: 18.1.0 → 18.6.0 ([#149](https://github.com/CramBL/fidelityfetch/pull/149))
 
 ## [1.3.0]
 
