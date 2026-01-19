@@ -58,7 +58,7 @@ futures-util = { version = "0.3", default-features = false }
 percent-encoding = "2.3"
 thiserror = "2.0"
 strum = { version = "0.27", features = ["derive"], default-features = false }
-zip = { version = "7.0.0", features = ["deflate"], default-features = false }
+zip = { version = "7.1.0", features = ["deflate"], default-features = false }
 walkdir = "2.5.0"
 
 [dev-dependencies]
@@ -66,7 +66,7 @@ pretty_assertions = "1.4"
 assert_matches = "1.5"
 tempfile = "3.24.0"
 testresult = "0.4"
-axum-test = "18.6.0"
+axum-test = "18.7.0"
 
 
 [profile.release]
