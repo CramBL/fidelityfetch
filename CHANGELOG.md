@@ -18,8 +18,8 @@
 - `mdns-sd`: 0.15.1 → 0.17.2 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
 - `chrono`: 0.4.42 → 0.4.43 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
 - `thiserror`: 2.0.17 → 2.0.18 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
-- `zip`: 5.1.1 → 7.1.0 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
 - `axum-test`: 18.1.0 → 18.7.0 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
+- `zip`: 5.1.1 → 7.2.0 ([#151](https://github.com/CramBL/fidelityfetch/pull/151))
 
 ## [1.3.0]
 
