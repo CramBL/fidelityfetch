@@ -17,9 +17,9 @@
 - `chrono`: 0.4.42 → 0.4.43 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
 - `thiserror`: 2.0.17 → 2.0.18 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
 - `axum-test`: 18.1.0 → 18.7.0 ([#150](https://github.com/CramBL/fidelityfetch/pull/150))
-- `zip`: 5.1.1 → 7.2.0 ([#151](https://github.com/CramBL/fidelityfetch/pull/151))
-- `clap`: 4.5.48 → 4.5.56 ([#152](https://github.com/CramBL/fidelityfetch/pull/152))
 - `local-ip-address`: 0.6.5 → 0.6.10 ([#152](https://github.com/CramBL/fidelityfetch/pull/152))
+- `clap`: 4.5.48 → 4.5.57 ([#155](https://github.com/CramBL/fidelityfetch/pull/155))
+- `zip`: 5.1.1 → 7.3.0 ([#155](https://github.com/CramBL/fidelityfetch/pull/155))
 
 ## [1.3.0]
 
